@@ -1,0 +1,143 @@
+:root {
+  --header-color: #084b83;
+  --body-color: #f0f6f6;
+  --card-color: #e6f1f1;
+  --btn-color: #d0e6e6;
+}
+
+@media screen and (max-width: 780px) {
+  .hidden_mobile {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .hidden_desktop {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .hidden_mobile {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .hidden_desktop {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+body {
+  background-color: var(--body-color) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
+}
+.navbar {
+  /* background: linear-gradient(
+    var(--header-color),
+    var(--body-color)
+  ) !important;*/
+  background: var(--header-color) !important;
+  height: 100px;
+}
+
+.container-fluid {
+  max-width: 1200px;
+}
+
+.navbar-nav > li > a::after {
+  content: "|";
+  padding-left: 18px;
+}
+
+/* TODO Rimuovi ultimo elemento
+.navbar-nav > li > a:last-child:after {
+  display: none;
+}*/
+
+#login-btn {
+  margin: 50px;
+  max-width: fit-content;
+}
+
+.container {
+  perspective: 1200px;
+}
+
+#card {
+  border-radius: 30px !important;
+}
+
+.card {
+  border: 0px solid var(--body-color) !important;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  background: var(--card-color) !important;
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  position: relative;
+  backface-visibility: hidden;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--card-color) !important;
+  box-sizing: border-box;
+  border-radius: 30px !important;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.btn-blue {
+  min-width: 150px;
+  border-radius: 5px;
+  background-color: var(--btn-color) !important;
+}
+
+.btn-blue:hover {
+  background-color: #cadfdf !important;
+}
+
+/* TODO: Fare il bordo */
+.btn-blue:active {
+  background-color: #cadfdf !important;
+}
+
+.separator {
+  position: relative; /* Necessario per posizionare il pseudo-elemento */
+  padding-right: 15px; /* Spazio tra la linea e il contenuto */
+}
+
+.separator::before {
+  content: ""; /* Necessario per visualizzare il pseudo-elemento */
+  position: absolute;
+  top: -25%; /* Regola per la posizione verticale della linea */
+  bottom: 10%; /* Regola per la lunghezza della linea */
+  right: 0; /* Posiziona la linea a destra della colonna */
+  width: 1px; /* Spessore della linea */
+  background-color: #ccc; /* Colore della linea */
+  height: 150%; /* Imposta l'altezza per renderla più lunga */
+}
+
+@media screen and (max-width: 992px) {
+  .btn-blue {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Nasconde la linea su dispositivi mobili */
+  .separator::before {
+    display: none;
+  }
+}

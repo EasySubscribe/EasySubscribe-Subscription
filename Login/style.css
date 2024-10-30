@@ -132,6 +132,13 @@ body {
     min-width: auto;
   }
 }
+
+@media screen and (max-width: 770px) {
+  .btn-blue {
+    min-width: 150px;
+  }
+}
+
 /** END Buttons */
 
 .separator {

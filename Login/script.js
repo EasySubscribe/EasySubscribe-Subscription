@@ -25,4 +25,19 @@ document.addEventListener("DOMContentLoaded", () => {
   flipButton.addEventListener("click", flipCard);
   flipButtonDesktop.addEventListener("click", flipCard);
   flipButtonBack.addEventListener("click", flipCard);
+
+  /** Cambio colore al click del bottone */
+  const buttons = document.querySelectorAll(".btn-blue");
+
+  // Aggiungiamo listener a tutti i bottoni con la classe 'btn-blue'
+  buttons.forEach((button) => {
+    button.addEventListener("touchstart", () => {
+      console.log("TOCCH");
+      button.classList.add("active");
+    });
+
+    button.addEventListener("touchend", () => {
+      button.classList.remove("active");
+    });
+  });
 });

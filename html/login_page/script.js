@@ -32,12 +32,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Aggiungiamo listener a tutti i bottoni con la classe 'btn-blue'
   buttons.forEach((button) => {
     button.addEventListener("touchstart", () => {
-      console.log("TOCCH");
       button.classList.add("active");
     });
 
     button.addEventListener("touchend", () => {
       button.classList.remove("active");
     });
+  });
+
+  // Bottone Email disabilitato
+  const emailInput = document.getElementById("submitEmail");
+  const submitButton = document.getElementById("submitEmailBtn");
+
+  emailInput.addEventListener("input", () => {
+    submitButton.disabled = !emailInput.value.trim(); // trim() rimuove spazi vuoti
   });
 });

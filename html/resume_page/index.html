@@ -10,6 +10,7 @@
       name="viewport"
     />
     <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="../shared/style.css" />
     <script src="./script.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -27,7 +28,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <title>Login - NeverlandKiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Abbonamenti - NeverlandKiz</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
@@ -76,119 +78,112 @@
         </div>
       </div>
     </nav>
-    <div class="content">
-      <section id="login-btn" class="mx-auto">
-        <div class="row">
-          <div class="col-12">
-            <h1>Welcome to NeverlandKiz</h1>
-          </div>
-        </div>
-        <div class="col-12 text-center mt-2 hidden_desktop">
-          <a
-            type="button"
-            class="btn btn-blue fw-bold me-2"
-            target="_blank"
-            href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
-            >Accedi al Billing</a
-          >
-          <button
-            id="flipButtonDesktop"
-            type="button"
-            class="btn btn-blue fw-bold ms-2"
-            target="_blank"
-          >
-            Login
-          </button>
-        </div>
-      </section>
-
-      <div class="container">
-        <div class="card" id="card">
-          <div id="front" class="front">
-            <div class="row">
-              <div
-                class="col col-md-3 hidden_mobile separator"
-                style="align-self: center"
+    <div class="content mx-auto">
+      <h1 class="m-4 text-center">Benvenuto Antonio</h1>
+      <span class="separator d-flex mx-auto"></span>
+      <div class="row mx-auto mt-3 justify-content-center">
+        <div class="col-12 col-md-3 mt-3 fade-in">
+          <div class="card text-center" id="card">
+            <img
+              class="mx-auto m-3"
+              src="https://www.neverlandkiz.it/wp-content/uploads/2024/05/PHOTO-2024-05-16-18-41-34.jpg"
+              alt=""
+              width="100"
+            />
+            <h4>All you can Dance - Italy</h4>
+            <p class="fw-light">
+              <small style="color: #808080"
+                >Neverland - Symposium - KizMi - KIMA</small
               >
-                <div class="col-12 text-center">
-                  <a
-                    type="button"
-                    class="btn btn-blue fw-bold m-3"
-                    target="_blank"
-                    href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
-                    >Accedi al Billing</a
-                  >
-                  <button
-                    id="flipButton"
-                    type="button"
-                    class="btn btn-blue fw-bold m-3"
-                    target="_blank"
-                  >
-                    Login
-                  </button>
-                </div>
-              </div>
-              <div class="col-12 col-md-9">
-                <stripe-pricing-table
-                  pricing-table-id="prctbl_1QCmSdRun27ngB3Ya01NPXNY"
-                  publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN"
-                >
-                </stripe-pricing-table>
-              </div>
+            </p>
+            <p>Attiva dal: 28/10/2024 <br />Si rinnova il: 28/10/2024</p>
+
+            <div class="col-12 text-center">
+              <a
+                type="button"
+                class="btn btn-blue fw-bold mb-3 ms-3 me-3"
+                target="_blank"
+                href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
+                >Ottieni il QRCode</a
+              >
+              <a
+                type="button"
+                class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3"
+                target="_blank"
+                onclick="doSubscribeCancel()"
+              >
+                Cancella Abbonamento
+              </a>
             </div>
           </div>
-          <div id="back" class="back">
-            <div class="row">
-              <div
-                class="col col-md-3 hidden_mobile separator"
-                style="align-self: center"
+        </div>
+        <div class="col-12 col-md-3 mt-3 fade-in">
+          <div class="card text-center" id="card">
+            <img
+              class="mx-auto m-3"
+              src="https://www.neverlandkiz.it/wp-content/uploads/2024/05/PHOTO-2024-05-16-18-41-34.jpg"
+              alt=""
+              width="100"
+            />
+            <h4>All you can Dance - Italy</h4>
+            <p class="fw-light">
+              <small style="color: #808080"
+                >Neverland - Symposium - KizMi - KIMA</small
               >
-                <div class="col-12 text-center">
-                  <a
-                    type="button"
-                    class="btn btn-blue fw-bold m-3"
-                    target="_blank"
-                    href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
-                    >Accedi al Billing</a
-                  >
-                  <button
-                    id="flipButtonBack"
-                    type="button"
-                    class="btn btn-blue fw-bold m-3"
-                    target="_blank"
-                  >
-                    Back
-                  </button>
-                </div>
-              </div>
-              <div class="col-12 col-md-9">
-                <div class="m-3">
-                  <h2>Ottieni il Pass</h2>
-                  <p>
-                    Inserisci la tua email per visualizzare o scaricare il Pass.
-                  </p>
-                  <div class="mb-3 mt-3 mx-auto">
-                    <label for="exampleInputEmail1" class="form-label"
-                      >Email address</label
-                    >
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                    />
-                    <div id="emailHelp" class="form-text">
-                      Inserisci la tua email per accedere al portale.
-                    </div>
-                    <button
-                      type="button"
-                      class="btn btn-blue fw-bold mt-3 mb-3 float-end"
-                    >
-                      Accedi
-                    </button>
-                  </div>
-                </div>
-              </div>
+            </p>
+            <p>Attiva dal: 28/10/2024 <br />Si rinnova il: 28/10/2024</p>
+
+            <div class="col-12 text-center">
+              <a
+                type="button"
+                class="btn btn-blue fw-bold mb-3 ms-3 me-3"
+                target="_blank"
+                href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
+                >Ottieni il QRCode</a
+              >
+              <a
+                type="button"
+                class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3"
+                target="_blank"
+                onclick="doSubscribeCancel()"
+              >
+                Cancella Abbonamento
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-3 mt-3 fade-in">
+          <div class="card text-center" id="card">
+            <img
+              class="mx-auto m-3"
+              src="https://www.neverlandkiz.it/wp-content/uploads/2024/05/PHOTO-2024-05-16-18-41-34.jpg"
+              alt=""
+              width="100"
+            />
+            <h4>All you can Dance - Italy</h4>
+            <p class="fw-light">
+              <small style="color: #808080"
+                >Neverland - Symposium - KizMi - KIMA</small
+              >
+            </p>
+            <p>Attiva dal: 28/10/2024 <br />Si rinnova il: 28/10/2024</p>
+
+            <div class="col-12 text-center">
+              <a
+                type="button"
+                class="btn btn-blue fw-bold mb-3 ms-3 me-3"
+                target="_blank"
+                href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
+                >Ottieni il QRCode</a
+              >
+              <a
+                type="button"
+                class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3"
+                target="_blank"
+                onclick="doSubscribeCancel()"
+              >
+                Cancella Abbonamento
+              </a>
             </div>
           </div>
         </div>

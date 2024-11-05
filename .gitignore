@@ -1,0 +1,28 @@
+app.log
+.env
+
+# Config files
+/config.php
+/.env
+
+# Cache and logs
+/storage/*.log
+/cache/*
+
+# Composer dependencies
+/vendor/
+composer.lock
+
+# Temporary files
+*.tmp
+*.cache
+
+# Editor/IDE specific files
+*~
+*.bak
+*.swp
+.DS_Store
+
+# System files
+Thumbs.db
+ehthumbs.db

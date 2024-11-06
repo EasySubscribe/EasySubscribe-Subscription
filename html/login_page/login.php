@@ -64,7 +64,7 @@ try {
         $stripe->apps->secrets->create([
             'name' => 'SESSION_ID',
             'payload' => $sessionId,
-            'scope' => ['type' => 'user', 'user' => $email],
+            'scope' => ['type' => 'user', 'user' => $customer_id],
             'expires_at' => $expirationTime,
         ]);
         $log->info('SESSION_ID salvato su Stripe', ['session_id' => $sessionId]);

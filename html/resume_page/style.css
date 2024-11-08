@@ -1,10 +1,8 @@
-
-
-.w-75{
+.w-75 {
   min-width: 75px !important;
 }
 
-.w-100{
+.w-100 {
   min-width: 100px !important;
 }
 
@@ -13,17 +11,9 @@
   max-width: 1200px;
 }
 
-/** NavBar */
-.navbar {
-  background: var(--header-color) !important;
-  height: 100px;
+.w-popup {
+  width: 200px !important;
 }
-
-.navbar-nav > li:not(:last-child) > a::after {
-  content: "|";
-  padding-left: 18px;
-}
-/** END NavBar */
 
 /** Card */
 #card {
@@ -46,7 +36,7 @@
 }
 
 .btn-blue {
-  min-width: 250px;
+  width: 89%;
   min-height: 40px;
   --bs-btn-padding-y: 0.5rem !important;
   border-radius: 5px;
@@ -114,9 +104,4 @@
   margin: 29px 0 26px;
   border-bottom: 1px solid #cecece;
   width: 100px;
-}
-
-/** Footer */
-footer {
-  background-color: var(--header-color);
 }

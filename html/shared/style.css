@@ -46,3 +46,24 @@ body {
 .content {
   flex: 1; /* Permette al contenuto di espandersi per occupare lo spazio disponibile */
 }
+
+/** NavBar */
+.navbar {
+  background: var(--header-color) !important;
+  height: 100px;
+}
+
+.navbar-nav > li:not(:last-child) > a::after {
+  content: "|";
+  padding-left: 18px;
+}
+/** END NavBar */
+
+/** Footer */
+footer {
+  background-color: var(--header-color);
+}
+
+.w-100 {
+  width: 100%;
+}

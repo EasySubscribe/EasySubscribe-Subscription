@@ -1,15 +1,3 @@
-/** NavBar */
-.navbar {
-  background: var(--header-color) !important;
-  height: 100px;
-}
-
-.navbar-nav > li:not(:last-child) > a::after {
-  content: "|";
-  padding-left: 18px;
-}
-/** END NavBar */
-
 /** Container Front and Back */
 .container {
   perspective: 1200px;
@@ -140,8 +128,3 @@
   box-shadow: 0 0 0 0.2rem rgba(208, 230, 230, 0.5) !important; /* Ombra con il colore del bordo */
 }
 /** END Inputs */
-
-/** Footer */
-footer {
-  background-color: var(--header-color);
-}

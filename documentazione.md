@@ -89,25 +89,28 @@ NeverlandKiz->NeverlandKiz: Generazione QRCode al click
 
 Utilizzo di librerie JavaScript per generare QR code direttamente nel browser. Ecco alcune opzioni:
 
-*   **qrcode.js**: Una libreria leggera e semplice per generare QR code.
+* **qrcode.js**: Una libreria leggera e semplice per generare QR code.
 
-    {% code overflow="wrap" %}
-    ```html
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+{% embed url="https://scanapp.org/html5-qrcode-docs/docs/intro" %}
 
-    <div id="qrcode"></div>
-    <script>
-        $(document).ready(function() {
-            $('#qrcode').qrcode({
-                text: 'https://example.com', // Sostituisci con il tuo link
-                width: 128,
-                height: 128
-            });
+{% code overflow="wrap" %}
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+<div id="qrcode"></div>
+<script>
+    $(document).ready(function() {
+        $('#qrcode').qrcode({
+            text: 'https://example.com', // Sostituisci con il tuo link
+            width: 128,
+            height: 128
         });
-    </script>
-    ```
-    {% endcode %}
+    });
+</script>
+```
+{% endcode %}
+
 *   **QRCode.js**: Un'altra libreria molto usata che supporta diverse opzioni di personalizzazione.
 
     {% code overflow="wrap" %}

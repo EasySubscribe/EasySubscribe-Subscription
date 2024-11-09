@@ -1,0 +1,22 @@
+/** NavBar */
+.navbar {
+  background: var(--header-color) !important;
+  height: 100px;
+}
+
+.navbar-nav > li:not(:last-child) > a::after {
+  content: "|";
+  padding-left: 18px;
+}
+
+.container-fluid {
+  background: var(--header-color);
+}
+/** END NavBar */
+
+@media screen and (max-width: 991px) {
+  .navbar-nav > li:not(:last-child) > a::after {
+    content: "";
+    padding-left: 0px;
+  }
+}

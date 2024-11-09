@@ -81,7 +81,7 @@ try {
         $emailBody = file_get_contents($templatePath);
 
         // Crea l'URL sostituendo i segnaposto con i valori reali
-        $resetUrl = 'http://localhost:3000/html/resume_page/index.html?data=' . base64_encode("$customer_id:$sessionId");
+        $resetUrl = 'http://localhost:3000/html/resume_page/index.php?data=' . base64_encode("$customer_id:$sessionId");
 
         // Sostituisci il segnaposto nel body dell'email
         $emailBody = str_replace('{{RESET_URL}}', $resetUrl, $emailBody);

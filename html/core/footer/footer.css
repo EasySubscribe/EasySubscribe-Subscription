@@ -1,0 +1,31 @@
+/** Footer */
+footer {
+  background-color: var(--header-color);
+}
+
+.footer-logo {
+  max-height: 50px;
+  margin-left: -20px;
+}
+
+@media screen and (max-width: 991px) {
+  .footer-logo {
+    margin-left: 0px;
+  }
+
+  .center-content {
+    justify-content: center !important;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .hidden_mobile {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .hidden_desktop {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}

@@ -47,23 +47,45 @@ body {
   flex: 1; /* Permette al contenuto di espandersi per occupare lo spazio disponibile */
 }
 
-/** NavBar */
-.navbar {
-  background: var(--header-color) !important;
-  height: 100px;
-}
-
-.navbar-nav > li:not(:last-child) > a::after {
-  content: "|";
-  padding-left: 18px;
-}
-/** END NavBar */
-
-/** Footer */
-footer {
-  background-color: var(--header-color);
-}
-
 .w-100 {
   width: 100%;
+}
+
+.w-150 {
+  width: 150px !important;
+}
+
+.btn-blue {
+  width: 89%;
+  min-height: 40px;
+  --bs-btn-padding-y: 0.5rem !important;
+  border-radius: 5px;
+  background-color: var(--btn-color) !important;
+  border: none !important; /* Rimuove eventuali bordi predefiniti */
+  outline: none !important; /* Rimuove il contorno di focus */
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-blue:hover {
+  background-color: #cadfdf !important;
+}
+
+.btn-blue:active,
+.btn-blue.active {
+  background-color: var(--btn-touch-color) !important;
+  outline: 3px solid var(--card-color) !important;
+  box-shadow: 0 0 0 6px var(--btn-touch-color),
+    /* Bordo esterno semitrasparente */ 0 0 8px rgba(0, 0, 0, 0.1); /* Ombra per profondità */
+}
+
+@media screen and (max-width: 992px) {
+  .btn-blue {
+    min-width: auto;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .btn-blue {
+    min-width: 150px;
+  }
 }

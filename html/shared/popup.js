@@ -8,8 +8,8 @@ function confirmDialog(
 ) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: "btn btn-blue fw-bold",
-      cancelButton: "btn btn-blue fw-bold",
+      confirmButton: "btn btn-blue fw-bold w-popup",
+      cancelButton: "btn btn-blue fw-bold w-popup",
       popup: "border_round",
     },
     buttonsStyling: true,
@@ -50,8 +50,8 @@ function confirmDialog(
 function errorDialog(title, subtitle) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: "btn btn-blue fw-bold",
-      cancelButton: "btn btn-blue fw-bold",
+      confirmButton: "btn btn-blue fw-bold w-popup",
+      cancelButton: "btn btn-blue fw-bold w-popup",
       popup: "border_round",
     },
     buttonsStyling: true,
@@ -69,8 +69,8 @@ function errorDialog(title, subtitle) {
 function simpleDialog(title, subtitle) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: "btn btn-blue fw-bold",
-      cancelButton: "btn btn-blue fw-bold",
+      confirmButton: "btn btn-blue fw-bold w-popup",
+      cancelButton: "btn btn-blue fw-bold w-popup",
       popup: "border_round",
     },
     buttonsStyling: true,
@@ -85,7 +85,7 @@ function simpleDialog(title, subtitle) {
   });
 }
 
-function qrCodeDialog(title, link) {
+function qrCodeDialog(title, subtitle, link) {
   const widthHeight = 512;
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -97,7 +97,10 @@ function qrCodeDialog(title, link) {
   });
   return swalWithBootstrapButtons.fire({
     title: title,
-    html: "<div id='qrcode' class='mx-auto' style='display: flex; justify-content: center; width: 256px;height: 256px;'></div>",
+    text: subtitle,
+    html: `${
+      subtitle != null ? "<div class='mx-auto mb-2'>" + subtitle + "</div>" : ""
+    }<div id='qrcode' class='mx-auto' style='display: flex; justify-content: center; width: 256px;height: 256px;'></div>`,
     background: "#e6f1f1",
     confirmButtonText: "Scarica",
     cancelButtonText: "Chiudi",

@@ -24,6 +24,13 @@
   <body>
     <?php require __DIR__ . '/../../html/core/header/header.php'; ?>
 
+    <!-- Loader -->
+    <div id="loader" class="loader">
+      <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+      </svg>
+    </div>
+
     <div class="content mx-auto">
       <h1 class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">Scansiona QRCode</h1>
       <button id="startScan" type="button" class="btn btn-blue mt-5" onclick="openModalStatic()">

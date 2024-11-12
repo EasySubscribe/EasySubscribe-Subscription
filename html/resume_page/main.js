@@ -32,9 +32,11 @@ document.addEventListener("DOMContentLoaded", function () {
           const subscriptionsSection = document.getElementById("subscriptions");
           data.data.forEach((element) => {
             const subProd = {
+              product_id: element.product.id,
               product_name: element.product.name,
               product_description: element.product.description,
               product_image: element.product.images[0],
+              subscription_id: element.subscriptions.id,
               subscription_start_date: new Date(
                 element.subscriptions.created * 1000
               ).toLocaleDateString(),
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
               customer_email: element.subscriptions.customer.email,
             };
             const subProdText = JSON.stringify(subProd);
-            const htmlText = `<div class="col-12 col-md-3 mt-3 fade-in">
+            const htmlText = `<div class="col-12 col-md-4 mt-3 fade-in">
           <div class="card text-center" id="card">
             <img
               class="mx-auto m-3"
@@ -111,7 +113,7 @@ function getQRCode(subProd) {
     btoa(subProd)
   );
   console.log(url);
-  qrCodeDialog(product.product_name, url).then((result) => {
+  qrCodeDialog(product.product_name, null, url).then((result) => {
     if (result.isConfirmed) {
       downloadProductPDF(product);
     }

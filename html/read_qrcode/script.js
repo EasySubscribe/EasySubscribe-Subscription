@@ -26,29 +26,36 @@
 });*/
 
 document.addEventListener("DOMContentLoaded", function () {
+  const loader = document.getElementById("loader");
+  loader.style.visibility = "hidden";
   const urlParams = new URLSearchParams(window.location.search);
   const data = urlParams.get("data");
   if (data) {
     // Decodifica il dato da base64
     const decodedData = atob(data); // Decodifica base64
     const subProd = JSON.parse(decodedData);
-    openModal(subProd);
+    verifySubscription(subProd);
   }
 });
+
+//document.querySelector("button").addEventListener("click", function () {
+//  const checkIcon = document.querySelector(".check-icon");
+//
+//  checkIcon.style.display = "none";
+//
+//  setTimeout(function () {
+//    checkIcon.style.display = "block";
+//  }, 10);
+//});
 
 function openModalStatic() {
   const modalBtn = document.getElementById("openResultScan");
   modalBtn.click();
 }
 
-function openModal(product) {
+function openModal(product, activeUser) {
   const modalBtn = document.getElementById("openResultScan");
   const modalCont = document.getElementById("modal-content");
-
-  let activeUser =
-    new Date(product.subscription_renew_date_timestamp * 1000) >= new Date()
-      ? true
-      : false;
 
   const modalContent = `<div class="modal-content">
           <div class="modal-header">
@@ -137,12 +144,39 @@ function openModal(product) {
   modalBtn.click();
 }
 
-document.querySelector("button").addEventListener("click", function () {
-  const checkIcon = document.querySelector(".check-icon");
-
-  checkIcon.style.display = "none";
-
-  setTimeout(function () {
-    checkIcon.style.display = "block";
-  }, 10);
-});
+async function verifySubscription(subProd) {
+  const loader = document.getElementById("loader");
+  loader.style.visibility = "visible";
+  const subscription_id = subProd.subscription_id;
+  try {
+    fetch("qrcode.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ subscription_id }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === "success") {
+          // Validazione Sottoscrizione
+          let activeUser =
+            new Date(result.subscription_details.current_period_end * 1000) >=
+            new Date()
+              ? true
+              : false;
+          loader.style.visibility = "hidden";
+          openModal(subProd, activeUser);
+        } else if (result.status === "failed") {
+          loader.style.visibility = "hidden";
+          openModal(subProd, false);
+        } else {
+          loader.style.visibility = "hidden";
+          errorDialog("Errore", result.message);
+        }
+      });
+  } catch (error) {
+    loader.style.visibility = "hidden";
+    errorDialog("Errore nella verifica", result.message);
+  }
+}

@@ -1,9 +1,17 @@
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+document.addEventListener("DOMContentLoaded", function () {
+  const loader = document.getElementById("loader");
+  loader.style.visibility = "hidden";
+});
+
 async function handleSubmit(event) {
   event.preventDefault();
   const emailInput = document.getElementById("submitEmail"); // Riferimento all'input
   const email = emailInput.value; // Ottieni il valore dell'input
+
+  const loader = document.getElementById("loader");
+  loader.style.visibility = "visible";
 
   const isValidEmail = emailRegex.test(email);
 
@@ -16,6 +24,7 @@ async function handleSubmit(event) {
       });
       const data = await response.json();
 
+      loader.style.visibility = "hidden";
       if (!data.error) {
         simpleDialog(
           "Email inviata",
@@ -29,6 +38,7 @@ async function handleSubmit(event) {
         );
       }
     } catch (error) {
+      loader.style.visibility = "hidden";
       errorDialog(
         "Errore di rete",
         "Si è verificato un problema, riprova più tardi."

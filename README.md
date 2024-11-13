@@ -30,3 +30,7 @@ Test credit card
 Scansione Coddice QR
 {% endembed %}
 
+{% embed url="https://docs.stripe.com/checkout/quickstart" %}
+Checkout
+{% endembed %}
+

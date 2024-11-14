@@ -41,10 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Bottone Email disabilitato
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const emailInput = document.getElementById("submitEmail");
   const submitButton = document.getElementById("submitEmailBtn");
 
   emailInput.addEventListener("input", () => {
-    submitButton.disabled = !emailInput.value.trim(); // trim() rimuove spazi vuoti
+    submitButton.disabled =
+      !emailInput.value.trim() || !emailRegex.test(emailInput.value); // trim() rimuove spazi vuoti
   });
 });

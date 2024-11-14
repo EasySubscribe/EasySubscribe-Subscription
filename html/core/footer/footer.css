@@ -13,6 +13,14 @@ footer {
     margin-left: 0px;
   }
 
+  #footer-logo-col {
+    margin-bottom: 20px;
+  }
+
+  #footer-follow-col {
+    margin-bottom: 20px;
+  }
+
   .center-content {
     justify-content: center !important;
   }
@@ -28,4 +36,49 @@ footer {
     display: none !important;
     visibility: hidden !important;
   }
+}
+
+.social {
+  top: 50%;
+}
+
+.social .link {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px dashed white;
+  background-clip: content-box;
+  padding: 5px;
+  transition: 0.5s;
+  color: #d7d0be;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.social .link span {
+  display: block;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.social .link:hover {
+  padding: 20px;
+  color: white;
+  transform: translateX(0px) rotate(360deg);
+}
+
+.social .link.instagram {
+  background-color: #dd2a7b;
+  color: white;
+}
+
+.social .link.facebook {
+  background-color: #3b5998;
+  color: white;
 }

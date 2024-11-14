@@ -1,0 +1,98 @@
+/** Container Front and Back */
+.container {
+  perspective: 1200px;
+}
+
+#card {
+  border-radius: 30px !important;
+}
+
+.card {
+  border: 0px solid var(--body-color) !important;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  background: var(--card-color) !important;
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  position: relative;
+  backface-visibility: hidden;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--card-color) !important;
+  box-sizing: border-box;
+  border-radius: 30px !important;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+/** END Container Front and Back */
+
+/** Buttons */
+#login-btn {
+  margin: 50px;
+  max-width: fit-content;
+}
+
+.btn-blue {
+  width: 80%;
+}
+/** END Buttons */
+
+.separator {
+  position: relative; /* Necessario per posizionare il pseudo-elemento */
+  padding-right: 15px; /* Spazio tra la linea e il contenuto */
+}
+
+.separator::before {
+  content: ""; /* Necessario per visualizzare il pseudo-elemento */
+  position: absolute;
+  top: -25%; /* Regola per la posizione verticale della linea */
+  bottom: 10%; /* Regola per la lunghezza della linea */
+  right: 0; /* Posiziona la linea a destra della colonna */
+  width: 1px; /* Spessore della linea */
+  background-color: #ccc; /* Colore della linea */
+  height: 150%; /* Imposta l'altezza per renderla più lunga */
+}
+
+@media (max-width: 768px) {
+  /* Nasconde la linea su dispositivi mobili */
+  .separator::before {
+    display: none;
+  }
+}
+
+/** Inputs */
+.form-control {
+  background-color: #f0f6f6 !important; /* Colore di sfondo predefinito */
+  border: 1px solid #d0e6e6 !important; /* Colore del bordo predefinito */
+  transition: border-color 0.3s, background-color 0.3s; /* Transizioni per il colore */
+  outline: none !important; /* Rimuove il contorno di focus predefinito */
+}
+
+.form-control:focus {
+  border-color: #d0e6e6 !important; /* Colore del bordo al focus */
+  background-color: #f0f6f6 !important; /* Colore di sfondo al focus */
+  outline: none !important; /* Rimuove il contorno predefinito del browser */
+}
+
+.form-control:active {
+  border-color: #d0e6e6 !important; /* Colore del bordo durante il clic */
+  background-color: #f0f6f6 !important; /* Colore di sfondo durante il clic */
+}
+
+.form-control:focus {
+  border-color: #d0e6e6 !important; /* Colore del bordo al focus */
+  background-color: #f0f6f6 !important; /* Colore di sfondo al focus */
+  box-shadow: 0 0 0 0.2rem rgba(208, 230, 230, 0.5) !important; /* Ombra con il colore del bordo */
+}
+/** END Inputs */

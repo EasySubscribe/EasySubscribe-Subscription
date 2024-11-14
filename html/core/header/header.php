@@ -36,12 +36,12 @@
             <a
               class="nav-link active fw-bold"
               aria-current="page"
-              href="https://www.neverlandkiz.it/staff/"
+              href="../contact-me/index.php"
               >Contatti</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link active fw-bold" aria-current="page" href="#"
+            <a class="nav-link active fw-bold" aria-current="page" href="../login_page/index.php"
               >Home</a
             >
           </li>

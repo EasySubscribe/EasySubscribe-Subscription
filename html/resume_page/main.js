@@ -32,27 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
           const subscriptionsSection = document.getElementById("subscriptions");
           data.data.forEach((element) => {
             const subProd = {
-              product_id: element.product.id,
+              //product_id: element.product.id,
               product_name: element.product.name,
               product_description: element.product.description,
-              product_image: element.product.images[0],
+              //product_image: element.product.images[0],
+              product_image: "example.jpeg",
               subscription_id: element.subscriptions.id,
-              subscription_start_date: new Date(
-                element.subscriptions.created * 1000
-              ).toLocaleDateString(),
-              subscription_start_date_timestamp: element.subscriptions.created,
-              subscription_renew_date: new Date(
-                element.subscriptions.current_period_end * 1000
-              ).toLocaleDateString(),
-              subscription_renew_date_timestamp:
-                element.subscriptions.current_period_end,
               customer_name: element.subscriptions.customer.name,
-              customer_email: element.subscriptions.customer.email,
             };
             const subProdText = JSON.stringify(subProd);
             const htmlText = `<div class="col-12 col-md-4 mt-3 fade-in">
           <div class="card text-center" id="card">
             <img
+              style="border-radius: 7px;"
               class="mx-auto m-3"
               src="${element.product.images[0]}"
               alt=""
@@ -97,11 +89,15 @@ document.addEventListener("DOMContentLoaded", function () {
             button.addEventListener("click", () => getQRCode(productName));
           });
         }
+        const resumeTitle = document.getElementById("resume-title");
+        resumeTitle.textContent =
+          "Benvenuto " + data.data[0].subscriptions.customer.name;
         loader.style.display = "none";
       })
-      .catch((error) =>
-        errorDialog("Errore", "Errore nella richiesta:" + error)
-      );
+      .catch((error) => {
+        loader.style.display = "none";
+        errorDialog("Errore", "Errore nella richiesta:" + error);
+      });
   } else {
     errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
   }
@@ -109,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function getQRCode(subProd) {
   const product = JSON.parse(subProd);
-  const url = "http://localhost:3000/html/read_qrcode/index.php?data=".concat(
+  const url = "http://pc-giovanni:3000/html/read_qrcode/index.php?data=".concat(
     btoa(subProd)
   );
   console.log(url);
@@ -152,8 +148,14 @@ function downloadProductPDF(product) {
         // Aumenta la larghezza e l'altezza del logo
         pdf.addImage(logo, "PNG", 10, 10, 75, 20); // Larghezza 75, altezza 20
 
+        console.log(qrCodeDataURL);
         // Aggiungi il QR Code (più grande) in alto a destra
         pdf.addImage(qrCodeDataURL, "PNG", 150, 10, 50, 50); // QR code più grande
+
+        pdf.setFontSize(14);
+        pdf.setFont("helvetica", "bold"); // Imposta il font Helvetica in grassetto
+        pdf.text(`${product.product_name}`, 10, 60);
+        pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
 
         // Aggiungi una descrizione del QR code
         pdf.setFontSize(10);
@@ -163,9 +165,34 @@ function downloadProductPDF(product) {
             product.customer_name +
             ", Accedi all'Evento Mostrando il QR Code!",
           10,
-          80
+          70
         );
         pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
+        pdf.text(
+          "Evento/i a cui puoi accedere: " + product.product_description,
+          10,
+          80
+        );
+        if (product.product_image) {
+          // Esempio di utilizzo
+          scaricaEConvertiImmagineInDataUrl(product.product_image)
+            .then((dataUrl) => {
+              // A questo punto, puoi utilizzare il Data URL come preferisci
+              console.log("Data URL dell'immagine:", dataUrl);
+
+              const img = new Image();
+              img.src = dataUrl;
+              img.onload = function () {
+                pdf.addImage(img, "JPG", 10, 100, 70, 50);
+              };
+            })
+            .catch((error) => {
+              console.error(
+                "Errore nel caricare l'immagine come Data URL:",
+                error
+              );
+            });
+        }
 
         // Testo che va a capo
         const descriptionText = [
@@ -177,38 +204,8 @@ function downloadProductPDF(product) {
         const lines2 = pdf.splitTextToSize(descriptionText[1], 180); // Imposta la larghezza massima
 
         // Aggiungi il testo che va a capo
-        pdf.text(lines1, 10, 90);
-        pdf.text(lines2, 10, 100);
-
-        // Aggiungi uno spazio (distacco) tra la descrizione e i dettagli
-        pdf.text("", 10, 110); // Spazio vuoto
-        pdf.setFont("helvetica", "bold"); // Imposta il font Helvetica in grassetto
-        pdf.text("Dettagli:", 10, 120); // Spazio vuoto
-        pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
-
-        // Aggiungi i dettagli dell'abbonamento
-        pdf.setFontSize(10);
-        pdf.text(`Nome del prodotto: ${product.product_name}`, 10, 130);
-        pdf.text(`Descrizione: ${product.product_description}`, 10, 140);
-        pdf.text(
-          `Data inizio abbonamento: ${product.subscription_start_date}`,
-          10,
-          150
-        );
-        pdf.text(
-          `Data di rinnovo: ${product.subscription_renew_date}`,
-          10,
-          160
-        );
-        pdf.text(`Email utente: ${product.customer_email}`, 10, 170);
-
-        if (product.product_image) {
-          const img = new Image();
-          img.src = product.product_image;
-          img.onload = function () {
-            pdf.addImage(img, "PNG", 10, 80, 50, 50);
-          };
-        }
+        pdf.text(lines1, 10, pdf.internal.pageSize.height - 30);
+        pdf.text(lines2, 10, pdf.internal.pageSize.height - 20);
 
         // Aggiungi il footer in basso a destra
         const footerText =
@@ -237,6 +234,34 @@ function downloadProductPDF(product) {
         "Si è verificato un problema, riprova più tardi."
       );
     });
+}
+
+async function scaricaEConvertiImmagineInDataUrl(url) {
+  try {
+    // Scarica l'immagine come un Blob
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Errore nel caricare l'immagine");
+    }
+    const blob = await response.blob();
+
+    // Crea un Data URL dal Blob
+    const dataUrl = await blobToDataUrl(blob);
+    return dataUrl; // Restituisce il Data URL
+  } catch (error) {
+    console.error("Errore durante il download o la conversione:", error);
+    throw error; // Propaga l'errore
+  }
+}
+
+// Funzione per convertire un Blob in Data URL
+function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result); // La result è il Data URL
+    reader.onerror = reject; // In caso di errore nella lettura
+    reader.readAsDataURL(blob); // Converte il Blob in Data URL
+  });
 }
 
 function downloadQRCodeImage() {

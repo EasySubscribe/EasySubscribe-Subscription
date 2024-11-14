@@ -35,7 +35,9 @@ if (!$subscription_id) {
 
 try {
     // Recupero dei dettagli della sottoscrizione
-    $subscription = $stripe->subscriptions->retrieve($subscription_id, []);
+    $subscription = $stripe->subscriptions->retrieve($subscription_id, [
+        'expand' => ['customer'],
+    ]);
 
     if ($subscription->status === 'active') {
         $response = [

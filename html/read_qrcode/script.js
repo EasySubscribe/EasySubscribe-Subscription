@@ -53,7 +53,7 @@ function openModalStatic() {
   modalBtn.click();
 }
 
-function openModal(product, activeUser) {
+function openModal(product, subscriptions, activeUser) {
   const modalBtn = document.getElementById("openResultScan");
   const modalCont = document.getElementById("modal-content");
 
@@ -61,7 +61,7 @@ function openModal(product, activeUser) {
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="modalQRCodeResult">
               Accesso ${activeUser ? "Consentito" : "Vietato"} per ${
-    product.customer_name
+    subscriptions.customer.name
   }.
             </h1>
             <button
@@ -99,9 +99,11 @@ function openModal(product, activeUser) {
                   >${product.product_description}</small
                 >
               </p>
-              <p>Attiva dal: ${
-                product.subscription_start_date
-              } <br />Si rinnova il: ${product.subscription_renew_date}</p>
+              <p>Attiva dal: ${new Date(
+                subscriptions.created * 1000
+              ).toLocaleDateString()} <br />Si rinnova il: ${new Date(
+    subscriptions.current_period_end * 1000
+  ).toLocaleDateString()}</p>
               ${
                 activeUser
                   ? `<span class="badge text-bg-success mb-3">Active</span>`
@@ -166,10 +168,10 @@ async function verifySubscription(subProd) {
               ? true
               : false;
           loader.style.visibility = "hidden";
-          openModal(subProd, activeUser);
+          openModal(subProd, result.subscription_details, activeUser);
         } else if (result.status === "failed") {
           loader.style.visibility = "hidden";
-          openModal(subProd, false);
+          openModal(subProd, result.subscription_details, false);
         } else {
           loader.style.visibility = "hidden";
           errorDialog("Errore", result.message);

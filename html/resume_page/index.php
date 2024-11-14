@@ -37,8 +37,8 @@
     </div>
     
     <div class="content mx-auto">
-      <h1 class="m-4 text-center">Benvenuto Antonio</h1>
-      <span class="separator d-flex mx-auto"></span>
+      <h1 class="m-4 text-center" id="resume-title">Benvenuto</h1>
+      <span class="line d-flex mx-auto"></span>
       <div class="row mt-3 justify-content-center" id="subscriptions"></div>
       <p hidden class="text-center">Mock</p>
       <div hidden class="row mx-auto mt-3 justify-content-center">

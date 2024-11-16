@@ -29,7 +29,7 @@
     <div class="content">
       <section id="login-btn" class="mx-auto">
         <div class="row">
-          <div class="col-12">
+          <div class="col-12" style="margin-bottom: -30px">
             <h1>Contattami</h1>
             <span class="line d-flex mx-auto"></span>
           </div>
@@ -38,31 +38,44 @@
 
       <div class="container">
         <div class="card" id="card">
-          <div class="row">
-            <div class="col-6 p-3">
-              <img src="../resume_page/example.jpeg" height="500" style="background-repeat: no-repeat; background-size: contain;
-                  background-position-x: center;">
+          <div class="row m-0">
+            <div class="col-12 col-md-5 pe-0 pe-md-3" id="contact-preview">
+              <!--<img src="../resume_page/example.jpeg" height="500" style="background-repeat: no-repeat; background-size: contain;
+                  background-position-x: center;">-->
             </div>
-            <div class="col-6">
-              <h3 class="fw-bold mt-5">INFO</h3>
-              <h1>Still Not Sure?</h1>
-              <p>Do you have any questions? Feel free to write it in this form. We will reply to you as soon as possible.</p>
-              <form>
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1">
-                </div>
-                <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
+            <div class="col-1 separator hidden_mobile"></div>
+            <div class="col-12 col-md-6">
+              <div class="contact-container">
+                <h3 class="fw-bold color-header">INFO</h3>
+                <h1>Still <span class="color-header">Not Sure?</span></h1>
+                <p>Do you have any questions? Feel free to write it in this form. We will reply to you as soon as possible.</p>
+                <form>
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" onclick="getData()">
+                    <label for="floatingInput" id="test">Name</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Email address</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Phone Number</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <label for="floatingTextarea2">Comments</label>
+                  </div>
+                  <button
+                    id="submitEmailBtn"
+                    type="submit"
+                    class="btn btn-blue fw-bold mt-3 mb-4 float-end w-150"
+                    disabled
+                  >
+                    Invia
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>

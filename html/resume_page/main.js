@@ -192,6 +192,11 @@ function downloadProductPDF(product) {
                 error
               );
             });
+          const img = new Image();
+          img.src = product.product_image;
+          img.onload = function () {
+            pdf.addImage(img, "JPG", 10, 100, 70, 50);
+          };
         }
 
         // Testo che va a capo

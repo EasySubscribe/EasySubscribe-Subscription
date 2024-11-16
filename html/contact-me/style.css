@@ -1,4 +1,3 @@
-/** Container Front and Back */
 .container {
   perspective: 1200px;
 }
@@ -14,28 +13,6 @@
   transition: transform 0.6s;
   background: var(--card-color) !important;
 }
-
-.card.flipped {
-  transform: rotateY(180deg);
-}
-
-.front,
-.back {
-  position: relative;
-  backface-visibility: hidden;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  background: var(--card-color) !important;
-  box-sizing: border-box;
-  border-radius: 30px !important;
-}
-
-.back {
-  transform: rotateY(180deg);
-}
-
-/** END Container Front and Back */
 
 /** Buttons */
 #login-btn {
@@ -56,12 +33,11 @@
 .separator::before {
   content: ""; /* Necessario per visualizzare il pseudo-elemento */
   position: absolute;
-  top: -25%; /* Regola per la posizione verticale della linea */
   bottom: 10%; /* Regola per la lunghezza della linea */
-  right: 0; /* Posiziona la linea a destra della colonna */
+  right: 40%; /* Posiziona la linea a destra della colonna */
   width: 1px; /* Spessore della linea */
   background-color: #ccc; /* Colore della linea */
-  height: 150%; /* Imposta l'altezza per renderla più lunga */
+  height: 80%; /* Imposta l'altezza per renderla più lunga */
 }
 
 @media (max-width: 768px) {
@@ -72,7 +48,13 @@
 }
 
 /** Inputs */
+/* Quando l'input è in focus e vuoto, manteniamo il colore della label */
+.form-floating .form-control:focus:placeholder-shown ~ label {
+  border-color: rgba(240, 246, 246, 0.25) !important; /* Ombra di focus */
+}
+
 .form-control {
+  border-radius: 10px;
   background-color: #f0f6f6 !important; /* Colore di sfondo predefinito */
   border: 1px solid #d0e6e6 !important; /* Colore del bordo predefinito */
   transition: border-color 0.3s, background-color 0.3s; /* Transizioni per il colore */
@@ -96,3 +78,20 @@
   box-shadow: 0 0 0 0.2rem rgba(208, 230, 230, 0.5) !important; /* Ombra con il colore del bordo */
 }
 /** END Inputs */
+
+#contact-preview {
+  background-image: url("https://www.neverlandkiz.it/wp-content/uploads/2023/05/Senza-titolo-1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  border-radius: 20px;
+  min-height: 300px;
+}
+
+.color-header {
+  color: var(--header-color);
+}
+
+.contact-container {
+  margin: 50 20 20 20;
+}

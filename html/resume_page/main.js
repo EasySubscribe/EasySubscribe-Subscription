@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
               //product_id: element.product.id,
               product_name: element.product.name,
               product_description: element.product.description,
-              //product_image: element.product.images[0],
-              product_image: "example.jpeg",
+              product_image: element.product.images[0],
+              //product_image: "../core/img/logo.png",
               subscription_id: element.subscriptions.id,
               customer_name: element.subscriptions.customer.name,
             };
@@ -46,10 +46,14 @@ document.addEventListener("DOMContentLoaded", function () {
             <img
               style="border-radius: 7px;"
               class="mx-auto m-3"
+              id="${subProd.product_name + subProd.subscription_id}"
               src="${element.product.images[0]}"
               alt=""
               width="100"
             />
+            <canvas id="${
+              subProd.subscription_id
+            }" style="display:none;"></canvas>
             <h4>${subProd.product_name}</h4>
             <p class="fw-light">
               <small style="color: #808080"
@@ -148,7 +152,6 @@ function downloadProductPDF(product) {
         // Aumenta la larghezza e l'altezza del logo
         pdf.addImage(logo, "PNG", 10, 10, 75, 20); // Larghezza 75, altezza 20
 
-        console.log(qrCodeDataURL);
         // Aggiungi il QR Code (più grande) in alto a destra
         pdf.addImage(qrCodeDataURL, "PNG", 150, 10, 50, 50); // QR code più grande
 
@@ -173,31 +176,37 @@ function downloadProductPDF(product) {
           10,
           80
         );
-        if (product.product_image) {
-          // Esempio di utilizzo
-          scaricaEConvertiImmagineInDataUrl(product.product_image)
-            .then((dataUrl) => {
-              // A questo punto, puoi utilizzare il Data URL come preferisci
-              console.log("Data URL dell'immagine:", dataUrl);
 
-              const img = new Image();
-              img.src = dataUrl;
-              img.onload = function () {
-                pdf.addImage(img, "JPG", 10, 100, 70, 50);
-              };
-            })
-            .catch((error) => {
-              console.error(
-                "Errore nel caricare l'immagine come Data URL:",
-                error
-              );
-            });
-          const img = new Image();
-          img.src = product.product_image;
-          img.onload = function () {
-            pdf.addImage(img, "JPG", 10, 100, 70, 50);
-          };
-        }
+        pdf.setFont("helvetica", "bold"); // Imposta il font Helvetica in grassetto
+        pdf.text("GENERAL TERMS OF SALE", 85, 90);
+        pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
+        pdf.setFontSize(8);
+
+        const generalTerms = [
+          "To be valid, the e-ticket (electronic ticket) is subject to the terms of sale of Weezevent, and possibly those of the organizer that you agreed to when ordering. REMINDER: This e-ticket is not refundable. Unless otherwise agreed by the organizer, e-ticket is personal, not transferable or exchangeable.",
+          "CONTROL: Access to the event is under the control of validity of your e-ticket. This e-ticket is only valid for the location, session, date and hour written on the e-ticket. Past the start time, access to the event is not guaranteed and does not entitle to any refund. We therefore advise you to arrive before the start of the event. To be valid, this e-ticket must be printed on white A4 blank paper, without changing the print size and with a good quality. E-tickets partially printed, dirty, damaged or illegible will be invalid and may be denied by the organizer. The organizer also reserves the right to accept or refuse other media, including electronic (mobile phone, tablet, etc ...).",
+          "Each e-ticket has a barcode allowing access to the event to one person. To be valid the payment of this e-ticket must not have been rejected by the credit card owner used for ordering. In this case the barcode is deactivated. At the door, you must be in possession of a valid official ID with photo. Following the inspection, the e-ticket must be retained until the end of the event. In some cases the organizer will issue you a ticket to two strains (whether or not reveal the rental fee).",
+          "FRAUD: It is prohibited to reproduce, use, copy, duplicate, counterfeit this e-ticket in any manner whatsoever, under pain of criminal prosecution. Similarly, any order placed with a way to bribe to get an e-ticket will result in criminal prosecution and the invalidity of such e-ticket.",
+          "LIABILITY: The purchaser remains responsible for the use made of e-tickets, and if lost, stolen or duplicate a valid e-ticket, only the first person who holds the e-ticket can access the event. Weezevent is not responsible for abnormalities that may occur during the ordering, processing or printing the e-ticket to the extent that it has not caused intentionally or by negligence in case of loss, theft or unauthorized use of e-ticket.",
+          "EVENT: The events are and remain the sole responsibility of the organizer. The acquisition of this e-ticket wins if adherence to rules of the place of the event and / or organizer. In case of cancellation or postponement of the event, a refund of the ticket without costs (transport, hotels, etc ...) will be subject to the conditions of the organizer (you can find his email ad",
+        ];
+
+        const generalTerms1 = pdf.splitTextToSize(generalTerms[0], 115); // Imposta la larghezza massima
+        const generalTerms2 = pdf.splitTextToSize(generalTerms[1], 115); // Imposta la larghezza massima
+        const generalTerms3 = pdf.splitTextToSize(generalTerms[2], 115); // Imposta la larghezza massima
+        const generalTerms4 = pdf.splitTextToSize(generalTerms[3], 115); // Imposta la larghezza massima
+        const generalTerms5 = pdf.splitTextToSize(generalTerms[4], 115); // Imposta la larghezza massima
+        const generalTerms6 = pdf.splitTextToSize(generalTerms[5], 115); // Imposta la larghezza massima
+
+        // Aggiungi il testo che va a capo
+        pdf.text(generalTerms1, 85, 95);
+        pdf.text(generalTerms2, 85, 109);
+        pdf.text(generalTerms3, 85, 135);
+        pdf.text(generalTerms4, 85, 155);
+        pdf.text(generalTerms5, 85, 169);
+        pdf.text(generalTerms6, 85, 186);
+
+        pdf.setFontSize(10);
 
         // Testo che va a capo
         const descriptionText = [
@@ -218,14 +227,87 @@ function downloadProductPDF(product) {
         pdf.setFontSize(8);
         pdf.text(footerText, 10, pdf.internal.pageSize.height - 10);
 
-        // Salva il PDF
-        pdf.save(
-          "QRCode_" +
-            product.product_name +
-            "_expire_" +
-            product.subscription_renew_date +
-            ".pdf"
-        );
+        if (product.product_image) {
+          const imageUrl = "image-proxy.php?url=" + product.product_image;
+
+          fetch(imageUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(blob);
+              reader.onloadend = () => {
+                pdf.addImage(reader.result, "JPEG", 10, 95, 65, 90);
+                pdf.save(
+                  "QRCode_" +
+                    product.product_name +
+                    "_expire_" +
+                    product.subscription_renew_date +
+                    ".pdf"
+                );
+              };
+            })
+            .catch((error) =>
+              console.error("Errore nel recupero dell'immagine:", error)
+            );
+          //const img = document.getElementById(
+          //  product.product_name + product.subscription_id
+          //);
+          //const canvas = document.getElementById(product.subscription_id);
+          //const ctx = canvas.getContext("2d");
+          //console.log(img, canvas, ctx);
+          //// Assicurati che l'immagine sia caricata
+          //img.onload = function () {
+          //  console.log("ONLOAD");
+          //  canvas.width = img.width;
+          //  canvas.height = img.height;
+          //
+          //  // Disegna l'immagine sul canvas
+          //  ctx.drawImage(img, 0, 0, img.width, img.height);
+          //
+          //  // Converti il contenuto del canvas in Base64
+          //  const base64Image = canvas.toDataURL("image/png");
+          //
+          //  console.log(base64Image); // Verifica il Base64 nel log
+          //
+          //  // Una volta che l'immagine è caricata, aggiungila al PDF
+          //  pdf.addImage(base64Image, "PNG", 10, 100, 70, 50);
+          //  // Dopo aver aggiunto l'immagine, possiamo salvare il PDF
+          //  pdf.save(
+          //    "QRCode_" +
+          //      product.product_name +
+          //      "_expire_" +
+          //      product.subscription_renew_date +
+          //      ".pdf"
+          //  );
+          //
+          //  // Usa il Base64 nel generatore di PDF
+          //};
+          // Carica l'immagine in formato Data URL
+          //fetch(product.product_image)
+          //  .then((response) => response.blob())
+          //  .then((blob) => {
+          //    const img = new Image();
+          //    const imgURL = URL.createObjectURL(blob);
+          //
+          //    img.onload = function () {
+          //      // Una volta che l'immagine è caricata, aggiungila al PDF
+          //      pdf.addImage(img, "JPG", 10, 100, 70, 50);
+          //      // Dopo aver aggiunto l'immagine, possiamo salvare il PDF
+          //      pdf.save(
+          //        "QRCode_" +
+          //          product.product_name +
+          //          "_expire_" +
+          //          product.subscription_renew_date +
+          //          ".pdf"
+          //      );
+          //    };
+          //
+          //    img.src = imgURL; // Assegna l'URL dell'immagine
+          //  })
+          //  .catch((error) => {
+          //    console.error("Errore nel caricare l'immagine:", error);
+          //  });
+        }
 
         simpleDialog(
           "QRCode Scaricato",

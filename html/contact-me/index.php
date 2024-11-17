@@ -26,6 +26,12 @@
   <body>
     <?php require __DIR__ . '/../../html/core/header/header.php'; ?>
 
+    <div id="loader" class="loader">
+      <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+      </svg>
+    </div>
+
     <div class="content">
       <section id="login-btn" class="mx-auto">
         <div class="row">
@@ -49,22 +55,22 @@
                 <h3 class="fw-bold color-header">INFO</h3>
                 <h1>Still <span class="color-header">Not Sure?</span></h1>
                 <p>Do you have any questions? Feel free to write it in this form. We will reply to you as soon as possible.</p>
-                <form>
+                <form id="emailForm" onsubmit="handleSubmit(event)">
                   <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" onclick="getData()">
-                    <label for="floatingInput" id="test">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Mario">
+                    <label for="name" id="test">Name</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                    <label for="email">Email address</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Phone Number</label>
+                    <input type="number" class="form-control" id="phone" placeholder="name@example.com">
+                    <label for="phone">Phone Number</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                    <label for="floatingTextarea2">Comments</label>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="description" style="height: 100px"></textarea>
+                    <label for="description">Comments</label>
                   </div>
                   <button
                     id="submitEmailBtn"

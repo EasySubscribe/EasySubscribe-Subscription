@@ -35,24 +35,41 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-try {
     $log->info('Preparazione email da inviare al customer ' . $email . '.');
 
     // Carica il contenuto del file HTML
-    $templatePath = __DIR__ . '/../../html/email/index.html';
+    $templatePath = __DIR__ . '/../../html/email/index.contact.html';
+    $templatePathInfo = __DIR__ . '/../../html/email/index.contact.info.html';
 
     if (!file_exists($templatePath)) {
         $log->error('File template per path '. $templatePath . ' non è stato trovato');
     } else $log->info('File template per path '. $templatePath . ' è stato trovato');
 
+    if (!file_exists($templatePathInfo)) {
+        $log->error('File template per path '. $templatePathInfo . ' non è stato trovato');
+    } else $log->info('File template per path '. $templatePathInfo . ' è stato trovato');
+
     $emailBody = file_get_contents($templatePath);
+    $emailBodyInfo = file_get_contents($templatePathInfo);
 
     // Crea l'URL sostituendo i segnaposto con i valori reali
-    $resetUrl = 'http://pc-giovanni:3000/html/resume_page/index.php?data=';
 
     // Sostituisci il segnaposto nel body dell'email
-    $emailBody = str_replace('{{RESET_URL}}', $resetUrl, $emailBody);
+    $emailBodyInfo = str_replace('{{NAME}}', $name, $emailBodyInfo);
+    $emailBodyInfo = str_replace('{{EMAIL}}', $email, $emailBodyInfo);
+    $emailBodyInfo = str_replace('{{PHONENUMBER}}', $phone, $emailBodyInfo);
+    $emailBodyInfo = str_replace('{{DESCRIPTION}}', $description, $emailBodyInfo);
 
+    sendEmail($log, 'Contattatami', $email, $emailBody, null);
+    sendEmail($log,'Sei stato contattato', $email, $emailBodyInfo, null);
+
+    echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'email' => $emailAddress]);
+
+function sendEmail($log, $emailSubject, $emailAddress, $emailBodyToSend, $emailAdmin){
+    $smtpHost = $_ENV['SMTP_HOST'];
+    $smtpUsername = $_ENV['SMTP_USERNAME'];
+    $smtpPassword = $_ENV['SMTP_PASSWORD'];
+    $smtpPort = $_ENV['SMTP_PORT'];
     // Invia l'email
     $mail = new PHPMailer(true);
     try {
@@ -67,22 +84,18 @@ try {
 
         // Impostazioni destinatario e mittente
         $mail->setFrom($smtpUsername, 'NeverlandKiz');
-        $mail->addAddress($email);
+        $mail->addAddress($emailAdmin ?? $emailAddress);
 
         // Contenuto dell'email
         $mail->isHTML(true);
-        $mail->Subject = 'Accedi al portale';
-        $mail->Body = $emailBody;
+        $mail->Subject = $emailSubject;
+        $mail->Body = $emailBodyToSend;
 
         // Invia l'email
         $mail->send();
-        $log->info('Email inviata con successo', ['email' => $email]);
-        echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'email' => $email]);
+        $log->info('Email inviata con successo', ['email' => $emailAddress]);
     } catch (Exception $e) {
         $log->error('L\'email non è stata inviata: ' . $mail->ErrorInfo);
         echo json_encode(['error' => true, 'message' => 'L\'email non è stata inviata: ' . $mail->ErrorInfo]);
     }
-} catch (Exception $e) {
-    $log->error('Errore durante la ricerca: ' . $e->getMessage());
-    echo json_encode(['error' => 'Errore durante la ricerca: ' . $e->getMessage()]);
 }

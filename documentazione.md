@@ -18,37 +18,50 @@ File Draw.io
 PDF draw.io
 {% endfile %}
 
-### Accesso via Email - Sequence Diagram
+### Accesso via Email - Sequence Diagram (Sezione 2 e 3)
 
-<figure><img src=".gitbook/assets/Untitled (3).png" alt=""><figcaption><p>SequenceDiagram</p></figcaption></figure>
+<figure><img src=".gitbook/assets/Untitled (8).png" alt=""><figcaption><p>SequenceDiagram</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
-title Flusso Utente per QR Code con Stripe
+title Flusso Utente per Accesso con invio Email
 
-participant Utente
-participant NeverlandKiz
-participant Stripe
-participant SMTP
+actor Utente #e6f1f1
+participant NeverlandKiz #e6f1f1
+participant Stripe #e6f1f1
+participant SMTP #e6f1f1
 
-Utente->NeverlandKiz: Inserisce l'email
+Utente->NeverlandKiz: Inserisce l'email e clicca su Accedi
+
 NeverlandKiz->Stripe: GET /v1/customers/search (email)
-Stripe-->NeverlandKiz: Torna errore se utente non esiste
-alt Utente esiste
-    NeverlandKiz->NeverlandKiz: Generazione SESSION_ID
-    alt Salvataggio sessione
-        NeverlandKiz->Stripe:POST /v1/apps/secrets
-        NeverlandKiz<--Stripe:Salva SESSION_ID in secret
-    end
+note right of NeverlandKiz #FFBF65:--curl --location --request GET 'https://api.stripe.com/v1/customers/search' \nheader 'Content-Type: application/x-www-form-urlencoded'\nheader 'Authorization: Bearer *****'\ndata-urlencode 'query=email:"email@gmail.com"'
+
+group #red if #white [Utente non esistente]
+Stripe--#red>NeverlandKiz:  Restituisce una risposta OK ma senza dati
+NeverlandKiz--#red>Utente:  Mostriamo un'errore
 end
-NeverlandKiz->NeverlandKiz: Preparazione invio Email con customer e SessionID in Base64
-NeverlandKiz->NeverlandKiz: Ottenimento e completamento Template HTML da inviare via email
-NeverlandKiz->SMTP: Invia email con ID Customer e SESSION_ID
-SMTP-->Utente: Email ricevuta con link di verifica
+
+group #2f2e7b  else #white [Utente esistente]
+NeverlandKiz->NeverlandKiz: Generazione Session ID
+    note right of NeverlandKiz #FFBF65: --Crea un identificativo univoco per questa sessione.
+
+        NeverlandKiz->Stripe: POST /v1/apps/secrets
+        note right of NeverlandKiz #FFBF65:--curl location 'https://api.stripe.com/v1/apps/secrets'\nheader 'Content-Type: application/x-www-form-urlencoded' \nheader 'Authorization: Bearer *****' \ndata-urlencode 'scope%5Btype%5D=user'\ndata-urlencode 'scope%5Buser%5D=email@gmail.com'\ndata-urlencode 'name=SESSION_ID'\ndata-urlencode 'payload=VWWJ-1729791826381-3D9C13C1'\ndata-urlencode 'expires_at=1730893263'
+
+        NeverlandKiz<--Stripe:Conferma Salvataggio
+
+NeverlandKiz->NeverlandKiz:Preparazione Email con Customer ID e Session ID in Base64
+
+NeverlandKiz->NeverlandKiz:Ottenimento Template HTML da inviare via email.\nInserimento URL Generato precedentemente con Customer e Session
+
+NeverlandKiz->SMTP:Invio email con HTML
+
+SMTP-->Utente:Email ricevuta con link di verifica
+end
 ```
 {% endcode %}
 
-### Generazione e Visualizzazione QRCode - Sequence Diagram
+### Sottoscrizioni e Generazione QRCode - Sequence Diagram (Sezione 4)
 
 <figure><img src=".gitbook/assets/Untitled (6).png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
 

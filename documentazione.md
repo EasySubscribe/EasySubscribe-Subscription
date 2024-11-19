@@ -4,7 +4,7 @@ icon: file-doc
 
 # Documentazione
 
-## Invio Email per ottenimento del QRCode
+## Flusso Completo
 
 #### Diagramma di Flusso
 
@@ -18,12 +18,12 @@ File Draw.io
 PDF draw.io
 {% endfile %}
 
-### Accesso via Email - Sequence Diagram (Sezione 2 e 3)
+## Accesso via Email - Sequence Diagram (Sezione 2 e 3)
 
 <figure><img src=".gitbook/assets/Untitled (8).png" alt=""><figcaption><p>SequenceDiagram</p></figcaption></figure>
 
 {% code overflow="wrap" %}
-```
+```mermaid
 title Flusso Utente per Accesso con invio Email
 
 actor Utente #e6f1f1
@@ -61,12 +61,12 @@ end
 ```
 {% endcode %}
 
-### Sottoscrizioni e Generazione QRCode - Sequence Diagram (Sezione 4)
+## Sottoscrizioni e Generazione QRCode - Sequence Diagram (Sezione 4)
 
 <figure><img src=".gitbook/assets/Untitled (6).png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
 
 {% code overflow="wrap" %}
-```
+```mermaid
 title Flusso Utente per QR Code con Stripe (Parte 2)
 
 participant Utente
@@ -169,7 +169,7 @@ Plugin per WordPress che possono generare QR code facilmente. Alcuni esempi incl
 <figure><img src=".gitbook/assets/Untitled (4).png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
 
 {% code overflow="wrap" %}
-```
+```mermaid
 title Verifica della Sottoscrizione tramite QR Code
 
 participant Utente
@@ -281,7 +281,7 @@ Se tutte queste condizioni sono soddisfatte, allora l'utente dovrebbe essere aut
 <figure><img src=".gitbook/assets/Untitled (7).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
-```
+```mermaid
 title Cancellazione della Sottoscrizione
 
 actor Utente
@@ -306,6 +306,35 @@ else Errore durante il recupero dettagli sottoscrizione
     NeverlandKiz->Utente: Mostra messaggio di errore
 end
 
+
+```
+{% endcode %}
+
+## Contattami (Sezione 5)
+
+<figure><img src=".gitbook/assets/Untitled (9).png" alt=""><figcaption><p>Contattami SequenceDiagram</p></figcaption></figure>
+
+{% code overflow="wrap" %}
+```mermaid
+title Flusso della sezione Contattami
+
+actor Utente #e6f1f1
+participant NeverlandKiz #e6f1f1
+participant SMTP #e6f1f1
+
+Utente -> NeverlandKiz: Inserisce le informazioni di contatto (nome, email, messaggio)
+NeverlandKiz -> NeverlandKiz: Valida i dati forniti dall'utente
+    NeverlandKiz --#red> Utente: Notifica errore (es. campi mancanti o email non valida)
+group #2f2e7b  if #white [Dati validi]
+else Dati validi
+    NeverlandKiz -> NeverlandKiz: Genera il template email per l'utente
+    NeverlandKiz -> SMTP: Invia email di conferma all'utente
+    SMTP -> Utente: Riceve email di conferma
+
+    NeverlandKiz -> NeverlandKiz: Genera il template email per Neverland
+    NeverlandKiz -> SMTP: Invia email con il messaggio all'admin Neverland
+    SMTP -> NeverlandKiz: Riceve email con il messaggio
+end
 
 ```
 {% endcode %}

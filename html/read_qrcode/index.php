@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <?php require __DIR__ . '/../../html/core/script/script.php'; ?>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
     <!-- Include the html5-qrcode library -->
     <script
       src="https://unpkg.com/html5-qrcode"
@@ -33,10 +33,13 @@
 
     <div class="content mx-auto">
       <h1 class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">Scansiona QRCode</h1>
-      <button id="startScan" type="button" class="btn btn-blue mt-5" onclick="openModalStatic()">
+      <div id="result-scan"></div>
+      <div class="card text-center" id="card">
+        <div id="reader" style="display: none"></div>
+      </div>
+      <button id="startScan" type="button" class="btn btn-blue mt-4">
         Scansiona
       </button>
-      <div id="reader" style="display: none"></div>
     </div>
 
     <button

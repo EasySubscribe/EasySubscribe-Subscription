@@ -167,3 +167,17 @@ body {
   border-bottom: 1px solid #cecece;
   width: 100px;
 }
+
+/** Card */
+#card {
+  border-radius: 20px !important;
+}
+
+.card {
+  border: 0px solid var(--body-color) !important;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  background: var(--card-color) !important;
+}
+/** END Card */

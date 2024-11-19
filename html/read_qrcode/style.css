@@ -309,3 +309,18 @@
   z-index: 1;
 }
 /* END Aggiungi un'animazione per l'effetto success */
+
+@media (max-width: 768px) {
+  .content {
+    min-height: 85vh;
+  }
+
+  #startScan {
+    position: absolute;
+    bottom: 30px;
+    /* top: 50%; */
+    left: 20px;
+    right: 20px;
+    width: auto;
+  }
+}

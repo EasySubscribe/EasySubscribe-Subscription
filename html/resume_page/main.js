@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 >${element.product.description}</small
               >
             </p>
-            <p>Attiva dal: ${new Date(
+            <p>Attivo dal: ${new Date(
               element.subscriptions.created * 1000
-            ).toLocaleDateString()} <br />Si rinnova il: ${new Date(
+            ).toLocaleDateString()} <br />Prossimo addebito il: ${new Date(
               element.subscriptions.current_period_end * 1000
             ).toLocaleDateString()}</p>
 
@@ -121,10 +121,12 @@ function getQRCode(subProd) {
 }
 
 function downloadProductPDF(product) {
+  loader.style.display = "flex";
   const qrCodeImage = document.querySelector("#qrcode img");
 
   if (!qrCodeImage) {
     console.error("Immagine QR Code non trovata.");
+    loader.style.display = "none";
     return;
   }
 
@@ -236,134 +238,53 @@ function downloadProductPDF(product) {
               const reader = new FileReader();
               reader.readAsDataURL(blob);
               reader.onloadend = () => {
-                pdf.addImage(reader.result, "JPEG", 10, 95, 65, 90);
-                pdf.save(
-                  "QRCode_" +
-                    product.product_name +
-                    "_expire_" +
-                    product.subscription_renew_date +
-                    ".pdf"
-                );
+                const img = new Image();
+                img.src = reader.result; // Carica i dati Base64 nell'immagine
+                img.onload = () => {
+                  const imgWidth = 65; // Larghezza desiderata
+                  const aspectRatio = img.height / img.width; // Rapporto di aspetto
+                  const imgHeight = imgWidth * aspectRatio; // Altezza calcolata dinamicamente
+
+                  pdf.addImage(
+                    reader.result,
+                    "JPEG",
+                    10,
+                    95,
+                    imgWidth,
+                    imgHeight
+                  ); // Usa le dimensioni calcolate
+                  pdf.save("QRCode_" + product.product_name + ".pdf");
+                  loader.style.display = "none";
+                  simpleDialog(
+                    "QRCode Scaricato",
+                    "Ora puoi accedere a ".concat(product.product_name)
+                  );
+                };
               };
             })
-            .catch((error) =>
-              console.error("Errore nel recupero dell'immagine:", error)
-            );
-          //const img = document.getElementById(
-          //  product.product_name + product.subscription_id
-          //);
-          //const canvas = document.getElementById(product.subscription_id);
-          //const ctx = canvas.getContext("2d");
-          //console.log(img, canvas, ctx);
-          //// Assicurati che l'immagine sia caricata
-          //img.onload = function () {
-          //  console.log("ONLOAD");
-          //  canvas.width = img.width;
-          //  canvas.height = img.height;
-          //
-          //  // Disegna l'immagine sul canvas
-          //  ctx.drawImage(img, 0, 0, img.width, img.height);
-          //
-          //  // Converti il contenuto del canvas in Base64
-          //  const base64Image = canvas.toDataURL("image/png");
-          //
-          //  console.log(base64Image); // Verifica il Base64 nel log
-          //
-          //  // Una volta che l'immagine è caricata, aggiungila al PDF
-          //  pdf.addImage(base64Image, "PNG", 10, 100, 70, 50);
-          //  // Dopo aver aggiunto l'immagine, possiamo salvare il PDF
-          //  pdf.save(
-          //    "QRCode_" +
-          //      product.product_name +
-          //      "_expire_" +
-          //      product.subscription_renew_date +
-          //      ".pdf"
-          //  );
-          //
-          //  // Usa il Base64 nel generatore di PDF
-          //};
-          // Carica l'immagine in formato Data URL
-          //fetch(product.product_image)
-          //  .then((response) => response.blob())
-          //  .then((blob) => {
-          //    const img = new Image();
-          //    const imgURL = URL.createObjectURL(blob);
-          //
-          //    img.onload = function () {
-          //      // Una volta che l'immagine è caricata, aggiungila al PDF
-          //      pdf.addImage(img, "JPG", 10, 100, 70, 50);
-          //      // Dopo aver aggiunto l'immagine, possiamo salvare il PDF
-          //      pdf.save(
-          //        "QRCode_" +
-          //          product.product_name +
-          //          "_expire_" +
-          //          product.subscription_renew_date +
-          //          ".pdf"
-          //      );
-          //    };
-          //
-          //    img.src = imgURL; // Assegna l'URL dell'immagine
-          //  })
-          //  .catch((error) => {
-          //    console.error("Errore nel caricare l'immagine:", error);
-          //  });
+            .catch((error) => {
+              loader.style.display = "none";
+              errorDialog(
+                "Errore",
+                "Errore nel recupero dell'immagine:",
+                error
+              );
+            });
+        } else {
+          pdf.save("QRCode_" + product.product_name + ".pdf");
+          loader.style.display = "none";
+          simpleDialog(
+            "QRCode Scaricato",
+            "Ora puoi accedere a ".concat(product.product_name)
+          );
         }
-
-        simpleDialog(
-          "QRCode Scaricato",
-          "Ora puoi accedere a ".concat(product.product_name)
-        );
       };
     })
     .catch((error) => {
+      loader.style.display = "none";
       errorDialog(
         "Errore di rete",
         "Si è verificato un problema, riprova più tardi."
       );
     });
-}
-
-async function scaricaEConvertiImmagineInDataUrl(url) {
-  try {
-    // Scarica l'immagine come un Blob
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Errore nel caricare l'immagine");
-    }
-    const blob = await response.blob();
-
-    // Crea un Data URL dal Blob
-    const dataUrl = await blobToDataUrl(blob);
-    return dataUrl; // Restituisce il Data URL
-  } catch (error) {
-    console.error("Errore durante il download o la conversione:", error);
-    throw error; // Propaga l'errore
-  }
-}
-
-// Funzione per convertire un Blob in Data URL
-function blobToDataUrl(blob) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result); // La result è il Data URL
-    reader.onerror = reject; // In caso di errore nella lettura
-    reader.readAsDataURL(blob); // Converte il Blob in Data URL
-  });
-}
-
-function downloadQRCodeImage() {
-  const qrCodeImage = document.querySelector("#qrcode img");
-  qrCodeImage.style.padding = "20px !important"; // Aggiungi padding attorno all'immagine
-  qrCodeImage.style.backgroundColor = "#ffffff"; // Seleziona l'immagine del QR Code
-  if (qrCodeImage) {
-    const qrCodeURL = qrCodeImage.src;
-    const link = document.createElement("a");
-    link.href = qrCodeURL;
-    link.download = "QRCode.png"; // Nome del file scaricato
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    console.error("Immagine QR Code non trovata.");
-  }
 }

@@ -139,25 +139,6 @@ Utilizzo di librerie JavaScript per generare QR code direttamente nel browser. E
 ```
 {% endcode %}
 
-#### 2. **API di terze parti**
-
-Utilizzo API per generare QR code. Alcuni servizi offrono API REST che puoi chiamare per ottenere un'immagine QR code.
-
-* **GoQR.me**:
-
-{% code overflow="wrap" %}
-```html
-<img src="https://api.qrserver.com/v1/create-qr-code/?data=https://example.com&size=150x150" alt="QR Code" />
-```
-{% endcode %}
-
-#### 3. **Plugin WordPress**
-
-Plugin per WordPress che possono generare QR code facilmente. Alcuni esempi includono:
-
-* **WP QR Code Generator**: Permette di generare QR code direttamente nei tuoi post e pagine.
-* **QR Code Widget**: Aggiunge un widget per visualizzare QR code sul tuo sito.
-
 ***
 
 ## Verifica QRCode per accesso

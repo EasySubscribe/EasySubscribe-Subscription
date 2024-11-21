@@ -63,13 +63,13 @@ end
 
 ## Sottoscrizioni e Generazione QRCode - Sequence Diagram (Sezione 4)
 
-<figure><img src=".gitbook/assets/Untitled (6).png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
+<figure><img src=".gitbook/assets/Accesso Portale (1).png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```mermaid
-title Flusso Utente per QR Code con Stripe (Parte 2)
+title Flusso Utente Pagina Subscription
 
-participant Utente
+actor Utente
 participant Email
 participant NeverlandKiz
 participant Stripe
@@ -78,14 +78,22 @@ Utente->Email: Accede all'email e clicca sul Link
 Email->NeverlandKiz: Apertura WebPage
 NeverlandKiz->NeverlandKiz: Decodifica Customer e Session ID
 NeverlandKiz->Stripe: GET /v1/apps/secrets/find (SessionID)
-NeverlandKiz<--Stripe: Torna errore se la sessione non esiste
+note right of NeverlandKiz #FFBF65:--curl location request GET 'https://api.stripe.com/v1/apps/secrets/find'\nheader 'Content-Type: application/x-www-form-urlencoded'\nheader 'Authorization: Bearer ******'\ndata-urlencode 'scope[type]=user'\ndata-urlencode 'scope[user]=customer_id'\ndata-urlencode 'name=SESSION_ID'\ndata-urlencode 'expand[]=payload'
+
+group #red if #white [Sessione non esistente]
+Stripe--#red>NeverlandKiz:  Torna errore se la sessione non esiste
+NeverlandKiz--#red>Utente:  Mostriamo un'errore
+end
+
 NeverlandKiz->NeverlandKiz: Validazione Session ID
-alt Session ID Valido
+group #2f2e7b  if #white [Session ID Valido]
     NeverlandKiz->Stripe: GET /v1/subscriptions?customer
+    note right of NeverlandKiz #FFBF65:--curl location GET'https://api.stripe.com/v1/subscriptions\n?customer=customer_id&expand[]=data.customer&status=active'\nheader 'Authorization: Bearer ******'
     Stripe-->NeverlandKiz: Restituisce lista sottoscrizioni con Dati Utente e lista di Prodotti
-    loop per ogni prodotto
+    loop #2f2e7b #white per ogni prodotto
         NeverlandKiz->NeverlandKiz: Validazione Subscription (Active or Not)
         NeverlandKiz->Stripe: GET /v1/products/{id_prodotto}
+        note right of NeverlandKiz #FFBF65:--curl location  GET'https://api.stripe.com/v1/products/product_id'\nheader 'Authorization: Bearer *****'
         Stripe-->NeverlandKiz: Restituisce i dati del Prodotto
     end
 end

@@ -236,6 +236,30 @@ end
 ```
 {% endcode %}
 
+## Accedi al Billing
+
+<figure><img src=".gitbook/assets/Accedi al Billing.png" alt=""><figcaption><p>Sequence Diagram Accedi al Billing</p></figcaption></figure>
+
+{% code overflow="wrap" %}
+```mermaid
+title Accedi al Billing
+
+actor Utente
+participant NeverlandKiz
+participant Stripe
+
+Utente->NeverlandKiz: Clicca su Accedi al Billing
+NeverlandKiz->Stripe: GET /v1/billing_portal/sessions?customer_id
+note right of NeverlandKiz #FFBF65:--curl location GET 'https://api.stripe.com/v1/billing_portal/sessions?customer=customer_id'\nheader 'Content-Type: application/x-www-form-urlencoded'\nheader 'Authorization: Bearer ******'\ndata-urlencode 'return_url=http://localhost:3000/html/resume_page/index.php'
+
+    Stripe-->NeverlandKiz:Ritorna la pagina di billing
+else Sottoscrizione non attiva
+
+```
+{% endcode %}
+
+
+
 ## Contattami (Sezione 5)
 
 <figure><img src=".gitbook/assets/Untitled (9).png" alt=""><figcaption><p>Contattami SequenceDiagram</p></figcaption></figure>

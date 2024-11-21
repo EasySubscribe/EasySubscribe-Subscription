@@ -86,7 +86,7 @@ function simpleDialog(title, subtitle) {
 }
 
 function qrCodeDialog(title, subtitle, link) {
-  const widthHeight = 512;
+  const widthHeight = 2048;
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: "btn btn-blue fw-bold w-popup",
@@ -117,5 +117,32 @@ function qrCodeDialog(title, subtitle, link) {
         correctLevel: QRCode.CorrectLevel.H,
       });
     },
+  });
+}
+
+function htmlDialog(title, subtitle, icon, html) {
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-blue fw-bold w-popup",
+      //cancelButton: "btn btn-blue fw-bold w-popup",
+      popup: "border_round",
+    },
+    buttonsStyling: true,
+  });
+  return swalWithBootstrapButtons.fire({
+    title: title,
+    text: subtitle,
+    icon: icon,
+    html: `${
+      subtitle != null
+        ? "<div class='mx-auto mb-2'>" + subtitle + "</div>"
+        : "" + html
+    }`,
+    background: "#e6f1f1",
+    confirmButtonText: "Chiudi",
+    //cancelButtonText: "Chiudi",
+    //showConfirmButton: false,
+    //showCancelButton: true,
+    reverseButtons: false,
   });
 }

@@ -9,109 +9,180 @@ document.addEventListener("DOMContentLoaded", function () {
   if (data) {
     // Decodifica il dato da base64
     const decodedData = atob(data); // Decodifica base64
-    const [customer_id, session_id] = decodedData.split(":"); // Supponiamo che siano separati da ':'
+    const [customer_id_string, session_id] = decodedData.split(":"); // Supponiamo che siano separati da ':'
+    const subscriptionsSection = document.getElementById("subscriptions");
 
     // Rimuovi il parametro 'data' dall'URL
     const cleanUrl = window.location.origin + window.location.pathname;
     window.history.replaceState(null, "", cleanUrl);
 
-    // Invia i dati a PHP
-    fetch("resume.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ customer_id, session_id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          errorDialog("Errore", "Errore nella richiesta: " + data.message);
-        } else {
-          // Gestisci i dati delle sottoscrizioni ricevuti
-          const subscriptionsSection = document.getElementById("subscriptions");
-          data.data.forEach((element) => {
-            const subProd = {
-              //product_id: element.product.id,
-              product_name: element.product.name,
-              product_description: element.product.description,
-              product_image: element.product.images[0],
-              //product_image: "../core/img/logo.png",
-              subscription_id: element.subscriptions.id,
-              customer_name: element.subscriptions.customer.name,
-            };
-            const subProdText = JSON.stringify(subProd);
-            const htmlText = `<div class="col-12 col-md-4 mt-3 fade-in">
-          <div class="card text-center" id="card">
-            <img
-              style="border-radius: 7px;"
-              class="mx-auto m-3"
-              id="${subProd.product_name + subProd.subscription_id}"
-              src="${element.product.images[0]}"
-              alt=""
-              width="100"
-            />
-            <canvas id="${
-              subProd.subscription_id
-            }" style="display:none;"></canvas>
-            <h4>${subProd.product_name}</h4>
-            <p class="fw-light">
-              <small style="color: #808080"
-                >${element.product.description}</small
-              >
-            </p>
-            <p>Attivo dal: ${new Date(
-              element.subscriptions.created * 1000
-            ).toLocaleDateString()} <br />Prossimo addebito il: ${new Date(
-              element.subscriptions.current_period_end * 1000
-            ).toLocaleDateString()}</p>
+    const customer_ids = customer_id_string.split(",");
+    const customer_id_session = customer_ids[0];
 
-            <div class="text-center" style="display: block;">
-              <a
-                type="button"
-                class="btn btn-blue fw-bold mb-3 ms-3 me-3 qrCode"
-                target="_blank"
-                data-product-name='${subProdText}'
-                >Ottieni il QRCode</a
-              >
-              <a
-                type="button"
-                class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3"
-                target="_blank"
-                onclick="doSubscribeCancel()"
-              >
-                Cancella Abbonamento
-              </a>
-            </div>
-          </div>
-        </div>`;
-            subscriptionsSection.innerHTML += htmlText;
-          });
-          // Potresti anche generare un QR Code qui se necessario
-          document.querySelectorAll(".qrCode").forEach((button) => {
-            const productName = button.getAttribute("data-product-name");
-            button.addEventListener("click", () => getQRCode(productName));
-          });
-        }
-        const resumeTitle = document.getElementById("resume-title");
-        resumeTitle.textContent =
-          "Benvenuto " + data.data[0].subscriptions.customer.name;
-        loader.style.display = "none";
+    let customer_name = "";
+
+    customer_ids.forEach((customer_id) => {
+      // Invia i dati a PHP
+      fetch("resume.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ customer_id, session_id, customer_id_session }),
       })
-      .catch((error) => {
-        loader.style.display = "none";
-        errorDialog("Errore", "Errore nella richiesta:" + error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            errorDialog("Errore", "Errore nella richiesta: " + data.message);
+          } else {
+            // Gestisci i dati delle sottoscrizioni ricevuti
+            if (data.data) {
+              data.data.forEach((element) => {
+                if (element.subscriptions.customer.name)
+                  customer_name = element.subscriptions.customer.name;
+                const subProd = {
+                  //product_id: element.product.id,
+                  product_name: element.product.name,
+                  product_description: element.product.description,
+                  product_image: element.product.images[0],
+                  //product_image: "../core/img/logo.png",
+                  subscription_id: element.subscriptions.id,
+                  customer_name: element.subscriptions.customer.name,
+                };
+                const subProdText = JSON.stringify(subProd);
+                //const subProdText = JSON.stringify(
+                //  subProd.id + ":" + subProd.subscription_id
+                //);
+                const htmlText = `<div class="col-12 col-md-4 mt-3 fade show">
+      <div class="card text-center" id="card">
+        <img
+          style="border-radius: 7px;"
+          class="mx-auto m-3"
+          id="${subProd.product_name + subProd.subscription_id}"
+          src="${element.product.images[0]}"
+          alt=""
+          width="100"
+        />
+        <canvas id="${subProd.subscription_id}" style="display:none;"></canvas>
+        <h4>${subProd.product_name}</h4>
+        <p class="fw-light">
+          <small style="color: #808080"
+            >${element.product.description}</small
+          >
+        </p>
+        <p>Attivo dal: ${new Date(
+          element.subscriptions.created * 1000
+        ).toLocaleDateString()} <br />${
+                  getExpiredDate(element)
+                    ? "Si Rinnova il: " + getExpiredDate(element)
+                    : ""
+                }</p>
+
+        <div class="text-center" style="display: block;">
+          <a
+            type="button"
+            class="btn btn-blue fw-bold mb-3 ms-3 me-3 billing"
+            target="_blank"
+            data-customer-id='${element.subscriptions.customer.id}'
+            >Gestisci Pagamento</a
+          >
+          <a
+            type="button"
+            class="btn btn-blue fw-bold mb-3 ms-3 me-3 qrCode"
+            target="_blank"
+            data-product-name='${subProdText}'
+            >Ottieni il QRCode</a
+          >
+          <a
+            type="button"
+            class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3"
+            target="_blank"
+            onclick="doSubscribeCancel()"
+          >
+            Cancella Abbonamento
+          </a>
+        </div>
+      </div>
+    </div>`;
+                subscriptionsSection.innerHTML += htmlText;
+              });
+              // Potresti anche generare un QR Code qui se necessario
+              document.querySelectorAll(".qrCode").forEach((button) => {
+                const productName = button.getAttribute("data-product-name");
+                button.addEventListener("click", () => getQRCode(productName));
+              });
+              document.querySelectorAll(".billing").forEach((button) => {
+                const customer_id = button.getAttribute("data-customer-id");
+                button.addEventListener("click", () =>
+                  redirectToBillingPortal(customer_id)
+                );
+              });
+            }
+          }
+          const resumeTitle = document.getElementById("resume-title");
+          resumeTitle.textContent = "Benvenuto " + customer_name;
+          loader.style.display = "none";
+        })
+        .catch((error) => {
+          loader.style.display = "none";
+          errorDialog("Errore", "Errore nella richiesta:" + error);
+        });
+    });
   } else {
     errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
   }
 });
 
+async function redirectToBillingPortal(customerId) {
+  loader.style.display = "flex";
+  const response = await fetch("billing.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      customer_id: customerId,
+      return_url: window.location.href, // Cambia l'URL di ritorno
+    }),
+  });
+
+  const result = await response.json();
+
+  if (!result.error && result.data && result.data.url) {
+    // Redirect all'URL del billing portal
+    window.location.href = result.data.url;
+  } else {
+    loader.style.display = "none";
+    console.error("Errore:", result.message || "Errore sconosciuto");
+    errorDialog("Errore", "Si è verificato un errore. Per favore, riprova.");
+  }
+}
+
+function getExpiredDate(element) {
+  let meta = element.product.metadata;
+
+  if (meta) {
+    let monthsToAdd = parseInt(element.product.metadata.durata_minima, 10); // Assicurati che sia un numero
+    if (monthsToAdd) {
+      const createdDate = new Date(element.subscriptions.created * 1000); // Timestamp in secondi
+      const expirationDate = new Date(createdDate); // Crea una copia separata
+
+      expirationDate.setMonth(expirationDate.getMonth() + monthsToAdd); // Aggiungi i mesi
+
+      console.log("Mesi da aggiungere:", monthsToAdd);
+      console.log("Data di creazione:", createdDate);
+      console.log("Data di scadenza:", expirationDate);
+      return expirationDate.toLocaleDateString();
+    }
+  }
+}
+
 function getQRCode(subProd) {
   const product = JSON.parse(subProd);
-  const url = "http://pc-giovanni:3000/html/read_qrcode/index.php?data=".concat(
-    btoa(subProd)
-  );
+  const redirect_url = window.location.origin;
+  const url = redirect_url
+    .concat("/html/read_qrcode/index.php?data=")
+    .concat(btoa(subProd));
   console.log(url);
   qrCodeDialog(product.product_name, null, url).then((result) => {
     if (result.isConfirmed) {
@@ -123,6 +194,8 @@ function getQRCode(subProd) {
 function downloadProductPDF(product) {
   loader.style.display = "flex";
   const qrCodeImage = document.querySelector("#qrcode img");
+  qrCodeImage.width = 2048;
+  qrCodeImage.height = 2048;
 
   if (!qrCodeImage) {
     console.error("Immagine QR Code non trovata.");
@@ -190,7 +263,7 @@ function downloadProductPDF(product) {
           "Each e-ticket has a barcode allowing access to the event to one person. To be valid the payment of this e-ticket must not have been rejected by the credit card owner used for ordering. In this case the barcode is deactivated. At the door, you must be in possession of a valid official ID with photo. Following the inspection, the e-ticket must be retained until the end of the event. In some cases the organizer will issue you a ticket to two strains (whether or not reveal the rental fee).",
           "FRAUD: It is prohibited to reproduce, use, copy, duplicate, counterfeit this e-ticket in any manner whatsoever, under pain of criminal prosecution. Similarly, any order placed with a way to bribe to get an e-ticket will result in criminal prosecution and the invalidity of such e-ticket.",
           "LIABILITY: The purchaser remains responsible for the use made of e-tickets, and if lost, stolen or duplicate a valid e-ticket, only the first person who holds the e-ticket can access the event. Weezevent is not responsible for abnormalities that may occur during the ordering, processing or printing the e-ticket to the extent that it has not caused intentionally or by negligence in case of loss, theft or unauthorized use of e-ticket.",
-          "EVENT: The events are and remain the sole responsibility of the organizer. The acquisition of this e-ticket wins if adherence to rules of the place of the event and / or organizer. In case of cancellation or postponement of the event, a refund of the ticket without costs (transport, hotels, etc ...) will be subject to the conditions of the organizer (you can find his email ad",
+          "EVENT: The events are and remain the sole responsibility of the organizer. The acquisition of this e-ticket wins if adherence to rules of the place of the event and / or organizer. In case of cancellation or postponement of the event, a refund of the ticket without costs (transport, hotels, etc ...) will be subject to the conditions of the organizer (you can find his email address above in Additional information) who receives the income from the sale of e-tickets.",
         ];
 
         const generalTerms1 = pdf.splitTextToSize(generalTerms[0], 115); // Imposta la larghezza massima

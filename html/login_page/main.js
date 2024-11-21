@@ -14,13 +14,14 @@ async function handleSubmit(event) {
   loader.style.visibility = "visible";
 
   const isValidEmail = emailRegex.test(email);
+  const redirect_url = window.location.origin;
 
   if (isValidEmail) {
     try {
       const response = await fetch("login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, redirect_url }),
       });
       const data = await response.json();
 

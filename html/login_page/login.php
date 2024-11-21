@@ -31,6 +31,7 @@ header('Content-Type: application/json');
 // Ricevi l'input JSON
 $data = json_decode(file_get_contents('php://input'), true);
 $email = $data['email'] ?? '';
+$redirect_url = $data['redirect_url'] ?? '';
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(['error' => true, 'message' => 'Indirizzo email non valido.']);
@@ -54,7 +55,14 @@ try {
 
     // Verifica se esistono risultati
     if (count($customers->data) > 0) {
-        $customer_id = $customers->data[0]->id; // Prendi il primo cliente dalla lista
+        // Estrai tutti gli ID dei clienti e concatenali in una stringa separata da virgole
+        $customer_ids = array_map(function($customer) {
+            return $customer->id;
+        }, $customers->data);
+
+        $customer_ids_string = implode(',', $customer_ids); // Stringa di ID separata da virgole
+        $log->info('ID clienti trovati:', ['customer_ids' => $customer_ids_string]);
+
         // Genera un SESSION_ID unico
         $sessionId = Uuid::uuid4()->toString();
         $log->info('Generato SESSION_ID', ['session_id' => $sessionId]);
@@ -64,12 +72,12 @@ try {
         $stripe->apps->secrets->create([
             'name' => 'SESSION_ID',
             'payload' => $sessionId,
-            'scope' => ['type' => 'user', 'user' => $customer_id],
+            'scope' => ['type' => 'user', 'user' => $customer_ids[0]],
             'expires_at' => $expirationTime,
         ]);
         $log->info('SESSION_ID salvato su Stripe', ['session_id' => $sessionId]);
 
-        $log->info('Preparazione email da inviare per customer ' . $customer_id . ' e session id '. $sessionId);
+        $log->info('Preparazione email da inviare per customer ' . $customer_ids_string . ' e session id '. $sessionId);
 
         // Carica il contenuto del file HTML
         $templatePath = __DIR__ . '/../../html/email/index.html';
@@ -81,7 +89,7 @@ try {
         $emailBody = file_get_contents($templatePath);
 
         // Crea l'URL sostituendo i segnaposto con i valori reali
-        $resetUrl = 'http://pc-giovanni:3000/html/resume_page/index.php?data=' . base64_encode("$customer_id:$sessionId");
+        $resetUrl = $redirect_url . '/html/resume_page/index.php?data=' . base64_encode("$customer_ids_string:$sessionId");
 
         // Sostituisci il segnaposto nel body dell'email
         $emailBody = str_replace('{{RESET_URL}}', $resetUrl, $emailBody);
@@ -110,7 +118,7 @@ try {
             // Invia l'email
             $mail->send();
             $log->info('Email inviata con successo', ['email' => $email]);
-            echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'customer_id' => $customer_id, 'session_id' => $sessionId, 'email' => $email]);
+            echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'customer_ids' => $customer_ids_string, 'session_id' => $sessionId, 'email' => $email]);
         } catch (Exception $e) {
             $log->error('L\'email non è stata inviata: ' . $mail->ErrorInfo);
             echo json_encode(['error' => true, 'message' => 'L\'email non è stata inviata: ' . $mail->ErrorInfo]);

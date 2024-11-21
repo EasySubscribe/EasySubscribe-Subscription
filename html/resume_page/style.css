@@ -6,16 +6,17 @@
   min-width: 100px !important;
 }
 
-.content {
+.container {
+  perspective: 1200px;
   flex: 1; /* Permette al contenuto di espandersi per occupare lo spazio disponibile */
+}
+.content {
   max-width: 1200px;
 }
 
 .w-popup {
   width: 200px !important;
 }
-
-
 
 /** Buttons */
 #login-btn {

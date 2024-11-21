@@ -6,6 +6,10 @@
   --btn-touch-color: #cadfdf;
 }
 
+.w-popup {
+  width: 200px !important;
+}
+
 @media screen and (max-width: 780px) {
   .hidden_mobile {
     display: none !important;

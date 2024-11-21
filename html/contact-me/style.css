@@ -45,6 +45,11 @@
   .separator::before {
     display: none;
   }
+
+  #contact-preview {
+    margin: 10px !important;
+    height: 300px !important;
+  }
 }
 
 /** Inputs */
@@ -86,6 +91,8 @@
   background-position-x: center;
   border-radius: 20px;
   min-height: 300px;
+  margin: 20px;
+  height: 550px;
 }
 
 .color-header {
@@ -93,5 +100,6 @@
 }
 
 .contact-container {
-  margin: 50 20 20 20;
+  /*margin: 50 20 20 20;*/
+  margin: 0 20 0 20;
 }

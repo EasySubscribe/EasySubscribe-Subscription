@@ -36,7 +36,7 @@
       <section id="login-btn" class="mx-auto">
         <div class="row">
           <div class="col-12" style="margin-bottom: -30px">
-            <h1>Contattami</h1>
+            <h1>Still <span class="color-header">Not Sure?</span></h1>
             <span class="line d-flex mx-auto"></span>
           </div>
         </div>
@@ -45,15 +45,15 @@
       <div class="container">
         <div class="card" id="card">
           <div class="row m-0">
-            <div class="col-12 col-md-5 pe-0 pe-md-3" id="contact-preview">
+            <div class="col-12 col-md-5 p-0">
+              <div id="contact-preview"></div>
               <!--<img src="../resume_page/example.jpeg" height="500" style="background-repeat: no-repeat; background-size: contain;
                   background-position-x: center;">-->
             </div>
             <div class="col-1 separator hidden_mobile"></div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 my-auto">
               <div class="contact-container">
-                <h3 class="fw-bold color-header">INFO</h3>
-                <h1>Still <span class="color-header">Not Sure?</span></h1>
+                <h3 class="fw-bold color-header">Contattami</h3>
                 <p>Do you have any questions? Feel free to write it in this form. We will reply to you as soon as possible.</p>
                 <form id="emailForm" onsubmit="handleSubmit(event)">
                   <div class="form-floating mb-3">
@@ -75,7 +75,7 @@
                   <button
                     id="submitEmailBtn"
                     type="submit"
-                    class="btn btn-blue fw-bold mt-3 mb-4 float-end w-150"
+                    class="btn btn-blue fw-bold mt-3 float-end w-150"
                     disabled
                   >
                     Invia

@@ -27,15 +27,16 @@ $stripe = new StripeClient($stripeSecretKey);
 $data = json_decode(file_get_contents('php://input'), true);
 $customer_id = $data['customer_id'] ?? '';
 $session_id = $data['session_id'] ?? '';
+$customer_id_session = $data['customer_id_session'] ?? '';
 
 if ($customer_id && $session_id) {
     try {
-        $log->info('Ricerca secret', ['customer' => $customer_id, 'session' => $session_id]);
+        $log->info('Ricerca secret', ['customer' => $customer_id_session, 'session' => $session_id]);
         // Effettua la richiesta per trovare il segreto
         $secret = $stripe->apps->secrets->find([
             'scope' => [
                 'type' => 'user',
-                'user' => $customer_id
+                'user' => $customer_id_session
             ],
             'name' => 'SESSION_ID',
             'expand' => ['payload']

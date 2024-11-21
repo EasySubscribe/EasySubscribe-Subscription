@@ -36,11 +36,14 @@
       </svg>
     </div>
     
-    <div class="content mx-auto">
-      <h1 class="m-4 text-center" id="resume-title">Benvenuto</h1>
-      <span class="line d-flex mx-auto"></span>
-      <div class="row mt-3 justify-content-center" id="subscriptions"></div>
+    <div class="container d-flex justify-content-center">
+      <div class="content">
+        <h1 class="m-4 text-center" id="resume-title">Benvenuto</h1>
+        <span class="line mx-auto d-flex"></span>
+        <div class="row mt-3 justify-content-center" id="subscriptions"></div>
+      </div>
     </div>
+
     <?php require __DIR__ . '/../../html/core/footer/footer.php'; ?>
   </body>
 </html>

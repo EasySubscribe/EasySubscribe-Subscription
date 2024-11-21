@@ -34,18 +34,21 @@ if (!$subscription_id) {
 }
 
 try {
+    $log->info('Recupero dei detagli della sottoscrizione ' . $subscription_id);
     // Recupero dei dettagli della sottoscrizione
     $subscription = $stripe->subscriptions->retrieve($subscription_id, [
         'expand' => ['customer'],
     ]);
 
     if ($subscription->status === 'active') {
+        $log->info('Sottoscrizione ' . $subscription_id . ' è attiva');
         $response = [
             'status' => 'success',
             'message' => 'Sottoscrizione attiva. Accesso consentito.',
             'subscription_details' => $subscription
         ];
     } else {
+        $log->info('Sottoscrizione ' . $subscription_id . ' non è attiva');
         $response = [
             'status' => 'failed',
             'message' => 'Sottoscrizione non attiva. Accesso negato.',

@@ -15,3 +15,4 @@
 ></script>
 <script src="../shared/popup.js"></script>
 <link rel="stylesheet" href="../shared/style.css" />
+<link rel="stylesheet" href="../shared/animation.css" />

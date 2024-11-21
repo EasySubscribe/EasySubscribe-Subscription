@@ -25,44 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Decodifica e verifica immediatamente se il parametro `data` è presente nell'URL
     decodeAndVerify(data);
   }
-
-  // Configura l'evento di scansione
-  //document.getElementById("startScan").addEventListener("click", function () {
-  //  const readerElement = document.getElementById("reader");
-  //  readerElement.style.display = "block";
-  //  //hideResultScan();
-  //
-  //  const onScanSuccess = (decodedText, decodedResult) => {
-  //    if (hasScanned) return; // Evita di processare ulteriori scansioni
-  //    hasScanned = true; // Imposta il flag a true dopo la prima scansione
-  //
-  //    readerElement.style.display = "none"; // Nasconde il lettore
-  //    try {
-  //      const data = decodedText.split("data=")[1];
-  //      if (data) {
-  //        decodeAndVerify(data); // Decodifica e verifica il contenuto del QR Code
-  //        html5QrcodeScanner.clear();
-  //      } else {
-  //        simpleDialog(
-  //          "Errore",
-  //          "Il QR Code non contiene il parametro `data`."
-  //        );
-  //        //hasScanned = false; // Resetta il flag in caso di errore
-  //      }
-  //    } catch (error) {
-  //      console.error("Errore durante la scansione del QR Code:", error);
-  //      simpleDialog("Errore", "Impossibile leggere il QR Code.");
-  //      //hasScanned = false; // Resetta il flag in caso di errore
-  //    }
-  //  };
-  //
-  //  const html5QrcodeScanner = new Html5QrcodeScanner("reader", {
-  //    fps: 60, // Frame per secondo
-  //    qrbox: 250, // Dimensioni del box per il QR Code
-  //  });
-  //
-  //  html5QrcodeScanner.render(onScanSuccess);
-  //});
 });
 
 // Funzione per decodificare il parametro `data`
@@ -175,11 +137,6 @@ function showData(sub, isActive) {
     <p><small style="color: #808080"
     >Utente:</small
     > ${sub.subscription.customer.name}</p>
-     <p>Attiva dal: ${new Date(
-       sub.subscription.created * 1000
-     ).toLocaleDateString()} <br />Prossimo addebito il: ${new Date(
-    sub.subscription.current_period_end * 1000
-  ).toLocaleDateString()}</p>
   ${
     isActive
       ? `<span class="badge text-bg-success mx-auto mb-3">Active</span>`
@@ -260,11 +217,6 @@ function getHTMLData(sub, activeUser) {
     <p><small style="color: #808080"
     >Utente:</small
     > ${sub.subscription.customer.name}</p>
-     <p>Attiva dal: ${new Date(
-       sub.subscription.created * 1000
-     ).toLocaleDateString()} <br />Prossimo addebito il: ${new Date(
-    sub.subscription.current_period_end * 1000
-  ).toLocaleDateString()}</p>
   ${
     activeUser
       ? `<span class="badge text-bg-success mx-auto">Active</span>`

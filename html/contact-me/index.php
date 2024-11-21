@@ -42,7 +42,7 @@
         </div>
       </section>
 
-      <div class="container">
+      <div class="container fade-in">
         <div class="card" id="card">
           <div class="row m-0">
             <div class="col-12 col-md-5 p-0">

@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const customer_id_session = customer_ids[0];
 
     let customer_name = "";
+    let error;
 
     customer_ids.forEach((customer_id) => {
       // Invia i dati a PHP
@@ -50,10 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   customer_name: element.subscriptions.customer.name,
                 };
                 const subProdText = JSON.stringify(subProd);
-                //const subProdText = JSON.stringify(
-                //  subProd.id + ":" + subProd.subscription_id
-                //);
-                const htmlText = `<div class="col-12 col-md-4 mt-3 fade show">
+                //const subProdText = subProd.subscription_id;
+                const htmlText = `<div class="col-12 col-md-4 mt-3 fade-in">
       <div class="card text-center" id="card">
         <img
           style="border-radius: 7px;"
@@ -74,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
           element.subscriptions.created * 1000
         ).toLocaleDateString()} <br />${
                   getExpiredDate(element)
-                    ? "Si Rinnova il: " + getExpiredDate(element)
+                    ? "Termina il: " + getExpiredDate(element)
                     : ""
                 }</p>
 
@@ -125,12 +124,15 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch((error) => {
           loader.style.display = "none";
-          errorDialog("Errore", "Errore nella richiesta:" + error);
+          error = error;
         });
     });
   } else {
     errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
   }
+
+  if (error)
+    errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
 });
 
 async function redirectToBillingPortal(customerId) {

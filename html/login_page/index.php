@@ -41,13 +41,6 @@
           </div>
         </div>
         <div class="col-12 text-center mt-2 hidden_desktop">
-          <a
-            type="button"
-            class="btn btn-blue fw-bold me-2 w-150"
-            target="_blank"
-            href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
-            >Accedi al Billing</a
-          >
           <button
             id="flipButtonDesktop"
             type="button"
@@ -59,7 +52,7 @@
         </div>
       </section>
 
-      <div class="container">
+      <div class="container fade-in">
         <div class="card" id="card">
           <div id="front" class="front">
             <div class="row">
@@ -68,13 +61,6 @@
                 style="align-self: center"
               >
                 <div class="col-12 text-center">
-                  <a
-                    type="button"
-                    class="btn btn-blue fw-bold m-3"
-                    target="_blank"
-                    href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
-                    >Accedi al Billing</a
-                  >
                   <button
                     id="flipButton"
                     type="button"
@@ -101,13 +87,6 @@
                 style="align-self: center"
               >
                 <div class="col-12 text-center">
-                  <a
-                    type="button"
-                    class="btn btn-blue fw-bold m-3"
-                    target="_blank"
-                    href="https://billing.stripe.com/p/login/test_9AQ2967en0pcgnK4gg"
-                    >Accedi al Billing</a
-                  >
                   <button
                     id="flipButtonBack"
                     type="button"

@@ -91,8 +91,6 @@ alt Session ID Valido
 end
 NeverlandKiz->NeverlandKiz: Mapping Dati da reindirizzare sull'HTML
 NeverlandKiz->NeverlandKiz: Generazione QRCode al click
-
-
 ```
 {% endcode %}
 
@@ -124,34 +122,34 @@ Utilizzo di librerie JavaScript per generare QR code direttamente nel browser. E
 ```
 {% endcode %}
 
-*   **QRCode.js**: Un'altra libreria molto usata che supporta diverse opzioni di personalizzazione.
+* **QRCode.js**: Un'altra libreria molto usata che supporta diverse opzioni di personalizzazione.
 
-    {% code overflow="wrap" %}
-    ```html
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+{% code overflow="wrap" %}
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 
-    <div id="qrcode"></div>
-    <script>
-        const qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: "https://example.com", // Sostituisci con il tuo link
-            width: 128,
-            height: 128,
-        });
-    </script>
-    ```
-    {% endcode %}
+<div id="qrcode"></div>
+<script>
+    const qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "https://example.com", // Sostituisci con il tuo link
+        width: 128,
+        height: 128,
+    });
+</script>
+```
+{% endcode %}
 
 #### 2. **API di terze parti**
 
 Utilizzo API per generare QR code. Alcuni servizi offrono API REST che puoi chiamare per ottenere un'immagine QR code.
 
-*   **GoQR.me**:
+* **GoQR.me**:
 
-    {% code overflow="wrap" %}
-    ```html
-    <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://example.com&size=150x150" alt="QR Code" />
-    ```
-    {% endcode %}
+{% code overflow="wrap" %}
+```html
+<img src="https://api.qrserver.com/v1/create-qr-code/?data=https://example.com&size=150x150" alt="QR Code" />
+```
+{% endcode %}
 
 #### 3. **Plugin WordPress**
 
@@ -166,95 +164,36 @@ Plugin per WordPress che possono generare QR code facilmente. Alcuni esempi incl
 
 ### Scansione QRCode
 
-<figure><img src=".gitbook/assets/Untitled (4).png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
+<figure><img src=".gitbook/assets/Flusso LetturaQRCode.png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```mermaid
 title Verifica della Sottoscrizione tramite QR Code
 
-participant Utente
+actor Utente
 participant Fotocamera del Controllore
 participant NeverlandKiz
 participant Stripe
 
 Utente->Fotocamera del Controllore: Mostra QR Code per scansione
-Fotocamera del Controllore->NeverlandKiz: Apertura URL con JSON (customer_id, subscription_id, dati prodotto)
+Fotocamera del Controllore->Fotocamera del Controllore: Può scansionare via telefono \noppure tramite l'indirizzo dedicato
+Fotocamera del Controllore->NeverlandKiz:Apertura URL con JSON \n(customer_name, subscription_id, dati prodotto)
 NeverlandKiz->Stripe: GET /v1/subscriptions/{subscription_id} per verificare stato
+note right of NeverlandKiz #FFBF65:--curl GET location 'https://api.stripe.com/v1/subscriptions/sub_id?expand[]=customer'\nheader 'Authorization: ••••••'
 
-alt Sottoscrizione attiva
-    Stripe-->NeverlandKiz: Ritorna dettagli sottoscrizione (attiva)
+    Stripe-->NeverlandKiz:Ritorna dettagli sottoscrizione (Se attiva)
+group #2f2e7b  if #white [Sottoscrizione attiva]
     NeverlandKiz->NeverlandKiz: Validazione Sottoscrizione
     NeverlandKiz->NeverlandKiz: Mostra conferma di accesso consentito all'evento
 else Sottoscrizione non attiva
+end
+
+group #red  if #white [Sottoscrizione non attiva]
     Stripe-->NeverlandKiz: Ritorna errore o stato inattivo
     NeverlandKiz->NeverlandKiz: Mostra messaggio di errore o accesso negato
 end
-
 ```
 {% endcode %}
-
-### Lettura QRCode
-
-#### 1. **Librerie JavaScript per la Lettura**
-
-Utilizzo di librerie JavaScript che possono accedere alla fotocamera del dispositivo e decodificare QR code.
-
-*   **jsQR**: Una libreria JavaScript leggera per la decodifica dei QR code. Ecco un esempio di utilizzo:
-
-    {% code overflow="wrap" %}
-    ```html
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js"></script>
-
-    <video id="video" width="300" height="300"></video>
-    <canvas id="canvas" style="display: none;"></canvas>
-
-    <script>
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const context = canvas.getContext('2d');
-
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-            .then(stream => {
-                video.srcObject = stream;
-                video.setAttribute('playsinline', true); // Required to tell iOS we don't want fullscreen
-                video.play();
-                requestAnimationFrame(tick);
-            });
-
-        function tick() {
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                canvas.height = video.videoHeight;
-                canvas.width = video.videoWidth;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, imageData.width, imageData.height);
-                if (code) {
-                    alert('QR Code detected: ' + code.data);
-                }
-            }
-            requestAnimationFrame(tick);
-        }
-    </script>
-    ```
-    {% endcode %}
-
-#### 2. **API di Lettura QR Code**
-
-Utilizzo API di terze parti che leggono QR code. Carichi l'immagine del QR code e l'API restituisce i dati.
-
-*   **Zxing**: Un servizio online che fornisce API per la lettura di QR code. Puoi inviare un’immagine del QR code e ricevere i dati.
-
-    {% code overflow="wrap" %}
-    ```bash
-    curl -X POST -F "file=@path/to/your/qr-code.png" "https://api.qrserver.com/v1/read-qr-code/"
-    ```
-    {% endcode %}
-
-#### 3. **Plugin WordPress**
-
-Plugin WordPress che possono leggere QR code.
-
-* **QR Code Scanner**: Alcuni plugin offrono funzionalità di scansione QR code direttamente dal browser.
 
 ### Come capire se la sottoscrizione è attiva
 
@@ -305,8 +244,6 @@ alt Verifica Pagamenti
 else Errore durante il recupero dettagli sottoscrizione
     NeverlandKiz->Utente: Mostra messaggio di errore
 end
-
-
 ```
 {% endcode %}
 
@@ -338,4 +275,3 @@ end
 
 ```
 {% endcode %}
-

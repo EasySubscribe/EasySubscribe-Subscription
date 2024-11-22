@@ -39,7 +39,8 @@
         Scansiona QRCode
       </h1>
       <div class="card text-center fade-in" id="card">
-        <video id="reader" class="mx-auto" style="display: none; border-radius: 20px; height: auto; width: auto; max-height: 300px; max-width: 300px"></video>
+        <!--<video id="reader" class="mx-auto" style="display: none; border-radius: 20px; height: auto; width: auto; max-height: 300px; max-width: 300px"></video>-->
+        <video id="reader" style="display: none;" class="mx-auto"></video>
       </div>
       <div id="result-scan"></div>
       <button id="startScan" type="button" class="btn btn-blue mt-4 fade-in" onclick="startScan()">

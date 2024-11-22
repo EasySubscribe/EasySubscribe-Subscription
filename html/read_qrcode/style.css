@@ -66,10 +66,11 @@
   }
 }
 
-#reader video {
-  object-fit: cover; /* Adatta il video per riempire il box */
-  max-width: 300px; /* Larghezza del video */
-  max-height: 300px; /* Altezza del video */
-  border-radius: 20px; /* Opzionale: aggiunge angoli arrotondati */
-  /*border: 2px solid #ccc;  Opzionale: aggiunge un bordo */
+#reader {
+  display: block; /* Assicurati che il video sia visibile */
+  width: 300px; /* Imposta la larghezza del video */
+  height: 300px; /* Imposta l'altezza del video per farlo quadrato */
+  object-fit: cover; /* Adatta il video per riempire il quadrato senza deformarlo */
+  border-radius: 20px; /* Bordo arrotondato */
+  margin: 0 auto; /* Centra il video */
 }

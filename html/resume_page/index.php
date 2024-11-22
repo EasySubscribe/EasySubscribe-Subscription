@@ -16,7 +16,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <link rel="stylesheet" href="./style.css" />
-    <script src="./script.js"></script>
     <script src="./main.js"></script>
     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
     <link

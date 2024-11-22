@@ -36,6 +36,14 @@
             <a
               class="nav-link active fw-bold"
               aria-current="page"
+              href="../read_qrcode/index.php"
+              >Scansiona</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active fw-bold"
+              aria-current="page"
               href="../contact-me/index.php"
               >Contatti</a
             >

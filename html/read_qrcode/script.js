@@ -72,7 +72,7 @@ function startScan() {
       errorDialog("Errore", "Impossibile accedere alla fotocamera.");
     });
 
-  document.addEventListener("DOMContentLoaded", () => {
+  /*document.addEventListener("DOMContentLoaded", () => {
     const videoElement = document.querySelector("video"); // Seleziona il video DOM una volta disponibile
 
     if (videoElement) {
@@ -83,17 +83,120 @@ function startScan() {
             .applyConstraints({
               advanced: [{ focusMode: "continuous" }],
             })
-            .catch((err) =>
-              console.error("Errore durante l'applicazione del focus:", err)
-            );
+            .catch((err) => {
+              errorDialog("Error", "Impossibile mettere a fuoco cazzo");
+
+              console.error("Errore durante l'applicazione del focus:", err);
+            });
         } else {
+          errorDialog("Error", "Impossibile mettere a fuoco cazzo");
           console.warn(
             "La messa a fuoco manuale non è supportata su questo dispositivo."
           );
         }
       });
     }
-  });
+  });*/
+  const videoElement = document.querySelector("video"); // Seleziona l'elemento video
+  const focusIndicator = document.createElement("div"); // Indicatore per la messa a fuoco
+
+  // Stile per l'indicatore
+  focusIndicator.style.position = "absolute";
+  focusIndicator.style.bottom = "80px";
+  focusIndicator.style.left = "50%";
+  focusIndicator.style.transform = "translate(-50%, -50%)";
+  focusIndicator.style.padding = "10px 10px";
+  focusIndicator.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+  focusIndicator.style.color = "white";
+  focusIndicator.style.fontSize = "16px";
+  focusIndicator.style.borderRadius = "5px";
+  focusIndicator.style.display = "none"; // Nascondi inizialmente
+  focusIndicator.textContent = "Messa a fuoco in corso...";
+  document.body.appendChild(focusIndicator); // Aggiungi l'indicatore al body
+
+  // Funzione per ottenere e selezionare la videocamera ultrawide (se disponibile)
+  function startVideoWithUltraWide() {
+    // Richiedi l'accesso alla fotocamera per ottenere i permessi
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        // Rilascia lo stream iniziale (serve solo per i permessi)
+        stream.getTracks().forEach((track) => track.stop());
+
+        // Ora possiamo chiamare enumerateDevices
+        return navigator.mediaDevices.enumerateDevices();
+      })
+      .then((devices) => {
+        const videoDevices = devices.filter(
+          (device) => device.kind === "videoinput"
+        );
+
+        //simpleDialog("Fotocamera", JSON.stringify(videoDevices));
+        console.log("Dispositivi video:", videoDevices); // Log per debug
+
+        // Cerca la fotocamera ultrawide
+        const ultrawideCamera = videoDevices.find(
+          (device) =>
+            device.label.toLowerCase().includes("ultra-grandangolo") ||
+            device.label.toLowerCase().includes("ultrawide")
+        );
+
+        if (ultrawideCamera) {
+          console.log("Fotocamera ultrawide trovata:", ultrawideCamera.label);
+          return navigator.mediaDevices.getUserMedia({
+            video: { deviceId: { exact: ultrawideCamera.deviceId } },
+          });
+        } else {
+          console.warn(
+            "Fotocamera ultrawide non trovata. Uso quella predefinita."
+          );
+          return navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "environment" } },
+          });
+        }
+      })
+      .then((stream) => {
+        videoElement.srcObject = stream; // Assegna il flusso video all'elemento
+      })
+      .catch((err) => {
+        console.error("Errore durante l’accesso alla fotocamera:", err);
+        errorDialog("Error", "Impossibile accedere alla fotocamera.");
+      });
+  }
+
+  // Inizializza il video con la fotocamera ultrawide o fallback
+  if (videoElement) {
+    if (isIOS()) startVideoWithUltraWide();
+
+    videoElement.addEventListener("click", () => {
+      const track = videoElement.srcObject.getVideoTracks()[0];
+      if ("focusMode" in track.getCapabilities()) {
+        // Mostra l'indicatore di messa a fuoco
+        focusIndicator.style.display = "block";
+
+        track
+          .applyConstraints({
+            facingMode: { ideal: "environment" },
+            frameRate: { ideal: 30, max: 60 },
+            advanced: [{ focusMode: "continuous" }],
+          })
+          .then(() => {
+            // Nascondi l'indicatore dopo 1 secondo
+            setTimeout(() => {
+              focusIndicator.style.display = "none";
+            }, 1000);
+          })
+          .catch((err) => {
+            focusIndicator.style.display = "none"; // Nascondi in caso di errore
+            console.error("Errore durante l'applicazione del focus:", err);
+          });
+      } else {
+        console.warn(
+          "La messa a fuoco manuale non è supportata su questo dispositivo."
+        );
+      }
+    });
+  }
 }
 
 function showData(sub, isActive) {

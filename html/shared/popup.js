@@ -77,7 +77,7 @@ function errorDialog(title, subtitle) {
     },
     buttonsStyling: true,
   });
-  swalWithBootstrapButtons.fire({
+  return swalWithBootstrapButtons.fire({
     title: title,
     text: subtitle,
     icon: "error",

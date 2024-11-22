@@ -14,5 +14,6 @@
   crossorigin="anonymous"
 ></script>
 <script src="../shared/popup.js"></script>
+<script src="../shared/utils.js"></script>
 <link rel="stylesheet" href="../shared/style.css" />
 <link rel="stylesheet" href="../shared/animation.css" />

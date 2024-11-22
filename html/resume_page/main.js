@@ -64,11 +64,12 @@ document.addEventListener("DOMContentLoaded", function () {
             >${element.product.description}</small
           >
         </p>
-        <p>Attivo dal: ${new Date(
-          element.subscriptions.created * 1000
-        ).toLocaleDateString()} <br />${
+        <p>Attivo dal: ${formatDateIntl(
+          new Date(element.subscriptions.created * 1000).toLocaleDateString()
+        )} <br />${
                 getExpiredDate(element, false)
-                  ? "Termina il: " + getExpiredDate(element, false)
+                  ? "Si rinnova il: " +
+                    formatDateIntl(getExpiredDate(element, false))
                   : ""
               }</p>
 
@@ -91,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
             type="button"
             class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3 cancel"
             target="_blank"
-            data-expiration='${getExpiredDate(element, true)}'
+            data-expiration='${getExpiredDate(element, true, 25)}'
           >
             Cancella Abbonamento
           </a>
@@ -149,18 +150,33 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       });
   } else {
-    errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
+    loader.style.display = "none";
+    errorDialog(
+      "Errore",
+      "Si è verificato un problema, riprova più tardi."
+    ).then((result) => {
+      window.location.href =
+        window.location.origin + "/html/login_page/index.php";
+    });
   }
 });
 
 function cancelSubscription(expirationDate) {
   const today = new Date();
   const expDate = new Date(expirationDate);
-  if (expDate > today)
-    return errorDialog(
+  if (expDate.getDate()) {
+    if (expDate > today)
+      return errorDialog(
+        "Errore",
+        "Non è possibile cancellare la sottoscrizione poichè non è stata rispettata la policy sulla cancellazione. L'abbonamento potrà essere cancellato dal giorno " +
+          formatDateIntl(expDate.toLocaleDateString())
+      );
+  } else
+    return htmlDialog(
       "Errore",
-      "Non è possibile cancellare la sottoscrizione poichè non è stata rispettata la policy sulla cancellazione. L'abbonamento potrà essere cancellato dal giorno " +
-        expDate.toLocaleDateString()
+      null,
+      "error",
+      "<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@neverlandkiz.it'>info@neverlandkiz.it</a>.</p>"
     );
   return simpleDialog(
     "Operazione Eseguita!",
@@ -190,22 +206,6 @@ async function redirectToBillingPortal(customerId) {
     loader.style.display = "none";
     console.error("Errore:", result.message || "Errore sconosciuto");
     errorDialog("Errore", "Si è verificato un errore. Per favore, riprova.");
-  }
-}
-
-function getExpiredDate(element, fullDate) {
-  let meta = element.product.metadata;
-
-  if (meta) {
-    let monthsToAdd = parseInt(element.product.metadata.durata_minima, 10); // Assicurati che sia un numero
-    if (monthsToAdd) {
-      const createdDate = new Date(element.subscriptions.created * 1000); // Timestamp in secondi
-      const expirationDate = new Date(createdDate); // Crea una copia separata
-
-      expirationDate.setMonth(expirationDate.getMonth() + monthsToAdd); // Aggiungi i mesi
-      if (fullDate) return expirationDate;
-      return expirationDate.toLocaleDateString();
-    }
   }
 }
 

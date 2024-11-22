@@ -2,6 +2,7 @@
 .navbar {
   background: var(--header-color) !important;
   height: 100px;
+  z-index: 99;
 }
 
 .navbar-nav > li:not(:last-child) > a::after {

@@ -9,61 +9,56 @@ document.addEventListener("DOMContentLoaded", function () {
   if (data) {
     // Decodifica il dato da base64
     const decodedData = atob(data); // Decodifica base64
-    const [customer_id_string, session_id] = decodedData.split(":"); // Supponiamo che siano separati da ':'
+    const [customer_ids_string, session_id] = decodedData.split(":"); // Supponiamo che siano separati da ':'
     const subscriptionsSection = document.getElementById("subscriptions");
 
     // Rimuovi il parametro 'data' dall'URL
     const cleanUrl = window.location.origin + window.location.pathname;
     window.history.replaceState(null, "", cleanUrl);
 
-    const customer_ids = customer_id_string.split(",");
-    const customer_id_session = customer_ids[0];
-
     let customer_name = "";
-    let error;
 
-    customer_ids.forEach((customer_id) => {
-      // Invia i dati a PHP
-      fetch("resume.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ customer_id, session_id, customer_id_session }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.error) {
-            errorDialog("Errore", "Errore nella richiesta: " + data.message);
-          } else {
-            // Gestisci i dati delle sottoscrizioni ricevuti
-            if (data.data) {
-              data.data.forEach((element) => {
-                if (element.subscriptions.customer.name)
-                  customer_name = element.subscriptions.customer.name;
-                const subProd = {
-                  //product_id: element.product.id,
-                  product_name: element.product.name,
-                  product_description: element.product.description,
-                  product_image: element.product.images[0],
-                  //product_image: "../core/img/logo.png",
-                  subscription_id: element.subscriptions.id,
-                  customer_name: element.subscriptions.customer.name,
-                };
-                const subProdText = JSON.stringify(subProd);
-                //const subProdText = subProd.subscription_id;
-                const htmlText = `<div class="col-12 col-md-4 mt-3 fade-in">
+    // Invia i dati a PHP
+    fetch("resume.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ customer_ids_string, session_id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          errorDialog("Errore", "Errore nella richiesta: " + data.message);
+        } else {
+          // Gestisci i dati delle sottoscrizioni ricevuti
+          if (data.data) {
+            data.data.forEach((element) => {
+              if (element.subscriptions.customer.name)
+                customer_name = element.subscriptions.customer.name;
+              const subProd = {
+                //product_id: element.product.id,
+                product_name: element.product.name,
+                product_description: element.product.description,
+                product_image: element.product.images[0],
+                //product_image: "../core/img/logo.png",
+                subscription_id: element.subscriptions.id,
+                customer_name: element.subscriptions.customer.name,
+              };
+              const subProdText = JSON.stringify(subProd);
+              //const subProdText = subProd.subscription_id;
+              const htmlText = `<div class="col-12 col-md-4 mt-3 fade-in">
       <div class="card text-center" id="card">
         <img
           style="border-radius: 7px;"
           class="mx-auto m-3"
-          id="${subProd.product_name + subProd.subscription_id}"
+          id="${element.product.name + element.subscriptions.id}"
           src="${element.product.images[0]}"
           alt=""
           width="100"
         />
-        <canvas id="${subProd.subscription_id}" style="display:none;"></canvas>
-        <h4>${subProd.product_name}</h4>
+        <canvas id="${element.subscriptions.id}" style="display:none;"></canvas>
+        <h4>${element.product.name}</h4>
         <p class="fw-light">
           <small style="color: #808080"
             >${element.product.description}</small
@@ -72,10 +67,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <p>Attivo dal: ${new Date(
           element.subscriptions.created * 1000
         ).toLocaleDateString()} <br />${
-                  getExpiredDate(element)
-                    ? "Termina il: " + getExpiredDate(element)
-                    : ""
-                }</p>
+                getExpiredDate(element, false)
+                  ? "Termina il: " + getExpiredDate(element, false)
+                  : ""
+              }</p>
 
         <div class="text-center" style="display: block;">
           <a
@@ -94,46 +89,84 @@ document.addEventListener("DOMContentLoaded", function () {
           >
           <a
             type="button"
-            class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3"
+            class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3 cancel"
             target="_blank"
-            onclick="doSubscribeCancel()"
+            data-expiration='${getExpiredDate(element, true)}'
           >
             Cancella Abbonamento
           </a>
         </div>
       </div>
     </div>`;
-                subscriptionsSection.innerHTML += htmlText;
-              });
-              // Potresti anche generare un QR Code qui se necessario
-              document.querySelectorAll(".qrCode").forEach((button) => {
-                const productName = button.getAttribute("data-product-name");
-                button.addEventListener("click", () => getQRCode(productName));
-              });
-              document.querySelectorAll(".billing").forEach((button) => {
-                const customer_id = button.getAttribute("data-customer-id");
-                button.addEventListener("click", () =>
-                  redirectToBillingPortal(customer_id)
-                );
-              });
-            }
+              subscriptionsSection.innerHTML += htmlText;
+            });
+            // Potresti anche generare un QR Code qui se necessario
+            document.querySelectorAll(".qrCode").forEach((button) => {
+              const productName = button.getAttribute("data-product-name");
+              button.addEventListener("click", () => getQRCode(productName));
+            });
+            document.querySelectorAll(".billing").forEach((button) => {
+              const customer_id = button.getAttribute("data-customer-id");
+              button.addEventListener("click", () =>
+                redirectToBillingPortal(customer_id)
+              );
+            });
+            document.querySelectorAll(".cancel").forEach((button) => {
+              const expirationDate = button.getAttribute("data-expiration");
+              button.addEventListener("click", () =>
+                confirmDialogSimple(
+                  "Sicuro di voler disdire l'abbonamento?",
+                  "Non sarai in grado di annulare una volta confermato!",
+                  "Si Disdici!",
+                  "No, Annulla!"
+                ).then((result) => {
+                  if (result.isConfirmed) cancelSubscription(expirationDate);
+                  else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                  )
+                    errorDialog(
+                      "Operazione Annullata",
+                      "Abbonamento non disdetto"
+                    );
+                })
+              );
+            });
           }
-          const resumeTitle = document.getElementById("resume-title");
-          resumeTitle.textContent = "Benvenuto " + customer_name;
-          loader.style.display = "none";
-        })
-        .catch((error) => {
-          loader.style.display = "none";
-          error = error;
-        });
-    });
+        }
+
+        const resumeTitle = document.getElementById("resume-title");
+        resumeTitle.textContent = "Benvenuto " + customer_name;
+        loader.style.display = "none";
+      })
+      .catch((error) => {
+        loader.style.display = "none";
+        error = error;
+        console.error("Si è verificato un'errore: ", error);
+        errorDialog(
+          "Errore",
+          "Si è verificato un problema, riprova più tardi."
+        );
+      });
   } else {
     errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
   }
-
-  if (error)
-    errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
 });
+
+function cancelSubscription(expirationDate) {
+  const today = new Date();
+  const expDate = new Date(expirationDate);
+  if (expDate > today)
+    return errorDialog(
+      "Errore",
+      "Non è possibile cancellare la sottoscrizione poichè non è stata rispettata la policy sulla cancellazione. L'abbonamento potrà essere cancellato dal giorno " +
+        expDate.toLocaleDateString()
+    );
+  return simpleDialog(
+    "Operazione Eseguita!",
+    "Il tuo abbonamento è stato disdetto"
+  );
+}
 
 async function redirectToBillingPortal(customerId) {
   loader.style.display = "flex";
@@ -160,7 +193,7 @@ async function redirectToBillingPortal(customerId) {
   }
 }
 
-function getExpiredDate(element) {
+function getExpiredDate(element, fullDate) {
   let meta = element.product.metadata;
 
   if (meta) {
@@ -170,10 +203,7 @@ function getExpiredDate(element) {
       const expirationDate = new Date(createdDate); // Crea una copia separata
 
       expirationDate.setMonth(expirationDate.getMonth() + monthsToAdd); // Aggiungi i mesi
-
-      console.log("Mesi da aggiungere:", monthsToAdd);
-      console.log("Data di creazione:", createdDate);
-      console.log("Data di scadenza:", expirationDate);
+      if (fullDate) return expirationDate;
       return expirationDate.toLocaleDateString();
     }
   }
@@ -184,7 +214,7 @@ function getQRCode(subProd) {
   const redirect_url = window.location.origin;
   const url = redirect_url
     .concat("/html/read_qrcode/index.php?data=")
-    .concat(btoa(subProd));
+    .concat(btoa(product.subscription_id));
   console.log(url);
   qrCodeDialog(product.product_name, null, url).then((result) => {
     if (result.isConfirmed) {

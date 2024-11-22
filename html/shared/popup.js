@@ -47,6 +47,27 @@ function confirmDialog(
     });
 }
 
+function confirmDialogSimple(title, subtitle, confirmTitle, rejectTitle) {
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-blue fw-bold w-popup",
+      cancelButton: "btn btn-blue fw-bold w-popup",
+      popup: "border_round",
+    },
+    buttonsStyling: true,
+  });
+  return swalWithBootstrapButtons.fire({
+    title: title,
+    text: subtitle,
+    icon: "warning",
+    background: "#e6f1f1",
+    showCancelButton: true,
+    confirmButtonText: confirmTitle,
+    cancelButtonText: rejectTitle,
+    reverseButtons: false,
+  });
+}
+
 function errorDialog(title, subtitle) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {

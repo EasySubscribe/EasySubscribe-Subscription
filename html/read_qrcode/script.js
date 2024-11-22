@@ -2,23 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const loader = document.getElementById("loader");
   loader.style.visibility = "hidden";
 
-  let hasScanned = false; // Flag per evitare scansioni multiple
-
-  // Funzione per decodificare il parametro `data`
-  function decodeAndVerify(data) {
-    try {
-      const decodedData = atob(data); // Decodifica base64
-      const subProd = JSON.parse(decodedData); // Parsing JSON
-      verifySubscription(subProd); // Validazione
-    } catch (error) {
-      console.error(
-        "Errore nella decodifica o validazione del parametro `data`:",
-        error
-      );
-      simpleDialog("Errore", "Il QR Code non contiene dati validi.");
-    }
-  }
-
   const urlParams = new URLSearchParams(window.location.search);
   const data = urlParams.get("data");
   if (data) {
@@ -27,18 +10,17 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Funzione per decodificare il parametro `data`
 function decodeAndVerify(data) {
   try {
     const decodedData = atob(data); // Decodifica base64
-    const subProd = JSON.parse(decodedData); // Parsing JSON
-    verifySubscription(subProd); // Validazione
+    //const subProd = JSON.parse(decodedData); // Parsing JSON
+    verifySubscription(decodedData); // Validazione
   } catch (error) {
     console.error(
       "Errore nella decodifica o validazione del parametro `data`:",
       error
     );
-    simpleDialog("Errore", "Il QR Code non contiene dati validi.");
+    errorDialog("Errore", "Il QR Code contiene dati non validi.");
   }
 }
 
@@ -50,46 +32,45 @@ function startScan() {
   const readerElement = document.getElementById("reader");
   readerElement.style.display = "block";
 
-  const onScanSuccess = (decodedText, decodedResult) => {
-    if (hasScanned) return; // Evita di processare ulteriori scansioni
-    hasScanned = true; // Imposta il flag a true dopo la prima scansione
+  const codeReader = new ZXingBrowser.BrowserQRCodeReader();
 
-    readerElement.style.display = "none"; // Nasconde il lettore
-    try {
-      const data = decodedText.split("data=")[1];
-      if (data) {
-        decodeAndVerify(data); // Decodifica e verifica il contenuto del QR Code
-        html5QrcodeScanner.clear();
-      } else {
-        errorDialog(
-          "Errore",
-          "Il QR Code non contiene il parametro `data`. Riprova."
-        );
-        //hasScanned = false; // Resetta il flag in caso di errore
+  codeReader
+    .decodeOnceFromVideoDevice(null, "reader")
+    .then((result) => {
+      if (hasScanned) return; // Evita scansioni multiple
+      hasScanned = true; // Imposta il flag per evitare ulteriori scansioni
+
+      readerElement.style.display = "none"; // Nasconde il lettore
+      try {
+        const data = result.text.split("data=")[1];
+        if (data) {
+          decodeAndVerify(data); // Decodifica e verifica il contenuto del QR Code
+        } else {
+          console.error(
+            "Errore nella decodifica o validazione del parametro `data`:",
+            error
+          );
+          errorDialog("Errore", "Il QR Code contiene dati non validi.");
+        }
+      } catch (error) {
+        console.error("Errore durante la scansione del QR Code:", error);
+        errorDialog("Errore", "Impossibile leggere il QR Code.");
+      } finally {
+        () => {
+          const videoElement = readerElement.querySelector("video");
+          if (videoElement && videoElement.srcObject) {
+            const stream = videoElement.srcObject;
+            const tracks = stream.getTracks(); // Ottieni tutti i "tracks" del flusso
+            tracks.forEach((track) => track.stop()); // Ferma ciascuno dei tracks
+            videoElement.srcObject = null; // Rimuove la sorgente video
+          }
+        };
       }
-    } catch (error) {
-      console.error("Errore durante la scansione del QR Code:", error);
-      errorDialog("Errore", "Impossibile leggere il QR Code.");
-      //hasScanned = false; // Resetta il flag in caso di errore
-    }
-  };
-
-  const html5QrcodeScanner = new Html5QrcodeScanner(
-    "reader",
-    {
-      qrbox: {
-        width: 270,
-        height: 270,
-      },
-      fps: 60,
-      videoConstraints: {
-        facingMode: { exact: "environment" },
-      },
-    },
-    false
-  );
-
-  html5QrcodeScanner.render(onScanSuccess);
+    })
+    .catch((error) => {
+      console.error("Errore durante l'inizializzazione dello scanner:", error);
+      errorDialog("Errore", "Impossibile accedere alla fotocamera.");
+    });
 
   document.addEventListener("DOMContentLoaded", () => {
     const videoElement = document.querySelector("video"); // Seleziona il video DOM una volta disponibile
@@ -124,14 +105,14 @@ function showData(sub, isActive) {
     <img
       style="border-radius: 7px;"
       class="mx-auto m-3"
-      src="${sub.product.product_image}"
+      src="${sub.product.images[0]}"
       alt=""
       width="100"
     />
-    <h4>${sub.product.product_name}</h4>
+    <h4>${sub.product.name}</h4>
     <p class="fw-light">
       <small style="color: #808080"
-        >${sub.product.product_description}</small
+        >${sub.product.description}</small
       >
     </p>
     <p><small style="color: #808080"
@@ -146,12 +127,11 @@ function showData(sub, isActive) {
   scan.innerHTML = html;
 }
 
-async function verifySubscription(subProd) {
+async function verifySubscription(subscription_id) {
   const loader = document.getElementById("loader");
   loader.style.visibility = "visible";
-  const subscription_id = subProd.subscription_id;
   let response = {
-    product: subProd,
+    product: null,
     subscription: null,
   };
   try {
@@ -166,6 +146,7 @@ async function verifySubscription(subProd) {
       .then((result) => {
         if (result.status === "success") {
           response.subscription = result.subscription_details;
+          response.product = result.product_details;
           // Validazione Sottoscrizione
           let activeUser =
             new Date(result.subscription_details.current_period_end * 1000) >=
@@ -180,6 +161,7 @@ async function verifySubscription(subProd) {
           );
         } else if (result.status === "failed") {
           response.subscription = result.subscription_details;
+          response.product = result.product_details;
           loader.style.visibility = "hidden";
           showData(response, false);
           htmlDialog(
@@ -204,14 +186,14 @@ function getHTMLData(sub, activeUser) {
     <img
       style="border-radius: 7px;"
       class="mx-auto m-3"
-      src="${sub.product.product_image}"
+      src="${sub.product.images[0]}"
       alt=""
       width="100"
     />
-    <h4>${sub.product.product_name}</h4>
+    <h4>${sub.product.name}</h4>
     <p class="fw-light">
       <small style="color: #808080"
-        >${sub.product.product_description}</small
+        >${sub.product.description}</small
       >
     </p>
     <p><small style="color: #808080"

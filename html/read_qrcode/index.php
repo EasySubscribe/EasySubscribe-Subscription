@@ -20,6 +20,8 @@
     />
     <!--<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>-->
     <script src="https://unpkg.com/html5-qrcode"></script>
+    <!-- loading ZXingBrowser via UNPKG -->
+    <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
     <title>QR Code Reader</title>
   </head>
   <body>
@@ -33,15 +35,18 @@
     </div>
 
     <div class="content mx-auto">
-      <h1 class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">Scansiona QRCode</h1>
+      <h1 class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">
+        Scansiona QRCode
+      </h1>
       <div class="card text-center fade-in" id="card">
-        <div id="reader" class="mx-auto" style="display: none; border-radius: 20px; height: 300px"></div>
+        <video id="reader" class="mx-auto" style="display: none; border-radius: 20px; height: auto; width: auto; max-height: 300px; max-width: 300px"></video>
       </div>
       <div id="result-scan"></div>
       <button id="startScan" type="button" class="btn btn-blue mt-4 fade-in" onclick="startScan()">
         Scansiona
       </button>
     </div>
+
     <?php require __DIR__ . '/../../html/core/footer/footer.php'; ?>
   </body>
 </html>

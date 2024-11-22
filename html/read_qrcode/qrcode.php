@@ -34,31 +34,41 @@ if (!$subscription_id) {
 }
 
 try {
-    $log->info('Recupero dei detagli della sottoscrizione ' . $subscription_id);
+    $log->info('Recupero dei dettagli della sottoscrizione ' . $subscription_id);
     // Recupero dei dettagli della sottoscrizione
     $subscription = $stripe->subscriptions->retrieve($subscription_id, [
-        'expand' => ['customer'],
+        'expand' => ['customer', 'items.data.price.product'],
     ]);
+
+    $product = null;
+
+    // Recupera il prodotto dalla sottoscrizione (presupponendo che ci sia almeno un item)
+    if (!empty($subscription->items->data)) {
+        $product = $subscription->items->data[0]->price->product;
+    }
 
     if ($subscription->status === 'active') {
         $log->info('Sottoscrizione ' . $subscription_id . ' è attiva');
         $response = [
             'status' => 'success',
             'message' => 'Sottoscrizione attiva. Accesso consentito.',
-            'subscription_details' => $subscription
+            'subscription_details' => $subscription,
+            'product_details' => $product,
         ];
     } else {
         $log->info('Sottoscrizione ' . $subscription_id . ' non è attiva');
         $response = [
             'status' => 'failed',
             'message' => 'Sottoscrizione non attiva. Accesso negato.',
-            'subscription_details' => $subscription
+            'subscription_details' => $subscription,
+            'product_details' => $product,
         ];
     }
 } catch (Exception $e) {
+    $log->error('Errore durante la verifica della sottoscrizione: ' . $e->getMessage());
     $response = [
         'status' => 'error',
-        'message' => 'Errore durante la verifica della sottoscrizione: ' . $e->getMessage()
+        'message' => 'Errore durante la verifica della sottoscrizione: ' . $e->getMessage(),
     ];
 }
 

@@ -206,7 +206,7 @@ Se tutte queste condizioni sono soddisfatte, allora l'utente dovrebbe essere aut
 
 ## Cancellazione Sottoscrizione
 
-<figure><img src=".gitbook/assets/Untitled (7).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/Untitled (10).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```mermaid
@@ -219,19 +219,20 @@ participant Stripe
 Utente->NeverlandKiz: Seleziona opzione per cancellare sottoscrizione
 
 
-alt Verifica Pagamenti
+group #2f2e7b  if #white [Verifica Pagamenti]
 
     NeverlandKiz->NeverlandKiz: Validazione se la sottoscrizione è pagata \n (interval_count, created con metadata)
-    alt Se Valido
+    group #2f2e7b  if #white [Se Valido]
         NeverlandKiz->NeverlandKiz: Popup Sicuro di voler cancellare?
         NeverlandKiz->Stripe: DELETE /v1/subscriptions/{subscription_id} per cancellare sottoscrizione
+        note right of NeverlandKiz #FFBF65:--curl location request DELETE 'https://api.stripe.com/v1/subscriptions/sub_id?invoice_now=true'\nheader 'Authorization: Bearer ******'
         Stripe-->NeverlandKiz: Conferma cancellazione
         NeverlandKiz->Utente: Notifica cancellazione avvenuta
     else Se non valido
-        NeverlandKiz->Utente: Mostra messaggio di errore: "Impossibile cancellare."
+        NeverlandKiz-#red>Utente: Mostra messaggio di errore: "Impossibile cancellare."
     end
 else Errore durante il recupero dettagli sottoscrizione
-    NeverlandKiz->Utente: Mostra messaggio di errore
+    NeverlandKiz-#red>Utente: Mostra messaggio di errore
 end
 ```
 {% endcode %}

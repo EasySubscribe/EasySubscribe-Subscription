@@ -36,7 +36,7 @@
     <div class="content">
       <section id="login-btn" class="mx-auto">
         <div class="row">
-          <div class="col-12">
+          <div class="col-12 fade-in">
             <h1>Welcome to NeverlandKiz</h1>
           </div>
         </div>
@@ -57,7 +57,7 @@
           <div id="front" class="front">
             <div class="row">
               <div
-                class="col col-md-3 hidden_mobile separator"
+                class="col col-md-2 hidden_mobile separator"
                 style="align-self: center"
               >
                 <div class="col-12 text-center">
@@ -71,7 +71,7 @@
                   </button>
                 </div>
               </div>
-              <div class="col-12 col-md-9">
+              <div class="col-12 col-md-10">
                 <stripe-pricing-table
                   pricing-table-id="prctbl_1QCmSdRun27ngB3Ya01NPXNY"
                   publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN"
@@ -83,7 +83,7 @@
           <div id="back" class="back">
             <div class="row">
               <div
-                class="col col-md-3 hidden_mobile separator"
+                class="col col-md-2 hidden_mobile separator"
                 style="align-self: center"
               >
                 <div class="col-12 text-center">
@@ -97,7 +97,7 @@
                   </button>
                 </div>
               </div>
-              <div class="col-12 col-md-9">
+              <div class="col-12 col-md-10">
                 <div class="m-3">
                   <h2>Ottieni il Pass</h2>
                   <p>
@@ -122,9 +122,18 @@
                         id="submitEmailBtn"
                         type="submit"
                         class="btn btn-blue fw-bold mt-3 mb-3 float-end w-150"
+                        style="margin-left: 20px;"
                         disabled
                       >
                         Accedi
+                      </button>
+                      <button
+                        id="submitOrganizzationBtn"
+                        type="submit"
+                        class="btn btn-blue fw-bold mt-3 mb-3 float-end w-150"
+                        disabled
+                      >
+                        Sei un Organizzatore?
                       </button>
                     </div>
                   </form>

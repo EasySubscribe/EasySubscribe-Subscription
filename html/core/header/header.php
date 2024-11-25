@@ -5,7 +5,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
-      <a href="../login_page/index.php" class="navbar-brand ms-2"
+      <a href="../login_page/index.php" class="navbar-brand ms-2 slide-in-left"
         ><img
           src="https://www.neverlandkiz.it/wp-content/uploads/2023/03/Neverland-Logo-e1684259928108-768x211.png"
           alt="Antonio Rausa"
@@ -22,7 +22,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse slide-in-right" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a

@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="card text-center" id="card">
         <img
           style="border-radius: 7px;"
-          class="mx-auto m-3"
+          class="mx-auto m-3 mt-4"
           id="${element.product.name + element.subscriptions.id}"
           src="${element.product.images[0]}"
           alt=""
@@ -59,11 +59,16 @@ document.addEventListener("DOMContentLoaded", function () {
         />
         <canvas id="${element.subscriptions.id}" style="display:none;"></canvas>
         <h4>${element.product.name}</h4>
+        ${
+          element.product.description
+            ? `
         <p class="fw-light">
           <small style="color: #808080"
             >${element.product.description}</small
           >
-        </p>
+        </p>`
+            : "<br>"
+        }
         <p>Attivo dal: ${formatDateIntl(
           new Date(element.subscriptions.created * 1000).toLocaleDateString()
         )} <br />${
@@ -76,23 +81,25 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="text-center" style="display: block;">
           <a
             type="button"
-            class="btn btn-blue fw-bold mb-3 ms-3 me-3 billing"
+            class="btn btn-blue fw-bold mb-2 ms-3 me-3 billing d-inline"
             target="_blank"
             data-customer-id='${element.subscriptions.customer.id}'
             >Gestisci Pagamento</a
           >
           <a
             type="button"
-            class="btn btn-blue fw-bold mb-3 ms-3 me-3 qrCode"
+            class="btn btn-blue fw-bold mb-2 ms-3 me-3 qrCode d-inline"
             target="_blank"
             data-product-name='${subProdText}'
             >Ottieni il QRCode</a
           >
           <a
             type="button"
-            class="btn btn-blue text-danger fw-bold mb-3 ms-3 me-3 cancel"
+            class="btn btn-blue text-danger fw-bold mb-4 ms-3 me-3 cancel"
             target="_blank"
-            data-expiration='${getExpiredDate(element, true, 25)}'
+            data-expiration='${
+              getExpiredDate(element, true, 25) + ":" + element.subscriptions.id
+            }'
           >
             Cancella Abbonamento
           </a>
@@ -113,7 +120,12 @@ document.addEventListener("DOMContentLoaded", function () {
               );
             });
             document.querySelectorAll(".cancel").forEach((button) => {
-              const expirationDate = button.getAttribute("data-expiration");
+              const expirationDate = button
+                .getAttribute("data-expiration")
+                .split(":")[0];
+              const subscription_id = button
+                .getAttribute("data-expiration")
+                .split(":")[1];
               button.addEventListener("click", () =>
                 confirmDialogSimple(
                   "Sicuro di voler disdire l'abbonamento?",
@@ -121,7 +133,8 @@ document.addEventListener("DOMContentLoaded", function () {
                   "Si Disdici!",
                   "No, Annulla!"
                 ).then((result) => {
-                  if (result.isConfirmed) cancelSubscription(expirationDate);
+                  if (result.isConfirmed)
+                    cancelSubscription(expirationDate, subscription_id);
                   else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
@@ -161,27 +174,61 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function cancelSubscription(expirationDate) {
-  const today = new Date();
-  const expDate = new Date(expirationDate);
-  if (expDate.getDate()) {
-    if (expDate > today)
+function cancelSubscription(expirationDate, subscriptionId) {
+  const today = new Date(); // Ottieni la data odierna
+  const expDate = new Date(expirationDate); // Converti la data di scadenza in oggetto Date
+
+  // Controlla se `expirationDate` è una data valida
+  if (!isNaN(expDate.getTime())) {
+    // Verifica se la data di scadenza è futura rispetto ad oggi
+    if (expDate > today) {
       return errorDialog(
         "Errore",
-        "Non è possibile cancellare la sottoscrizione poichè non è stata rispettata la policy sulla cancellazione. L'abbonamento potrà essere cancellato dal giorno " +
-          formatDateIntl(expDate.toLocaleDateString())
+        `Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la policy sulla cancellazione. L'abbonamento potrà essere cancellato dal giorno ${formatDateIntl(
+          expDate.toLocaleDateString()
+        )}.`
       );
-  } else
+    }
+  } else {
+    // Gestione errore: `expirationDate` non è valida
     return htmlDialog(
       "Errore",
       null,
       "error",
-      "<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@neverlandkiz.it'>info@neverlandkiz.it</a>.</p>"
+      `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@neverlandkiz.it'>info@neverlandkiz.it</a>.</p>`
     );
-  return simpleDialog(
-    "Operazione Eseguita!",
-    "Il tuo abbonamento è stato disdetto"
-  );
+  }
+
+  // Qui aggiungi la chiamata all'API per cancellare la sottoscrizione
+  fetch(`cancel-subscription.php`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ subscriptionId }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        return errorDialog(
+          "Errore",
+          data.message || "Errore sconosciuto durante la cancellazione."
+        );
+      }
+      return simpleDialog(
+        "Operazione Eseguita!",
+        "Il tuo abbonamento è stato disdetto con successo."
+      );
+    })
+    .catch((error) => {
+      console.error("Errore durante la cancellazione:", error);
+      return htmlDialog(
+        "Errore",
+        null,
+        "error",
+        `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@neverlandkiz.it'>info@neverlandkiz.it</a>.</p>`
+      );
+    });
 }
 
 async function redirectToBillingPortal(customerId) {
@@ -277,12 +324,14 @@ function downloadProductPDF(product) {
           10,
           70
         );
-        pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
-        pdf.text(
-          "Evento/i a cui puoi accedere: " + product.product_description,
-          10,
-          80
-        );
+        if (product.product_description) {
+          pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
+          pdf.text(
+            "Evento/i a cui puoi accedere: " + product.product_description,
+            10,
+            80
+          );
+        }
 
         pdf.setFont("helvetica", "bold"); // Imposta il font Helvetica in grassetto
         pdf.text("GENERAL TERMS OF SALE", 85, 90);
@@ -361,7 +410,7 @@ function downloadProductPDF(product) {
                   pdf.save("QRCode_" + product.product_name + ".pdf");
                   loader.style.display = "none";
                   simpleDialog(
-                    "QRCode Scaricato",
+                    "Download Iniziato",
                     "Ora puoi accedere a ".concat(product.product_name)
                   );
                 };
@@ -379,7 +428,7 @@ function downloadProductPDF(product) {
           pdf.save("QRCode_" + product.product_name + ".pdf");
           loader.style.display = "none";
           simpleDialog(
-            "QRCode Scaricato",
+            "Download Iniziato",
             "Ora puoi accedere a ".concat(product.product_name)
           );
         }

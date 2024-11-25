@@ -50,6 +50,14 @@
     margin: 10px !important;
     height: 300px !important;
   }
+
+  .contact-container {
+    margin-top: 10px !important;
+  }
+
+  #submitEmailBtn {
+    margin-bottom: 30px;
+  }
 }
 
 /** Inputs */

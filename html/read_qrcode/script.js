@@ -69,6 +69,7 @@ function startScan() {
     })
     .catch((error) => {
       console.error("Errore durante l'inizializzazione dello scanner:", error);
+      readerElement.style.display = "none"; // Nasconde il lettore
       errorDialog("Errore", "Impossibile accedere alla fotocamera.");
     });
 
@@ -213,11 +214,16 @@ function showData(sub, isActive) {
       width="100"
     />
     <h4>${sub.product.name}</h4>
-    <p class="fw-light">
+    ${
+      sub.product.description
+        ? `<p class="fw-light">
       <small style="color: #808080"
         >${sub.product.description}</small
       >
-    </p>
+    </p>`
+        : "<br>"
+    }
+    
     <p><small style="color: #808080"
     >Utente:</small
     > ${sub.subscription.customer.name}</p>
@@ -294,11 +300,15 @@ function getHTMLData(sub, activeUser) {
       width="100"
     />
     <h4>${sub.product.name}</h4>
-    <p class="fw-light">
+    ${
+      sub.product.description
+        ? `<p class="fw-light">
       <small style="color: #808080"
         >${sub.product.description}</small
       >
-    </p>
+    </p>`
+        : "<br>"
+    }
     <p><small style="color: #808080"
     >Utente:</small
     > ${sub.subscription.customer.name}</p>

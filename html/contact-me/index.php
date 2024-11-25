@@ -35,7 +35,7 @@
     <div class="content">
       <section id="login-btn" class="mx-auto">
         <div class="row">
-          <div class="col-12" style="margin-bottom: -30px">
+          <div class="col-12 fade-in" style="margin-bottom: -30px">
             <h1>Still <span class="color-header">Not Sure?</span></h1>
             <span class="line d-flex mx-auto"></span>
           </div>

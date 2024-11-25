@@ -12,6 +12,7 @@
 
 .container-fluid {
   background: var(--header-color);
+  max-width: 1900px;
 }
 /** END NavBar */
 

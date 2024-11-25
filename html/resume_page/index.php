@@ -37,8 +37,8 @@
     
     <div class="container d-flex justify-content-center">
       <div class="content">
-        <h1 class="m-4 text-center" id="resume-title">Benvenuto</h1>
-        <span class="line mx-auto d-flex"></span>
+        <h1 class="m-4 text-center fade-in" id="resume-title"></h1>
+        <span class="line mx-auto d-flex fade-in"></span>
         <div class="row mt-3 justify-content-center" id="subscriptions"></div>
       </div>
     </div>

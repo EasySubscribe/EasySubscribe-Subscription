@@ -3,7 +3,7 @@
 ?>
 <link rel="stylesheet" href="../core/footer/footer.css" />
 
-<footer class="text-white text-center text-lg-start mt-5">
+<footer class="text-white text-center text-lg-start mt-5 fade-in">
   <div class="container p-4">
     <div class="row" style="margin-bottom: -10px">
       <div class="col-lg-4 col-md-12" id="footer-logo-col">

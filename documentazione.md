@@ -294,6 +294,45 @@ end
 
 ## 2. Flusso Collaboratori
 
+{% code overflow="wrap" %}
+```mermaid
+title Flusso Accesso Collaboratore e Recupero Sottoscrizioni
+
+actor Collaboratore #e6f1f1
+participant NeverlandKiz #e6f1f1
+participant Stripe #e6f1f1
+participant SMTP #e6f1f1
+
+Collaboratore->NeverlandKiz: Inserisce l'email
+NeverlandKiz->Stripe: GET /v1/products (expand metadata)
+note right of NeverlandKiz #FFBF65: Recupero lista prodotti con metadati\nVerifica campo `email_organizzatori`.
+
+group #2f2e7b if #white [Corrispondenza trovata]
+    NeverlandKiz->NeverlandKiz: Filtra i prodotti per email corrispondente.
+    NeverlandKiz->NeverlandKiz: Genera stringa Base64 con gli ID dei prodotti.
+    NeverlandKiz->SMTP: Invia email con link per accesso.
+    SMTP-->Collaboratore: Email ricevuta con link di accesso.
+end
+
+group #red Nessuna corrispondenza
+    NeverlandKiz--#red>Collaboratore: Mostra errore "Nessun prodotto associato".
+end
+
+== Secondo Step: Accesso tramite link ==
+
+Collaboratore->NeverlandKiz: Clicca sul link ricevuto.
+NeverlandKiz->NeverlandKiz: Decodifica Base64 e ottiene gli ID dei prodotti.
+NeverlandKiz->Stripe: GET /v1/subscriptions/search?query=status:'active'
+note right of NeverlandKiz #FFBF65: Recupero sottoscrizioni attive\nGestione paginazione tramite `has_more`.
+
+Stripe-->NeverlandKiz: Ritorna lista sottoscrizioni.
+
+NeverlandKiz->NeverlandKiz: Filtra sottoscrizioni per gli ID dei prodotti.
+NeverlandKiz--#2f2e7b>Collaboratore: Mostra tabella con utenti attivi.
+
+```
+{% endcode %}
+
 ### **Primo Step: Invio Email con Link Personalizzato**
 
 1. **Input del Collaboratore**:

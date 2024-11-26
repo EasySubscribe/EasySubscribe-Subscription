@@ -8,13 +8,13 @@ icon: file-doc
 
 #### Diagramma di Flusso
 
-<figure><img src=".gitbook/assets/NeverlandKiz Flow.jpg" alt=""><figcaption><p>Diagram draw.io</p></figcaption></figure>
+<figure><img src=".gitbook/assets/NeverlandKiz Flow.drawio.png" alt=""><figcaption><p>Diagram draw.io</p></figcaption></figure>
 
-{% file src=".gitbook/assets/NeverlandKiz Flow.drawio" %}
+{% file src=".gitbook/assets/NeverlandKiz Flow (1).drawio" %}
 File Draw.io
 {% endfile %}
 
-{% file src=".gitbook/assets/NeverlandKiz Flow.pdf" %}
+{% file src=".gitbook/assets/NeverlandKiz Flow (1).pdf" %}
 PDF draw.io
 {% endfile %}
 

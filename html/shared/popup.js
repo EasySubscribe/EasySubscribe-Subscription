@@ -96,7 +96,7 @@ function simpleDialog(title, subtitle) {
     },
     buttonsStyling: true,
   });
-  swalWithBootstrapButtons.fire({
+  return swalWithBootstrapButtons.fire({
     title: title,
     text: subtitle,
     icon: "success",

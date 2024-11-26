@@ -14,7 +14,7 @@ function getExpiredDate(element, fullDate, daysToRemove = 0) {
 
   if (meta) {
     let monthsToAdd = parseInt(element.product.metadata.durata_minima, 10); // Assicurati che sia un numero
-    if (monthsToAdd) {
+    if (monthsToAdd != undefined || monthsToAdd != null) {
       const createdDate = new Date(element.subscriptions.created * 1000); // Timestamp in secondi
       const expirationDate = new Date(createdDate); // Crea una copia separata
 

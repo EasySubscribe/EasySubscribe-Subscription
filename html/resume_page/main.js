@@ -72,7 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <p>Attivo dal: ${formatDateIntl(
           new Date(element.subscriptions.created * 1000).toLocaleDateString()
         )} <br />${
-                getExpiredDate(element, false)
+                getExpiredDate(element, false) !=
+                new Date(
+                  element.subscriptions.created * 1000
+                ).toLocaleDateString()
                   ? "Si rinnova il: " +
                     formatDateIntl(getExpiredDate(element, false))
                   : ""
@@ -98,7 +101,9 @@ document.addEventListener("DOMContentLoaded", function () {
             class="btn btn-blue text-danger fw-bold mb-4 ms-3 me-3 cancel"
             target="_blank"
             data-expiration='${
-              getExpiredDate(element, true, 25) + ":" + element.subscriptions.id
+              getExpiredDate(element, true, 25) +
+              "::" +
+              element.subscriptions.id
             }'
           >
             Cancella Abbonamento
@@ -122,10 +127,10 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".cancel").forEach((button) => {
               const expirationDate = button
                 .getAttribute("data-expiration")
-                .split(":")[0];
+                .split("::")[0];
               const subscription_id = button
                 .getAttribute("data-expiration")
-                .split(":")[1];
+                .split("::")[1];
               button.addEventListener("click", () =>
                 confirmDialogSimple(
                   "Sicuro di voler disdire l'abbonamento?",
@@ -174,7 +179,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function cancelSubscription(expirationDate, subscriptionId) {
+function cancelSubscription(expirationDate, subscription_id) {
+  const loader = document.getElementById("loader");
   const today = new Date(); // Ottieni la data odierna
   const expDate = new Date(expirationDate); // Converti la data di scadenza in oggetto Date
 
@@ -198,17 +204,18 @@ function cancelSubscription(expirationDate, subscriptionId) {
       `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@neverlandkiz.it'>info@neverlandkiz.it</a>.</p>`
     );
   }
-
+  loader.style.display = "flex";
   // Qui aggiungi la chiamata all'API per cancellare la sottoscrizione
   fetch(`cancel-subscription.php`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ subscriptionId }),
+    body: JSON.stringify({ subscription_id }),
   })
     .then((response) => response.json())
     .then((data) => {
+      loader.style.display = "none";
       if (data.error) {
         return errorDialog(
           "Errore",
@@ -218,9 +225,12 @@ function cancelSubscription(expirationDate, subscriptionId) {
       return simpleDialog(
         "Operazione Eseguita!",
         "Il tuo abbonamento è stato disdetto con successo."
-      );
+      ).then((result) => {
+        if (result.isConfirmed) window.location.reload();
+      });
     })
     .catch((error) => {
+      loader.style.display = "none";
       console.error("Errore durante la cancellazione:", error);
       return htmlDialog(
         "Errore",

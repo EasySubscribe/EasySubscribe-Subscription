@@ -130,7 +130,8 @@
                       <button
                         id="submitOrganizzationBtn"
                         type="submit"
-                        class="btn btn-blue fw-bold mt-3 mb-3 float-end w-150"
+                        class="btn btn-blue fw-bold mt-3 mb-3 float-end"
+                        style="width: 200px"
                         disabled
                       >
                         Sei un Organizzatore?

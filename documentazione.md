@@ -4,21 +4,21 @@ icon: file-doc
 
 # Documentazione
 
-## Flusso Completo
+## 1. Flusso Customer
 
 #### Diagramma di Flusso
 
-<figure><img src=".gitbook/assets/NeverlandKiz Flow.jpg" alt=""><figcaption><p>Diagram draw.io</p></figcaption></figure>
+<figure><img src=".gitbook/assets/NeverlandKiz Flow.drawio.png" alt=""><figcaption><p>Diagram draw.io</p></figcaption></figure>
 
-{% file src=".gitbook/assets/NeverlandKiz Flow.drawio" %}
+{% file src=".gitbook/assets/NeverlandKiz Flow (1).drawio" %}
 File Draw.io
 {% endfile %}
 
-{% file src=".gitbook/assets/NeverlandKiz Flow.pdf" %}
+{% file src=".gitbook/assets/NeverlandKiz Flow (1).pdf" %}
 PDF draw.io
 {% endfile %}
 
-## Accesso via Email - Sequence Diagram (Sezione 2 e 3)
+### Accesso via Email - Sequence Diagram (Sezione 2 e 3)
 
 <figure><img src=".gitbook/assets/Untitled (8).png" alt=""><figcaption><p>SequenceDiagram</p></figcaption></figure>
 
@@ -61,7 +61,7 @@ end
 ```
 {% endcode %}
 
-## Sottoscrizioni e Generazione QRCode - Sequence Diagram (Sezione 4)
+### Sottoscrizioni e Generazione QRCode - Sequence Diagram (Sezione 4)
 
 <figure><img src=".gitbook/assets/Accesso Portale (1).png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
 
@@ -149,7 +149,7 @@ Utilizzo di librerie JavaScript per generare QR code direttamente nel browser. E
 
 ***
 
-## Verifica QRCode per accesso
+### Verifica QRCode per accesso
 
 ### Scansione QRCode
 
@@ -204,7 +204,7 @@ end
 
 Se tutte queste condizioni sono soddisfatte, allora l'utente dovrebbe essere autorizzato a partecipare all'evento.
 
-## Cancellazione Sottoscrizione
+### Cancellazione Sottoscrizione
 
 <figure><img src=".gitbook/assets/Untitled (10).png" alt=""><figcaption></figcaption></figure>
 
@@ -237,7 +237,7 @@ end
 ```
 {% endcode %}
 
-## Accedi al Billing
+### Accedi al Billing
 
 <figure><img src=".gitbook/assets/Accedi al Billing.png" alt=""><figcaption><p>Sequence Diagram Accedi al Billing</p></figcaption></figure>
 
@@ -261,7 +261,7 @@ else Sottoscrizione non attiva
 
 
 
-## Contattami (Sezione 5)
+### Contattami (Sezione 5)
 
 <figure><img src=".gitbook/assets/Untitled (9).png" alt=""><figcaption><p>Contattami SequenceDiagram</p></figcaption></figure>
 
@@ -289,3 +289,119 @@ end
 
 ```
 {% endcode %}
+
+***
+
+## 2. Flusso Collaboratori
+
+{% code overflow="wrap" %}
+```mermaid
+title Flusso Accesso Collaboratore e Recupero Sottoscrizioni
+
+actor Collaboratore #e6f1f1
+participant NeverlandKiz #e6f1f1
+participant Stripe #e6f1f1
+participant SMTP #e6f1f1
+
+Collaboratore->NeverlandKiz: Inserisce l'email
+NeverlandKiz->Stripe: GET /v1/products (expand metadata)
+note right of NeverlandKiz #FFBF65: Recupero lista prodotti con metadati\nVerifica campo `email_organizzatori`.
+
+group #2f2e7b if #white [Corrispondenza trovata]
+    NeverlandKiz->NeverlandKiz: Filtra i prodotti per email corrispondente.
+    NeverlandKiz->NeverlandKiz: Genera stringa Base64 con gli ID dei prodotti.
+    NeverlandKiz->SMTP: Invia email con link per accesso.
+    SMTP-->Collaboratore: Email ricevuta con link di accesso.
+end
+
+group #red Nessuna corrispondenza
+    NeverlandKiz--#red>Collaboratore: Mostra errore "Nessun prodotto associato".
+end
+
+== Secondo Step: Accesso tramite link ==
+
+Collaboratore->NeverlandKiz: Clicca sul link ricevuto.
+NeverlandKiz->NeverlandKiz: Decodifica Base64 e ottiene gli ID dei prodotti.
+NeverlandKiz->Stripe: GET /v1/subscriptions/search?query=status:'active'
+note right of NeverlandKiz #FFBF65: Recupero sottoscrizioni attive\nGestione paginazione tramite `has_more`.
+
+Stripe-->NeverlandKiz: Ritorna lista sottoscrizioni.
+
+NeverlandKiz->NeverlandKiz: Filtra sottoscrizioni per gli ID dei prodotti.
+NeverlandKiz--#2f2e7b>Collaboratore: Mostra tabella con utenti attivi.
+
+```
+{% endcode %}
+
+### **Primo Step: Invio Email con Link Personalizzato**
+
+1. **Input del Collaboratore**:
+   * Il collaboratore inserisce la sua email nel form di accesso.
+2.  **Chiamata API per Ottenere i Prodotti**:
+
+    * Richiedi la lista dei prodotti da Stripe tramite l'endpoint `/v1/products`.
+    * Espandi i metadati per accedere al campo `email_organizzatori`.
+
+    ```bash
+    bashCopia codicecurl --location --request GET 'https://api.stripe.com/v1/products' \
+    --header 'Authorization: Bearer sk_test_xxx' \
+    --data-urlencode 'expand[]=data.metadata'
+    ```
+3. **Filtraggio per Email del Collaboratore**:
+   * Analizza il campo `email_organizzatori` nei metadati dei prodotti.
+   * Suddividi la stringa in una lista usando delimitatori come `,`, `;` o spazi.
+   * Verifica se l'email del collaboratore è presente nella lista.
+4. **Preparazione del Link di Accesso**:
+   * Se l'email corrisponde, prendi gli ID dei prodotti associati e concatenali in una stringa separata da virgole.
+   *   Convertila in Base64 per creare il link sicuro:
+
+       ```javascript
+       javascriptCopia codiceconst productIds = ["prod_123", "prod_456"];
+       const base64Products = btoa(productIds.join(","));
+       const accessLink = `https://example.com/access?products=${base64Products}`;
+       ```
+5. **Invio Email al Collaboratore**:
+   * Invia un’email al collaboratore contenente il link di accesso.
+
+***
+
+### **Secondo Step: Accesso e Recupero Dati**
+
+1. **Decodifica dell’URL**:
+   * L’URL ricevuto contiene la stringa Base64 dei product IDs.
+   *   Decodificala per ottenere la lista di prodotti.
+
+       ```javascript
+       javascriptCopia codiceconst urlParams = new URLSearchParams(window.location.search);
+       const productsBase64 = urlParams.get("products");
+       const productIds = atob(productsBase64).split(",");
+       ```
+2.  **Chiamata API per Sottoscrizioni Attive**:
+
+    * Richiedi tutte le sottoscrizioni attive con il parametro di ricerca `status:'active'`.
+    * Usa il ciclo per gestire il `has_more` fino a ottenere tutti i risultati.
+
+    **Curl iniziale**:
+
+    ```bash
+    bashCopia codicecurl --location --globoff --request GET 'https://api.stripe.com/v1/subscriptions/search?expand[]=total_count&limit=100' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --header 'Authorization: Bearer sk_test_xxx' \
+    --data-urlencode 'query=status:'\''active'\'''
+    ```
+
+    **Gestione `has_more`**: In ogni risposta di Stripe, se `has_more` è `true`, usa il valore `next_page` per continuare il recupero:
+
+    ```bash
+    bashCopia codicecurl --location --globoff --request GET 'https://api.stripe.com/v1/subscriptions/search?expand[]=total_count&limit=100&starting_after=NEXT_PAGE_TOKEN' \
+    --header 'Authorization: Bearer sk_test_xxx'
+    ```
+3. **Filtraggio per Prodotti Specifici**:
+   * Filtra la lista di sottoscrizioni restituite per identificare quelle che includono gli `id` dei prodotti decodificati dall’URL.
+   * Per ogni sottoscrizione, verifica gli item associati per matchare con i `product.id`.
+4. **Preparazione della Risposta**:
+   * Raccogli i dati rilevanti per il collaboratore, ad esempio:
+     * Nome e email del cliente (`subscription.customer`).
+     * Dettagli del prodotto (`subscription.items.data.price.product`).
+5. **Restituzione della Lista**:
+   * Mostra i dati finali in una tabella o un’interfaccia frontend leggibile per il collaboratore.

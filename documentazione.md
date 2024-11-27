@@ -294,6 +294,8 @@ end
 
 ## 2. Flusso Collaboratori
 
+<figure><img src=".gitbook/assets/Flusso Collaboratori.png" alt=""><figcaption><p>Sequence Diagram</p></figcaption></figure>
+
 {% code overflow="wrap" %}
 ```mermaid
 title Flusso Accesso Collaboratore e Recupero Sottoscrizioni
@@ -304,8 +306,8 @@ participant Stripe #e6f1f1
 participant SMTP #e6f1f1
 
 Collaboratore->NeverlandKiz: Inserisce l'email
-NeverlandKiz->Stripe: GET /v1/products (expand metadata)
-note right of NeverlandKiz #FFBF65: Recupero lista prodotti con metadati\nVerifica campo `email_organizzatori`.
+NeverlandKiz->Stripe:GET /v1/products/search (expand metadata)
+note right of NeverlandKiz #FFBF65:--curl location request GET 'https://api.stripe.com/v1/products/search?expand[]=total_count&limit=100'\nheader 'Content-Type: application/x-www-form-urlencoded'\nheader 'Authorization: Bearer ******'\ndata-urlencode 'query=active:'\''true'\'' AND -metadata['\''email_organizzatori'\'']:'\''null'\'''
 
 group #2f2e7b if #white [Corrispondenza trovata]
     NeverlandKiz->NeverlandKiz: Filtra i prodotti per email corrispondente.
@@ -322,10 +324,12 @@ end
 
 Collaboratore->NeverlandKiz: Clicca sul link ricevuto.
 NeverlandKiz->NeverlandKiz: Decodifica Base64 e ottiene gli ID dei prodotti.
+loop #2f2e7b #white se has_more è true
 NeverlandKiz->Stripe: GET /v1/subscriptions/search?query=status:'active'
-note right of NeverlandKiz #FFBF65: Recupero sottoscrizioni attive\nGestione paginazione tramite `has_more`.
+note right of NeverlandKiz #FFBF65:--curl location request GET 'https://api.stripe.com/v1/subscriptions/search?expand[]=total_count&limit=100'\nheader 'Content-Type: application/x-www-form-urlencoded'\nheader 'Authorization: Bearer ******' \ndata-urlencode 'query=status:'\''active'\'''
 
 Stripe-->NeverlandKiz: Ritorna lista sottoscrizioni.
+end
 
 NeverlandKiz->NeverlandKiz: Filtra sottoscrizioni per gli ID dei prodotti.
 NeverlandKiz--#2f2e7b>Collaboratore: Mostra tabella con utenti attivi.

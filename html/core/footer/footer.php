@@ -25,12 +25,15 @@
         </div>
       </div>
       <div class="col-lg-4 col-md-6">
-        <h5 class="text-uppercase">Contattaci</h5>
-        <p>Email: 
-          <a class="text-white" href="mailto:info@neverlandkiz.it"
-          >info@neverlandkiz.it</a
-        ></br>Telefono: +39 377 083 9135</p>
+          <h5 class="text-uppercase">Contattaci</h5>
+          <p class="text-white">
+              Email: 
+              <a class="text-white" href="mailto:info@neverlandkiz.it">info@neverlandkiz.it</a><br>
+              Telefono: 
+              <a class="text-white" href="tel:+393770839135">+39 377 083 9135</a>
+          </p>
       </div>
+
     </div>
   </div>
   <div

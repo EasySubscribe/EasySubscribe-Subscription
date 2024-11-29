@@ -82,3 +82,9 @@ footer {
   background-color: #3b5998;
   color: white;
 }
+
+/* Stile per i link dei numeri di telefono */
+a[href^="tel"] {
+  color: white !important;
+  /* text-decoration: none;  Rimuove la sottolineatura */
+}

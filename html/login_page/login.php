@@ -48,9 +48,12 @@ try {
     // Esegui la ricerca dei clienti in Stripe
     $customers = $stripe->customers->search([
         'query' => 'email:"' . $email . '"',
+        'expand' => ['total_count'],
+        'limit' => 100
     ]);
 
     // Logga la risposta della richiesta
+    $log->info('Totale clienti', ['total_count' => $customers->total_count]);
     $log->info('Risultato della ricerca clienti', ['response' => $customers]);
 
     // Verifica se esistono risultati

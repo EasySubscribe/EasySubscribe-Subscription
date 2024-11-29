@@ -67,7 +67,8 @@ try {
         $subscriptions = $stripe->subscriptions->all([
             'customer' => $customer_id,
             'expand' => ['data.customer'],
-            'status' => 'active'
+            'status' => 'active',
+            'limit' => 100
         ]);
 
         foreach ($subscriptions->data as $subscription) {

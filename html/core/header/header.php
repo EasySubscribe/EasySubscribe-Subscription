@@ -28,7 +28,7 @@
             <a
               class="nav-link active fw-bold"
               aria-current="page"
-              href="https://www.neverlandkiz.it/termini-di-servizio/"
+              href="../policy/index.php"
               >Termini e Condizioni</a
             >
           </li>

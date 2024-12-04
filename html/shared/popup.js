@@ -167,3 +167,26 @@ function htmlDialog(title, subtitle, icon, html) {
     reverseButtons: false,
   });
 }
+
+function toastMessage(icon, message) {
+  const Toast = Swal.mixin({
+    customClass: {
+      popup: "border_round",
+    },
+    toast: true,
+    position: "top-end",
+    //color: this.TEXT_COLOR,
+    background: "#e6f1f1",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  Toast.fire({
+    icon: icon,
+    title: message,
+  });
+}

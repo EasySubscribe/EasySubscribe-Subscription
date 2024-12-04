@@ -185,5 +185,11 @@ body {
   transform-style: preserve-3d;
   transition: transform 0.6s;
   background: var(--card-color) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ombra leggera */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* transizioni fluide */
 }
 /** END Card */
+
+.color-header {
+  color: var(--header-color);
+}

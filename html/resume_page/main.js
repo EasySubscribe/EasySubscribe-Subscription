@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   let data = urlParams.get("data");
 
-  if (data) localStorage.setItem("data", data);
-  else data = localStorage.getItem("data");
+  if (data) localStorage.setItem("_user_data", data);
+  else data = localStorage.getItem("_user_data");
 
   if (data) {
     // Decodifica il dato da base64
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
               const subProdText = JSON.stringify(subProd);
               //const subProdText = subProd.subscription_id;
               const htmlText = `<div class="col-12 col-md-4 mt-3 fade-in">
-      <div class="card text-center" id="card">
+      <div class="card text-center zoom" id="card">
         <img
           style="border-radius: 7px;"
           class="mx-auto m-3 mt-4"
@@ -84,14 +84,14 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="text-center" style="display: block;">
           <a
             type="button"
-            class="btn btn-blue fw-bold mb-2 ms-3 me-3 billing d-inline"
+            class="btn btn-blue fw-bold mb-2 ms-3 me-3 billing"
             target="_blank"
             data-customer-id='${element.subscriptions.customer.id}'
             >Gestisci Pagamento</a
           >
           <a
             type="button"
-            class="btn btn-blue fw-bold mb-2 ms-3 me-3 qrCode d-inline"
+            class="btn btn-blue fw-bold mb-2 ms-3 me-3 qrCode"
             target="_blank"
             data-product-name='${subProdText}'
             >Ottieni il QRCode</a
@@ -155,7 +155,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const resumeTitle = document.getElementById("resume-title");
-        resumeTitle.textContent = "Benvenuto " + customer_name;
+        resumeTitle.innerHTML =
+          '<h1>Benvenuto <span class="color-header">' +
+          customer_name +
+          "</span></h1>";
+        // resumeTitle.textContent = "Benvenuto " + customer_name;
         loader.style.display = "none";
       })
       .catch((error) => {
@@ -188,11 +192,13 @@ function cancelSubscription(expirationDate, subscription_id) {
   if (!isNaN(expDate.getTime())) {
     // Verifica se la data di scadenza è futura rispetto ad oggi
     if (expDate > today) {
-      return errorDialog(
+      return htmlDialog(
         "Errore",
-        `Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la policy sulla cancellazione. L'abbonamento potrà essere cancellato dal giorno ${formatDateIntl(
+        null,
+        "error",
+        `<p>Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la <a href='../policy/index.php'>policy sulla cancellazione.</a> L'abbonamento potrà essere cancellato dal giorno ${formatDateIntl(
           expDate.toLocaleDateString()
-        )}.`
+        )}.</p>`
       );
     }
   } else {

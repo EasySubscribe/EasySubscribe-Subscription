@@ -72,9 +72,9 @@ try {
         ]);
         $log->info('SESSION_ID salvato su Stripe', ['session_id' => $sessionId, 'email' => $email]);
 
-        $resetUrl = $redirect_url . '/html/manager/index.php?data=' . base64_encode("$productIdsString:$sessionId");
+        $resetUrl = $redirect_url . '/html/manager/index.php?data=' . base64_encode("$productIdsString:$sessionId:$email");
 
-        $templatePath = __DIR__ . '/../../html/email/index.html';
+        $templatePath = __DIR__ . '/../../html/email/index.organization.html';
         $emailBody = file_exists($templatePath) ? file_get_contents($templatePath) : '';
         $emailBody = str_replace('{{RESET_URL}}', $resetUrl, $emailBody);
 

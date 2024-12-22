@@ -1,0 +1,92 @@
+.container {
+  perspective: 1200px;
+}
+
+/** Buttons */
+#login-btn {
+  margin: 50px;
+  max-width: fit-content;
+}
+
+.select,
+#locale {
+  width: 100%;
+}
+.like {
+  margin-right: 10px;
+}
+
+/* Animazione della card-body */
+#card .card-body {
+  text-align: center; /* allineamento al centro */
+  opacity: 0; /* parte invisibile */
+}
+
+/* Icona con animazione */
+#card .fa-person {
+  color: #007bff; /* colore blu per l'icona */
+}
+
+/* Stile del numero */
+#active-count {
+  font-size: 4rem; /* grandezza numero */
+  font-weight: bold; /* numero in grassetto */
+  color: #28a745; /* verde per il numero */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* ombra leggera per il numero */
+  transition: transform 0.3s ease-in-out; /* animazione per il numero */
+}
+
+/* Hover effect sul numero */
+#active-count:hover {
+  transform: scale(1.1); /* ingrandisce il numero al passaggio del mouse */
+}
+
+/* Titolo */
+.card-title {
+  font-size: 1.5rem; /* dimensione del titolo */
+  font-weight: 500; /* peso medio del font */
+  margin-bottom: 20px;
+}
+
+/* Descrizione */
+.card-text {
+  font-size: 1rem; /* dimensione del testo descrittivo */
+  color: #6c757d; /* colore grigio per il testo */
+}
+
+/* Stile del bordo della card quando è hoverata */
+#card:hover {
+  border: 2px solid #28a745; /* bordo verde */
+}
+
+/* Icona con animazione */
+#card .fa-coins {
+  color: #ffc107; /* colore giallo per l'icona */
+}
+
+/* Stile del numero */
+#profit-amount {
+  font-size: 4rem; /* grandezza numero */
+  font-weight: bold; /* numero in grassetto */
+  color: #28a745; /* verde per il numero */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* ombra leggera per il numero */
+  transition: transform 0.3s ease-in-out; /* animazione per il numero */
+}
+
+/* Hover effect sul numero */
+#profit-amount:hover {
+  transform: scale(1.1); /* ingrandisce il numero al passaggio del mouse */
+}
+
+/* Titolo */
+.card-title {
+  font-size: 1.5rem; /* dimensione del titolo */
+  font-weight: 500; /* peso medio del font */
+  margin-bottom: 20px;
+}
+
+/* Descrizione */
+.card-text {
+  font-size: 1rem; /* dimensione del testo descrittivo */
+  color: #6c757d; /* colore grigio per il testo */
+}

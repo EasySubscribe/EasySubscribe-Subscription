@@ -12,10 +12,9 @@
       content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
       name="viewport"
     />
-    <?php require __DIR__ . '/../../html/core/script/script.php'; ?>
-    <link rel="stylesheet" href="./style.css" />
-    <script src="./script.js"></script>
-    <script src="./main.js"></script>
+    <?php require __DIR__ . '/../inc/shared.php'; ?>
+    <link rel="stylesheet" href="../assets/css/contact-me.css" />
+    <script src="../assets/js/contact-me.js"></script>
     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
     <link
       rel="stylesheet"
@@ -24,7 +23,7 @@
     <title>Contact - NeverlandKiz</title>
   </head>
   <body>
-    <?php require __DIR__ . '/../../html/core/header/header.php'; ?>
+    <?php require __DIR__ . '/../inc/header.php'; ?>
 
     <div id="loader" class="loader">
       <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
@@ -87,6 +86,6 @@
         </div>
       </div>
     </div>
-    <?php require __DIR__ . '/../../html/core/footer/footer.php'; ?>
+    <?php require __DIR__ . '/../inc/footer.php'; ?>
   </body>
 </html>

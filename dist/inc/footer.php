@@ -1,7 +1,7 @@
 <?php
 /* Template Name: Footer */
 ?>
-<link rel="stylesheet" href="../core/footer/footer.css" />
+<link rel="stylesheet" href="/../dist/assets/css/footer.css" />
 
 <footer class="text-white text-center text-lg-start mt-5 fade-in">
   <div class="container p-4">

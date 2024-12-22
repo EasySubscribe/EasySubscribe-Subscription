@@ -1,8 +1,8 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
+require dirname(__DIR__, 3) . '/vendor/autoload.php';
 
 // Carica le variabili d'ambiente
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../'); // Cambia il percorso se necessario
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 3)); // Cambia il percorso se necessario
 $dotenv->load();
 
 // Accedi alle variabili d'ambiente
@@ -19,7 +19,7 @@ use Ramsey\Uuid\Uuid; // Assicurati di avere il pacchetto `ramsey/uuid` installa
 
 // Configura Monolog per il logging
 $log = new Logger('stripe');
-$log->pushHandler(new StreamHandler(__DIR__ . '/../../app.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler(dirname(__DIR__, 3) . '/app.log', Logger::DEBUG));
 
 header('Content-Type: application/json');
 
@@ -38,8 +38,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $log->info('Preparazione email da inviare al customer ' . $email . '.');
 
     // Carica il contenuto del file HTML
-    $templatePath = __DIR__ . '/../../html/email/index.contact.html';
-    $templatePathInfo = __DIR__ . '/../../html/email/index.contact.info.html';
+    $templatePath = __DIR__ . '/../../email-templates/email-contact-me.html';
+    $templatePathInfo = __DIR__ . '/../../email-templates/email-contact-info.html';
 
     if (!file_exists($templatePath)) {
         $log->error('File template per path '. $templatePath . ' non è stato trovato');
@@ -63,7 +63,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     sendEmail($log, 'Contattatami', $email, $emailBody, null);
     sendEmail($log,'Sei stato contattato', $email, $emailBodyInfo, null);
 
-    echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'email' => $emailAddress]);
+    echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'email' => $email]);
 
 function sendEmail($log, $emailSubject, $emailAddress, $emailBodyToSend, $emailAdmin){
     $smtpHost = $_ENV['SMTP_HOST'];

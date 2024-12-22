@@ -1,11 +1,11 @@
 <?php
 /* Template Name: Header */
 ?>
-<link rel="stylesheet" href="../core/header/header.css" />
+<link rel="stylesheet" href="/../dist/assets/css/header.css" />
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
-      <a href="../login_page/index.php" class="navbar-brand ms-2 slide-in-left"
+      <a href="/../dist/index.php" class="navbar-brand ms-2 slide-in-left"
         ><img
           src="https://www.neverlandkiz.it/wp-content/uploads/2023/03/Neverland-Logo-e1684259928108-768x211.png"
           alt="Antonio Rausa"
@@ -28,7 +28,7 @@
             <a
               class="nav-link active fw-bold"
               aria-current="page"
-              href="../policy/index.php"
+              href="/../dist/templates/template-policy.php"
               >Termini e Condizioni</a
             >
           </li>
@@ -36,7 +36,7 @@
             <a
               class="nav-link active fw-bold"
               aria-current="page"
-              href="../read_qrcode/index.php"
+              href="/../dist/templates/template-read-qrcode.php"
               >Scansiona</a
             >
           </li>
@@ -44,12 +44,12 @@
             <a
               class="nav-link active fw-bold"
               aria-current="page"
-              href="../contact-me/index.php"
+              href="/../dist/templates/template-contact-me.php"
               >Contatti</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link active fw-bold" aria-current="page" href="../login_page/index.php"
+            <a class="nav-link active fw-bold" aria-current="page" href="/../dist/index.php"
               >Home</a
             >
           </li>

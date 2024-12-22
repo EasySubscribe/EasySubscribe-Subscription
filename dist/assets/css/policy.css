@@ -1,0 +1,13 @@
+.container {
+  perspective: 1200px;
+}
+
+/** Buttons */
+#login-btn {
+  margin: 50px;
+  max-width: fit-content;
+}
+
+.color-header {
+  color: var(--header-color);
+}

@@ -208,7 +208,7 @@ function cancelSubscription(expirationDate, subscription_id) {
       "Errore",
       null,
       "error",
-      `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@neverlandkiz.it'>info@neverlandkiz.it</a>.</p>`
+      `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
     );
   }
   loader.style.display = "flex";
@@ -243,7 +243,7 @@ function cancelSubscription(expirationDate, subscription_id) {
         "Errore",
         null,
         "error",
-        `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@neverlandkiz.it'>info@neverlandkiz.it</a>.</p>`
+        `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
       );
     });
 }
@@ -410,7 +410,7 @@ function downloadProductPDF(product) {
 
         // Aggiungi il footer in basso a destra
         const footerText =
-          "Per informazioni contattaci su https://www.neverlandkiz.it";
+          "Per informazioni contattaci su https://www.easysubscribe.it";
         pdf.setFontSize(8);
         pdf.text(footerText, 10, pdf.internal.pageSize.height - 10);
 

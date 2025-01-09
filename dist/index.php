@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="googlebot" content="noindex, nofollow, noarchive" />
 
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="https://www.easysubscribe.it/wp-content/uploads/2025/01/easy.png" />
     <meta
       content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
       name="viewport"
@@ -20,7 +20,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <title>Login - NeverlandKiz</title>
+    <title>Login - EasySubscribe</title>
   </head>
   <body>
     <?php require __DIR__ . '/inc/header.php'; ?>
@@ -35,8 +35,9 @@
     <div class="content">
       <section id="login-btn" class="mx-auto">
         <div class="row">
-          <div class="col-12 fade-in">
-            <h1>Welcome to NeverlandKiz</h1>
+          <div class="col-12 fade-in" style="margin-bottom: -30px">
+            <h1>Welcome to <span class="color-header">EasySubscribe</span></h1>
+            <span class="line d-flex mx-auto"></span>
           </div>
         </div>
         <div class="col-12 text-center mt-2 hidden_desktop">

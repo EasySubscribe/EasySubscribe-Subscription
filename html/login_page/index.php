@@ -72,11 +72,12 @@
                 </div>
               </div>
               <div class="col-12 col-md-10">
-                <stripe-pricing-table
-                  pricing-table-id="prctbl_1QCmSdRun27ngB3Ya01NPXNY"
-                  publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN"
-                >
-                </stripe-pricing-table>
+              <stripe-pricing-table pricing-table-id="prctbl_1QO5F5Run27ngB3YRsFdHCSS"
+                publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN">
+              </stripe-pricing-table>
+              <stripe-pricing-table pricing-table-id="prctbl_1QCmSdRun27ngB3Ya01NPXNY"
+                publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN">
+              </stripe-pricing-table>
               </div>
             </div>
           </div>

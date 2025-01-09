@@ -83,7 +83,7 @@ function sendEmail($log, $emailSubject, $emailAddress, $emailBodyToSend, $emailA
         $mail->Port       = $smtpPort;
 
         // Impostazioni destinatario e mittente
-        $mail->setFrom($smtpUsername, 'NeverlandKiz');
+        $mail->setFrom($smtpUsername, 'EasySubscribe');
         $mail->addAddress($emailAdmin ?? $emailAddress);
 
         // Contenuto dell'email

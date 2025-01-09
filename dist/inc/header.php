@@ -7,7 +7,7 @@
     <div class="container-fluid">
       <a href="/../dist/index.php" class="navbar-brand ms-2 slide-in-left"
         ><img
-          src="https://www.neverlandkiz.it/wp-content/uploads/2023/03/Neverland-Logo-e1684259928108-768x211.png"
+          src="/../dist/assets/images/easy.png"
           alt="Antonio Rausa"
           style="max-height: 50px"
       /></a>

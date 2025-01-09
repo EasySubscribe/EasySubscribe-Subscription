@@ -9,8 +9,8 @@
       <div class="col-lg-4 col-md-12" id="footer-logo-col">
         <img
           class="footer-logo"
-          src="https://www.neverlandkiz.it/wp-content/uploads/2023/03/Neverland-Logo-e1684259928108-768x211.png"
-          alt="Antonio Rausa"
+          src="/../dist/assets/images/easy.png"
+          alt="EasySubscribe"
         />
       </div>
       <div class="col-lg-4 col-md-6" id="footer-follow-col">
@@ -28,7 +28,7 @@
           <h5 class="text-uppercase">Contattaci</h5>
           <p class="text-white">
               Email: 
-              <a class="text-white" href="mailto:info@neverlandkiz.it">info@neverlandkiz.it</a><br>
+              <a class="text-white" href="mailto:info@easysubscribe.it">info@easysubscribe.it</a><br>
               Telefono: 
               <a class="text-white" href="tel:+393770839135">+39 377 083 9135</a>
           </p>
@@ -40,7 +40,7 @@
     class="text-center p-3"
     style="background-color: rgba(255, 255, 255, 0.1)"
   >
-    © 2024 Copyright:
-    <a class="text-white" href="#">NeverlandKiz</a>
+    © 2025 Copyright:
+    <a class="text-white" href="#">EasySubscribe</a>
   </div>
 </footer>

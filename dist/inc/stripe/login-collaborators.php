@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 use Ramsey\Uuid\Uuid;
 
 // Carica le variabili d'ambiente
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 3)); // Cambia il percorso se necessario
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 3));
 $dotenv->load();
 
 $stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'];
@@ -51,7 +51,25 @@ try {
     $matchingProducts = [];
     foreach ($products->data as $product) {
         $organizers = $product->metadata['email_organizzatori'] ?? '';
-        $emailsArray = preg_split('/[,\s;]+/', $organizers);
+
+        // Prova a interpretare il nuovo formato JSON
+        try {
+            $organizerData = json_decode($organizers, true);
+
+            if (json_last_error() === JSON_ERROR_NONE && is_array($organizerData)) {
+                $emailsArray = array_map(fn($entry) => $entry['email'] ?? '', $organizerData);
+                $log->info('Email Organizzatori (nuovo formato)', ['email' => $emailsArray]);
+            } else {
+                throw new Exception('Formato JSON non valido');
+            }
+        } catch (Exception $e) {
+            $log->error('Errore nel parsing del JSON in email_organizzatori: ' . $e->getMessage(), ['data' => $organizers]);
+
+            // Fallback al vecchio formato
+            $emailsArray = preg_split('/[,\s;]+/', $organizers);
+            $log->info('Email Organizzatori (vecchio formato)', ['email' => $emailsArray]);
+        }
+
         if (in_array($email, $emailsArray)) {
             $matchingProducts[] = $product->id;
         }
@@ -72,9 +90,10 @@ try {
         ]);
         $log->info('SESSION_ID salvato su Stripe', ['session_id' => $sessionId, 'email' => $email]);
 
-        $resetUrl = $redirect_url . '/html/manager/index.php?data=' . base64_encode("$productIdsString:$sessionId:$email");
+        $resetUrl = $redirect_url . '/dist/templates/template-manager.php?data=' . base64_encode("$productIdsString:$sessionId:$email");
+        $log->info('Reset URL is '. $resetUrl);
 
-        $templatePath = __DIR__ . '/../../dist/email-templates/email-collaborators.html';
+        $templatePath = __DIR__ . '/../../email-templates/email-collaborators.html';
         $emailBody = file_exists($templatePath) ? file_get_contents($templatePath) : '';
         $emailBody = str_replace('{{RESET_URL}}', $resetUrl, $emailBody);
 
@@ -88,7 +107,7 @@ try {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = $smtpPort;
 
-            $mail->setFrom($smtpUsername, 'NeverlandKiz');
+            $mail->setFrom($smtpUsername, 'EasySubscribe');
             $mail->addAddress($email);
 
             $mail->isHTML(true);

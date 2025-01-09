@@ -22,7 +22,8 @@
     <script src="https://unpkg.com/html5-qrcode"></script>
     <!-- loading ZXingBrowser via UNPKG -->
     <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
-    <title>Lettura Biglietti - NeverlandKiz</title>
+    <link rel="shortcut icon" href="https://www.easysubscribe.it/wp-content/uploads/2025/01/easy.png" />
+    <title>Lettura Biglietti - EasySubscribe</title>
   </head>
   <body>
   <?php require __DIR__ . '/../inc/header.php'; ?>
@@ -35,9 +36,12 @@
     </div>
 
     <div class="content mx-auto">
-      <h1 class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">
-        Scansiona QRCode
-      </h1>
+      <div class="col-12 fade-in" style="margin-bottom: -30px">
+        <h1 class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">
+          Scansiona <span class="color-header">QRCode</span>
+        </h1>
+        <span class="line d-flex mx-auto"></span>
+      </div>
       <div class="card text-center fade-in" id="card">
         <!--<video id="reader" class="mx-auto" style="display: none; border-radius: 20px; height: auto; width: auto; max-height: 300px; max-width: 300px"></video>-->
         <video id="reader" style="display: none;" class="mx-auto"></video>

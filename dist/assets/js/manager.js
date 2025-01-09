@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cleanUrl = window.location.origin + window.location.pathname;
     window.history.replaceState(null, "", cleanUrl);
 
-    fetch("manager.php", {
+    fetch("/dist/inc/stripe/manager.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

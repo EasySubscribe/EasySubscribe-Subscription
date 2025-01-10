@@ -113,3 +113,11 @@
   transform: translateY(-10px); /* solleva la card */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* ombra più forte */
 }
+
+.zoom_simple {
+  transition: transform 0.3s ease; /* transizioni fluide */
+}
+
+.zoom_simple:hover {
+  transform: scale(1.1); /* ingrandisce il numero al passaggio del mouse */
+}

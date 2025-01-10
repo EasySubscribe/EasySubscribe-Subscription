@@ -10,6 +10,7 @@
           src="/../dist/assets/images/easy.png"
           alt="Antonio Rausa"
           style="max-height: 50px"
+          class="zoom_simple"
       /></a>
       <button
         class="navbar-toggler"

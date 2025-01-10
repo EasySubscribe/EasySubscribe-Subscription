@@ -16,10 +16,10 @@
       <div class="col-lg-4 col-md-6" id="footer-follow-col">
         <h5 class="text-uppercase">Follow Us</h5>
         <div class="social">
-          <a href="https://www.facebook.com/" target="_blank" class="link facebook" target="_parent">
+          <a href="https://www.facebook.com/share/15ZaQKxccb/?mibextid=wwXIfr" target="_blank" class="link facebook" target="_parent">
             <span class="fab fa-facebook"></span>
           </a>
-          <a href="https://www.instagram.com/" target="_blank" class="link instagram" target="_parent">
+          <a href="https://www.instagram.com/easy_subscribe_kizz" target="_blank" class="link instagram" target="_parent">
             <span class="fab fa-instagram"></span>
           </a>
         </div>

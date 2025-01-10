@@ -35,9 +35,12 @@
     <div class="content">
       <section id="login-btn" class="mx-auto">
         <div class="row">
-          <div class="col-12 fade-in" style="margin-bottom: -30px">
+          <div class="col-12 fade-in hidden_mobile" style="margin-bottom: -30px">
             <h1>Welcome to <span class="color-header">EasySubscribe</span></h1>
             <span class="line d-flex mx-auto"></span>
+          </div>
+          <div class="col-12 fade-in hidden_desktop">
+            <h1>Welcome to <span class="color-header">EasySubscribe</span></h1>
           </div>
         </div>
         <div class="col-12 text-center mt-2 hidden_desktop">

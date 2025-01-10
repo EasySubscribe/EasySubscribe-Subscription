@@ -64,6 +64,9 @@
   height: 150%; /* Imposta l'altezza per renderla più lunga */
 }
 
+@media (max-width: 1400px) {
+}
+
 @media (max-width: 768px) {
   /* Nasconde la linea su dispositivi mobili */
   .separator::before {
@@ -96,3 +99,7 @@
   box-shadow: 0 0 0 0.2rem rgba(208, 230, 230, 0.5) !important; /* Ombra con il colore del bordo */
 }
 /** END Inputs */
+
+.PriceColumn {
+  max-width: 200px !important;
+}

@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
           errorDialog("Errore", "Errore nella richiesta: " + data.message);
         } else {
           if (data.data && data.data.length > 0) {
-            renderTable(data.data);
+            renderTable(data.data, email);
           } else {
             errorDialog("Informazione", "Nessuna sottoscrizione trovata.");
           }
@@ -59,8 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function renderTable(subscriptions) {
-    console.log(subscriptions);
+  function renderTable(subscriptions, email) {
     const tableContainer = document.getElementById("subscription-container");
     let tableHTML = `
       <table id="example1" class="display fade-in" data-page-length='10'>
@@ -74,21 +73,42 @@ document.addEventListener("DOMContentLoaded", function () {
         </thead>
         <tbody>`;
 
+    let total_earn = 0.0;
+
     subscriptions.forEach((item) => {
-      console.log(item);
+      // Parse dei metadata come JSON (se esiste il campo email_organizzatori)
+      const emailOrganizzatori = JSON.parse(
+        item.product.metadata.email_organizzatori || "[]"
+      );
+
+      // Filtra gli oggetti che contengono la specifica email
+      const filteredEmail = emailOrganizzatori.filter(
+        (or) => or.email === email
+      );
+
+      // Somma gli amount degli oggetti filtrati
+      filteredEmail.forEach((or) => {
+        total_earn += or.amount;
+      });
+
+      total_earn = Math.round(total_earn * 100) / 100;
+
+      // Generazione della tabella HTML
       tableHTML += `
-            <tr>
-              <td class="copy-data" data-copy='${
-                item.subscription.customer.name
-              }'>${item.subscription.customer.name}</td>
-              <td class="copy-data" data-copy='${
-                item.subscription.customer.email
-              }'>${item.subscription.customer.email}</td>
-              <td>${item.product.name}</td>
-              <td class="text-end">${formatDateIntl(
-                new Date(item.subscription.created * 1000).toLocaleDateString()
-              )}</td>
-            </tr>`;
+                <tr>
+                  <td class="copy-data" data-copy='${
+                    item.subscription.customer.name
+                  }'>${item.subscription.customer.name}</td>
+                  <td class="copy-data" data-copy='${
+                    item.subscription.customer.email
+                  }'>${item.subscription.customer.email}</td>
+                  <td>${item.product.name}</td>
+                  <td class="text-end">${formatDateIntl(
+                    new Date(
+                      item.subscription.created * 1000
+                    ).toLocaleDateString()
+                  )}</td>
+                </tr>`;
     });
 
     tableHTML += `
@@ -101,17 +121,38 @@ document.addEventListener("DOMContentLoaded", function () {
     clienti_totali.textContent = subscriptions.length;
 
     const profit_amount = document.getElementById("profit-amount");
-    profit_amount.textContent = "€ 0.00";
+    profit_amount.textContent = "€ " + total_earn;
 
     document.querySelectorAll(".copy-data").forEach((button) => {
       const productName = button.getAttribute("data-copy");
-      console.log(productName);
       button.addEventListener("click", () => copyName(productName));
     });
 
     // Inizializza la tabella DataTable dopo aver inserito il codice HTML
     new DataTable("#example1", {
       responsive: true,
+      lengthMenu: [10, 15, 25, 50, 100], // Opzioni della select
+      //dom: '<"top"lfB>rt<"bottom"ip>', // Separazione logica degli elementi
+      layout: {
+        bottom: {
+          buttons: ["csv", "excel", "pdf"],
+          //buttons: ["csv", "excel", "pdf", "print"],
+        },
+      },
+      order: [], // Non specifica nessun ordinamento iniziale
+      paging: true,
+      searching: true,
+      ordering: true,
+      info: true,
+    });
+    // Seleziona tutti i bottoni generati da DataTables
+    const exportButtons = document.querySelectorAll(".dt-buttons button");
+
+    // Applica la classe Neverland a ciascun bottone
+    exportButtons.forEach((button) => {
+      button.style.width = "100px";
+      button.style.marginBottom = "10px";
+      button.classList.add("btn-blue"); // Aggiunge la classe 'btn-blue'
     });
   }
 

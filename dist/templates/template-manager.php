@@ -19,9 +19,19 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <!--<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.print.min.js"></script>
     <title>Manager - EasySubscribe</title>
   </head>
   <body>
@@ -49,7 +59,12 @@
             <div class="card ms-5 me-5 mb-5 zoom" id="card">
               <div class="card-body d-flex flex-column align-items-center justify-content-center fade-in">
                 <!-- Icona -->
-                <i class="fa-solid fa-person fa-3x mb-3 mt-2 text-primary bounce"></i>
+                <!--<i class="fa-solid fa-people fa-3x mb-3 mt-2 text-primary bounce"></i>-->
+                <div class="d-inline">
+                  <i class="fa-solid fa-person fa-3x mb-3 mt-2 text-primary bounce"></i>
+                  <i class="fa-solid fa-person-dress fa-3x mb-3 mt-2 text-primary bounce"></i>
+                </div>
+                
 
                 <!-- Titolo -->
                 <h5 class="card-title mb-3">Clienti Attivi</h5>

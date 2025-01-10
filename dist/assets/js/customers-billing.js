@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 product_name: element.product.name,
                 product_description: element.product.description,
                 product_image: element.product.images[0],
-                //product_image: "../core/img/logo.png",
+                //product_image: "../core/img/easy.png",
                 subscription_id: element.subscriptions.id,
                 customer_name: element.subscriptions.customer.name,
               };
@@ -322,7 +322,7 @@ function downloadProductPDF(product) {
 
       // Aggiungi il logo in alto a sinistra con larghezza maggiore
       const logo = new Image();
-      logo.src = "/../dist/assets/images/logo.png"; // Cambia con l'URL del tuo logo
+      logo.src = "/../dist/assets/images/easy.png"; // Cambia con l'URL del tuo logo
 
       logo.onerror = function () {
         console.error("Logo non trovato. Download interrotto.");

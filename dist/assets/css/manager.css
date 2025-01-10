@@ -27,6 +27,10 @@
   color: #007bff; /* colore blu per l'icona */
 }
 
+#card .fa-person-dress {
+  color: #ef6292 !important; /* colore blu per l'icona */
+}
+
 /* Stile del numero */
 #active-count {
   font-size: 4rem; /* grandezza numero */

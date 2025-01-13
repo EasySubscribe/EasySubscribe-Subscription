@@ -1,0 +1,18 @@
+/*
+Theme Name: EasySubscribe
+Theme URI: https://www.easysubscribe.it
+Author: Giovanni Lamarmora
+Author URI: https://giovannilamarmora.github.io
+Description: Tema Per www.easysubscribe.it
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: EasySubscribe
+*/
+:root {
+  --header-color: #084b83;
+  --body-color: #f0f6f6;
+  --card-color: #e6f1f1;
+  --btn-color: #d0e6e6;
+  --btn-touch-color: #cadfdf;
+}

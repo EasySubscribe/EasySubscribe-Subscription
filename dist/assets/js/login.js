@@ -1,5 +1,4 @@
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 document.addEventListener("DOMContentLoaded", function () {
   const loader = document.getElementById("loader");
   loader.style.visibility = "hidden";
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Bottone Email disabilitato
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const emailInput = document.getElementById("submitEmail");
   const submitButton = document.getElementById("submitEmailBtn");
   const submitOrganizzationBtn = document.getElementById(
@@ -62,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function handleSubmit(event) {
-  console.log(event, event.submitter);
   event.preventDefault();
   const emailInput = document.getElementById("submitEmail"); // Riferimento all'input
   const email = emailInput.value; // Ottieni il valore dell'input
@@ -72,10 +70,13 @@ async function handleSubmit(event) {
 
   const isValidEmail = emailRegex.test(email);
   const redirect_url = window.location.origin;
+  const apiUrl = getApiBaseUrl();
+
+  console.log("API URL:", apiUrl);
 
   if (isValidEmail && event.submitter.id === "submitEmailBtn") {
     try {
-      const response = await fetch("inc/stripe/login-customers.php", {
+      const response = await fetch(apiUrl + "login-customers.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, redirect_url }),
@@ -93,7 +94,7 @@ async function handleSubmit(event) {
     }
   } else if (isValidEmail && event.submitter.id === "submitOrganizzationBtn") {
     try {
-      const response = await fetch("inc/stripe/login-collaborators.php", {
+      const response = await fetch(apiUrl + "login-collaborators.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, redirect_url }),
@@ -113,7 +114,7 @@ async function handleSubmit(event) {
     loader.style.visibility = "hidden";
     errorDialog(
       "Email invalida",
-      "Inserisci un'indirizzo email valido per accedere"
+      "Inserisci un indirizzo email valido per accedere"
     );
   }
 

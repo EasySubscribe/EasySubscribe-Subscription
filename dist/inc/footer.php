@@ -1,7 +1,20 @@
 <?php
-/* Template Name: Footer */
+/**
+ * Footer Template for EasySubscribe
+ * Contains the footer content including logo, social media links, and contact information.
+ */
+
+// Verifica se siamo su WordPress
+if (defined('ABSPATH')) {
+    // Percorsi per WordPress (usa il tema attivo)
+    $base_url = get_template_directory_uri();
+} else {
+    // Percorsi per lo sviluppo locale
+    $base_url = '/../dist';  // Cambia con il percorso corretto per lo sviluppo locale
+}
 ?>
-<link rel="stylesheet" href="/../dist/assets/css/footer.css" />
+
+<link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/footer.css" />
 
 <footer class="text-white text-center text-lg-start mt-5 fade-in">
   <div class="container p-4">
@@ -9,7 +22,7 @@
       <div class="col-lg-4 col-md-12" id="footer-logo-col">
         <img
           class="footer-logo"
-          src="/../dist/assets/images/easy.png"
+          src="<?php echo $base_url; ?>/assets/images/easy.png"
           alt="EasySubscribe"
         />
       </div>

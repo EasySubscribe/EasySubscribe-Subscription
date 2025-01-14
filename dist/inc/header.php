@@ -12,6 +12,10 @@ if (defined('ABSPATH')) {
     $terms_and_condition = home_url('/terms-and-conditions/');
     $scan = home_url('/scan/');
     $contact = home_url('/contact-me/');
+    $terms_and_condition_text = __('terms_and_condition_text', 'easy_subscribe');
+    $scan_text = __('scan_text', 'easy_subscribe');
+    $contact_text = __('contact_text', 'easy_subscribe');
+    $home_text = __('home_text', 'easy_subscribe');
 } else {
     // Percorsi per lo sviluppo locale
     $base_url = '/../dist';  // Cambia con il percorso corretto per lo sviluppo locale
@@ -19,6 +23,10 @@ if (defined('ABSPATH')) {
     $terms_and_condition = '/../dist/templates/template-policy.php';
     $scan = '/../dist/templates/template-read-qrcode.php';
     $contact = '/../dist/templates/template-contact-me.php';
+    $terms_and_condition_text = 'Termini e Condizioni';
+    $scan_text = 'Scansiona';
+    $contact_text = 'Contattami';
+    $home_text = 'Home';
 }
 ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -66,16 +74,16 @@ if (defined('ABSPATH')) {
       <div class="collapse navbar-collapse slide-in-right" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active fw-bold" href="<?php echo $terms_and_condition; ?>">Termini e Condizioni</a>
+            <a class="nav-link active fw-bold" href="<?php echo $terms_and_condition; ?>"><?php echo $terms_and_condition_text; ?></a>
           </li>
           <li class="nav-item">
-              <a class="nav-link active fw-bold" href="<?php echo $scan; ?>">Scansiona</a>
+              <a class="nav-link active fw-bold" href="<?php echo $scan; ?>"><?php echo $scan_text; ?></a>
           </li>
           <li class="nav-item">
-              <a class="nav-link active fw-bold" href="<?php echo $contact; ?>">Contatti</a>
+              <a class="nav-link active fw-bold" href="<?php echo $contact; ?>"><?php echo $contact_text; ?></a>
           </li>
           <li class="nav-item">
-              <a class="nav-link active fw-bold" href="<?php echo $home_url; ?>">Home</a>
+              <a class="nav-link active fw-bold" href="<?php echo $home_url; ?>"><?php echo $home_text; ?></a>
           </li>
         </ul>
       </div>

@@ -11,9 +11,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
-# Italian Translation for EasySubscribe Theme
+# Login Page
 msgid "login_text"
-msgstr "Accedi"
+msgstr "Inserisci la tua email per visualizzare o scaricare il Pass."
 
 msgid "welcome_text"
 msgstr "Benvenuto su <span class=\"color-header\">EasySubscribe</span>"
@@ -27,8 +27,30 @@ msgstr "Inserisci la tua email per accedere al portale."
 msgid "access_button"
 msgstr "Accedi"
 
+msgid "back_button"
+msgstr "Indietro"
+
 msgid "organizer_button"
 msgstr "Sei un Organizzatore?"
 
 msgid "get_pass"
 msgstr "Ottieni il Pass"
+
+# Header & Footer
+msgid "terms_and_condition_text"
+msgstr "Termini e Condizioni"
+
+msgid "scan_text"
+msgstr "Scansiona"
+
+msgid "contact_text"
+msgstr "Contattaci"
+
+msgid "home_text"
+msgstr "Homepage"
+
+msgid "follow_text"
+msgstr "Seguici"
+
+msgid "phone_text"
+msgstr "Telefono: "

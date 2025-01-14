@@ -24,6 +24,7 @@ if (defined('ABSPATH')) {
   $access_button = __('access_button', 'easy_subscribe');
   $organizer_button = __('organizer_button', 'easy_subscribe');
   $get_pass = __('get_pass', 'easy_subscribe');
+  $back_button = __('back_button', 'easy_subscribe');
 } else {
   // Percorsi per lo sviluppo locale
   function __($string, $domain){
@@ -32,13 +33,14 @@ if (defined('ABSPATH')) {
   $base_url = '/../dist';
   $locale = 'it-IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
   $site_name = 'EasySubscribe'; // Nome del sito di fallback per PHP locale
-  $login_text = 'Login'; // Testo di fallback per PHP locale
+  $login_text = 'Inserisci la tua email per visualizzare o scaricare il Pass.'; // Testo di fallback per PHP locale
   $welcome_text = 'Welcome to <span class="color-header">EasySubscribe</span>';
   $email_placeholder = 'Email address';
   $email_help = 'Inserisci la tua email per accedere al portale.';
   $access_button = 'Accedi';
   $organizer_button = 'Sei un Organizzatore?';
   $get_pass = 'Ottieni il Pass';
+  $back_button = 'Back';
 }
 ?>
 <!DOCTYPE html>
@@ -55,7 +57,7 @@ if (defined('ABSPATH')) {
     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
-    <title><?php echo $login_text; ?> - <?php echo $site_name; ?></title>
+    <title><?php echo $access_button; ?> - <?php echo $site_name; ?></title>
   </head>
   <body>
     <?php require __DIR__ . '/inc/header.php'; ?>
@@ -80,7 +82,7 @@ if (defined('ABSPATH')) {
         </div>
         <div class="col-12 text-center mt-2 hidden_desktop">
           <button id="flipButtonDesktop" type="button" class="btn btn-blue fw-bold ms-2 w-150" target="_blank">
-            <?php echo $login_text; ?>
+            <?php echo $access_button; ?>
           </button>
         </div>
       </section>
@@ -92,7 +94,7 @@ if (defined('ABSPATH')) {
               <div class="col col-md-2 hidden_mobile separator" style="align-self: center">
                 <div class="col-12 text-center">
                   <button id="flipButton" type="button" class="btn btn-blue fw-bold m-3" target="_blank">
-                    <?php echo $login_text; ?>
+                    <?php echo $access_button; ?>
                   </button>
                 </div>
               </div>
@@ -111,14 +113,14 @@ if (defined('ABSPATH')) {
               <div class="col col-md-2 hidden_mobile separator" style="align-self: center">
                 <div class="col-12 text-center">
                   <button id="flipButtonBack" type="button" class="btn btn-blue fw-bold m-3" target="_blank">
-                    Back
+                    <?php echo $back_button; ?>
                   </button>
                 </div>
               </div>
               <div class="col-12 col-md-10">
                 <div class="m-3">
                   <h2><?php echo $get_pass; ?></h2>
-                  <p>Inserisci la tua email per visualizzare o scaricare il Pass.</p>
+                  <p><?php echo $login_text; ?></p>
                   <form id="emailForm" onsubmit="handleSubmit(event)">
                     <div class="mb-3 mt-3 mx-auto">
                       <label for="exampleInputEmail1" class="form-label"><?php echo $email_placeholder; ?></label>

@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (card.classList.contains("flipped")) {
       front.style.display = "none"; // Nascondi la sezione anteriore
       back.style.display = "block"; // Mostra la sezione posteriore
-      flipButtonDesktop.textContent = "Back";
+      flipButtonDesktop.textContent = translations.back_button;
     } else {
       front.style.display = "block"; // Mostra la sezione anteriore
       back.style.display = "none"; // Nascondi la sezione posteriore
-      flipButtonDesktop.textContent = "Login";
+      flipButtonDesktop.textContent = translations.access_button;
     }
   }
   flipButton.addEventListener("click", flipCard);
@@ -70,7 +70,7 @@ async function handleSubmit(event) {
 
   const isValidEmail = emailRegex.test(email);
   const redirect_url = window.location.origin;
-  const apiUrl = getApiBaseUrl();
+  const apiUrl = getApiBaseUrl("stripe");
 
   console.log("API URL:", apiUrl);
 
@@ -88,8 +88,8 @@ async function handleSubmit(event) {
     } catch (error) {
       loader.style.visibility = "hidden";
       errorDialog(
-        "Errore di rete",
-        "Si è verificato un problema, riprova più tardi."
+        translations.network_error_title,
+        translations.network_error_text
       );
     }
   } else if (isValidEmail && event.submitter.id === "submitOrganizzationBtn") {
@@ -106,15 +106,15 @@ async function handleSubmit(event) {
     } catch (error) {
       loader.style.visibility = "hidden";
       errorDialog(
-        "Errore di rete",
-        "Si è verificato un problema, riprova più tardi."
+        translations.network_error_title,
+        translations.network_error_text
       );
     }
   } else {
     loader.style.visibility = "hidden";
     errorDialog(
-      "Email invalida",
-      "Inserisci un indirizzo email valido per accedere"
+      translations.invalid_email_title,
+      translations.invalid_email_text
     );
   }
 
@@ -122,17 +122,20 @@ async function handleSubmit(event) {
     loader.style.visibility = "hidden";
     if (!data.error) {
       simpleDialog(
-        "Email inviata",
-        "Controlla l'indirizzo email " + data.email + " per accedere"
+        translations.sent_email_title,
+        translations.sent_email_text.replace("#EMAIL#", data.email)
       );
       emailInput.value = ""; // Svuota l'input dell'email
     } else if (data.error && data.code == "ERROR_STRIPE_404") {
       errorDialog(
-        "Email non trovata",
-        "L'email " + email + " non è registrata sul portale"
+        translations.email_not_found_title,
+        translations.email_not_found_text.replace("#EMAIL#", email)
       );
     } else {
-      errorDialog("Errore", "Si è verificato un problema, riprova più tardi.");
+      errorDialog(
+        translations.generic_error_title,
+        translations.generic_error_text
+      );
     }
   }
 }

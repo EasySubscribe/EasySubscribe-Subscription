@@ -17,30 +17,13 @@ if (defined('ABSPATH')) {
   $base_url = get_stylesheet_directory_uri(); // URL del tema figlio
   $locale = get_locale(); // Recupera la lingua di WordPress
   $site_name = esc_html(get_bloginfo('name'));
-  $login_text = __('login_text', 'easy_subscribe');
-  $welcome_text = __('welcome_text', 'easy_subscribe');
-  $email_placeholder = __('email_placeholder', 'easy_subscribe');
-  $email_help = __('email_help', 'easy_subscribe');
   $access_button = __('access_button', 'easy_subscribe');
-  $organizer_button = __('organizer_button', 'easy_subscribe');
-  $get_pass = __('get_pass', 'easy_subscribe');
-  $back_button = __('back_button', 'easy_subscribe');
 } else {
   // Percorsi per lo sviluppo locale
-  function __($string, $domain){
-    return $string;
-  }
   $base_url = '/../dist';
   $locale = 'it-IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
   $site_name = 'EasySubscribe'; // Nome del sito di fallback per PHP locale
-  $login_text = 'Inserisci la tua email per visualizzare o scaricare il Pass.'; // Testo di fallback per PHP locale
-  $welcome_text = 'Welcome to <span class="color-header">EasySubscribe</span>';
-  $email_placeholder = 'Email address';
-  $email_help = 'Inserisci la tua email per accedere al portale.';
-  $access_button = 'Accedi';
-  $organizer_button = 'Sei un Organizzatore?';
-  $get_pass = 'Ottieni il Pass';
-  $back_button = 'Back';
+  $access_button = 'Default Accedi';
 }
 ?>
 <!DOCTYPE html>
@@ -73,16 +56,15 @@ if (defined('ABSPATH')) {
       <section id="login-btn" class="mx-auto">
         <div class="row">
           <div class="col-12 fade-in hidden_mobile" style="margin-bottom: -30px">
-            <h1><?php echo $welcome_text; ?></h1>
+            <h1 class="welcome_text"></h1>
             <span class="line d-flex mx-auto"></span>
           </div>
           <div class="col-12 fade-in hidden_desktop">
-            <h1><?php echo $welcome_text; ?></h1>
+            <h1 class="welcome_text"></h1>
           </div>
         </div>
         <div class="col-12 text-center mt-2 hidden_desktop">
           <button id="flipButtonDesktop" type="button" class="btn btn-blue fw-bold ms-2 w-150" target="_blank">
-            <?php echo $access_button; ?>
           </button>
         </div>
       </section>
@@ -94,7 +76,6 @@ if (defined('ABSPATH')) {
               <div class="col col-md-2 hidden_mobile separator" style="align-self: center">
                 <div class="col-12 text-center">
                   <button id="flipButton" type="button" class="btn btn-blue fw-bold m-3" target="_blank">
-                    <?php echo $access_button; ?>
                   </button>
                 </div>
               </div>
@@ -113,28 +94,24 @@ if (defined('ABSPATH')) {
               <div class="col col-md-2 hidden_mobile separator" style="align-self: center">
                 <div class="col-12 text-center">
                   <button id="flipButtonBack" type="button" class="btn btn-blue fw-bold m-3" target="_blank">
-                    <?php echo $back_button; ?>
                   </button>
                 </div>
               </div>
               <div class="col-12 col-md-10">
                 <div class="m-3">
-                  <h2><?php echo $get_pass; ?></h2>
-                  <p><?php echo $login_text; ?></p>
+                  <h2 id="get_pass"></h2>
+                  <p id="login_text"></p>
                   <form id="emailForm" onsubmit="handleSubmit(event)">
                     <div class="mb-3 mt-3 mx-auto">
-                      <label for="exampleInputEmail1" class="form-label"><?php echo $email_placeholder; ?></label>
+                      <label for="exampleInputEmail1" id="email_placeholder" class="form-label"></label>
                       <input type="email" class="form-control" id="submitEmail" aria-describedby="emailHelp" required />
                       <div id="emailHelp" class="form-text">
-                        <?php echo $email_help; ?>
                       </div>
                       <button id="submitEmailBtn" type="submit" class="btn btn-blue fw-bold mt-3 mb-3 float-end w-150"
                         style="margin-left: 20px;" disabled>
-                          <?php echo $access_button; ?>
                       </button>
                       <button id="submitOrganizzationBtn" class="btn btn-blue fw-bold mt-3 mb-3 float-end"
                         style="width: 200px" disabled>
-                          <?php echo $organizer_button; ?>
                       </button>
                     </div>
                   </form>

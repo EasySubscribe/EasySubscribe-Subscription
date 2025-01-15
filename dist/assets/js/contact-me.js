@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Riferimenti agli input
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
-  const submitButton = document.getElementById("submitEmailBtn");
+  const submitButton = document.getElementById("submitContactEmailBtn");
   const phoneNumberInput = document.getElementById("phone");
   const descriptionInput = document.getElementById("description");
 
@@ -61,9 +61,12 @@ async function handleSubmit(event) {
     description: descriptionInput.value,
   };
 
+  const apiUrl = getApiBaseUrl("api");
+
   if (isValidEmail) {
     try {
-      const response = await fetch("../inc/api/contact-me.php", {
+      //const response = await fetch("../inc/api/contact-me.php", {
+      const response = await fetch(apiUrl + "contact-me.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),
@@ -72,22 +75,25 @@ async function handleSubmit(event) {
 
       loader.style.visibility = "hidden";
       if (!data.error) {
-        simpleDialog("Email inviata", "Grazie per averci contattato");
+        simpleDialog(
+          translations.contact_me_sent_email_title,
+          translations.contact_me_sent_email_text
+        );
         emailInput.value = ""; // Svuota l'input dell'email
       } else {
-        errorDialog("Error", error.message);
+        errorDialog(translations.generic_error_title, error.message);
       }
     } catch (error) {
       loader.style.visibility = "hidden";
       errorDialog(
-        "Errore di rete",
-        "Si è verificato un problema, riprova più tardi."
+        translations.network_error_title,
+        translations.network_error_text
       );
     }
   } else {
     errorDialog(
-      "Email invalida",
-      "Inserisci un'indirizzo email valido per accedere"
+      translations.invalid_email_title,
+      translations.invalid_email_text
     );
   }
 }

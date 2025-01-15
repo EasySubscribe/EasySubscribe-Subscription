@@ -20,7 +20,10 @@ function decodeAndVerify(data) {
       "Errore nella decodifica o validazione del parametro `data`:",
       error
     );
-    errorDialog("Errore", "Il QR Code contiene dati non validi.");
+    errorDialog(
+      translations.read_qr_error_title,
+      translations.read_qr_error_data_not_valid
+    );
   }
 }
 
@@ -50,11 +53,17 @@ function startScan() {
             "Errore nella decodifica o validazione del parametro `data`:",
             error
           );
-          errorDialog("Errore", "Il QR Code contiene dati non validi.");
+          errorDialog(
+            translations.read_qr_error_title,
+            translations.read_qr_error_data_not_valid
+          );
         }
       } catch (error) {
         console.error("Errore durante la scansione del QR Code:", error);
-        errorDialog("Errore", "Impossibile leggere il QR Code.");
+        errorDialog(
+          translations.read_qr_error_title,
+          translations.read_qr_error_data
+        );
       } finally {
         () => {
           const videoElement = readerElement.querySelector("video");
@@ -70,34 +79,12 @@ function startScan() {
     .catch((error) => {
       console.error("Errore durante l'inizializzazione dello scanner:", error);
       readerElement.style.display = "none"; // Nasconde il lettore
-      errorDialog("Errore", "Impossibile accedere alla fotocamera.");
+      errorDialog(
+        translations.read_qr_error_title,
+        translations.read_qr_error_camera
+      );
     });
 
-  /*document.addEventListener("DOMContentLoaded", () => {
-    const videoElement = document.querySelector("video"); // Seleziona il video DOM una volta disponibile
-
-    if (videoElement) {
-      videoElement.addEventListener("click", (event) => {
-        const track = videoElement.srcObject.getVideoTracks()[0];
-        if ("focusMode" in track.getCapabilities()) {
-          track
-            .applyConstraints({
-              advanced: [{ focusMode: "continuous" }],
-            })
-            .catch((err) => {
-              errorDialog("Error", "Impossibile mettere a fuoco cazzo");
-
-              console.error("Errore durante l'applicazione del focus:", err);
-            });
-        } else {
-          errorDialog("Error", "Impossibile mettere a fuoco cazzo");
-          console.warn(
-            "La messa a fuoco manuale non è supportata su questo dispositivo."
-          );
-        }
-      });
-    }
-  });*/
   const videoElement = document.querySelector("video"); // Seleziona l'elemento video
   const focusIndicator = document.createElement("div"); // Indicatore per la messa a fuoco
 
@@ -112,7 +99,7 @@ function startScan() {
   focusIndicator.style.fontSize = "16px";
   focusIndicator.style.borderRadius = "5px";
   focusIndicator.style.display = "none"; // Nascondi inizialmente
-  focusIndicator.textContent = "Messa a fuoco in corso...";
+  focusIndicator.textContent = translations.read_qr_error_focus;
   document.body.appendChild(focusIndicator); // Aggiungi l'indicatore al body
 
   // Funzione per ottenere e selezionare la videocamera ultrawide (se disponibile)
@@ -161,7 +148,10 @@ function startScan() {
       })
       .catch((err) => {
         console.error("Errore durante l’accesso alla fotocamera:", err);
-        errorDialog("Error", "Impossibile accedere alla fotocamera.");
+        errorDialog(
+          translations.read_qr_error_title,
+          translations.read_qr_error_camera
+        );
       });
   }
 
@@ -263,7 +253,11 @@ async function verifySubscription(subscription_id) {
           loader.style.visibility = "hidden";
           showData(response, activeUser);
           htmlDialog(
-            `Accesso ${activeUser ? "Consentito" : "Vietato"}.`,
+            `${
+              activeUser
+                ? translations.read_qr_access_allowed
+                : translations.read_qr_access_denied
+            }`,
             null,
             "success",
             getHTMLData(response, activeUser)
@@ -274,19 +268,19 @@ async function verifySubscription(subscription_id) {
           loader.style.visibility = "hidden";
           showData(response, false);
           htmlDialog(
-            `Accesso Vietato.`,
+            `${translations.read_qr_access_denied}`,
             null,
             "error",
             getHTMLData(response, false)
           );
         } else {
           loader.style.visibility = "hidden";
-          errorDialog("Errore", result.message);
+          errorDialog(translations.read_qr_error_title, result.message);
         }
       });
   } catch (error) {
     loader.style.visibility = "hidden";
-    errorDialog("Errore nella verifica", result.message);
+    errorDialog(translations.read_qr_error_title, result.message);
   }
 }
 

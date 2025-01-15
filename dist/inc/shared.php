@@ -5,9 +5,11 @@
 if (defined('ABSPATH')) {
     // Percorsi per WordPress
     $base_url = get_stylesheet_directory_uri(); // URL del tema figlio
+    $is_local = false;
 } else {
     // Percorsi per lo sviluppo locale
     $base_url = '/../dist';
+    $is_local = true;
 }
 ?>
 <!-- CDN -->
@@ -26,6 +28,10 @@ if (defined('ABSPATH')) {
 
 <!-- File personalizzati -->
 <script src="<?php echo $base_url; ?>/assets/js/sweetalert.js"></script>
-<script src="<?php echo $base_url; ?>/assets/js/utils.js"></script>
+<script type="module" src="<?php echo $base_url; ?>/assets/js/utils.js"></script>
 <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css" />
 <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/animation.css" />
+
+<?php if ($is_local): ?>
+<script src="<?php echo $base_url; ?>/assets/js/translation.js"></script>
+<?php endif; ?>

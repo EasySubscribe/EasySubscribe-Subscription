@@ -14,13 +14,19 @@
 if (defined('ABSPATH')) {
   // Percorsi per WordPress (usa il tema attivo)
   $base_url = get_template_directory_uri();
+  $locale = get_locale(); // Recupera la lingua di WordPress
+  $read_qr_page_title = __('read_qr_page_title', 'easy_subscribe');
+  $site_name = esc_html(get_bloginfo('name'));
 } else {
   // Percorsi per lo sviluppo locale
   $base_url = '/..';  // Cambia con il percorso corretto per lo sviluppo locale
+  $locale = 'it-IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
+  $read_qr_page_title = "Lettura Biglietti";
+  $site_name = 'EasySubscribe'; // Nome del sito di fallback per PHP locale
 }
 ?>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<?= $locale; ?>" data-lt-installed="true">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,7 +48,7 @@ if (defined('ABSPATH')) {
     <!-- loading ZXingBrowser via UNPKG -->
     <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
     <link rel="shortcut icon" href="https://www.easysubscribe.it/wp-content/uploads/2025/01/easy.png" />
-    <title>Lettura Biglietti - EasySubscribe</title>
+    <title><?php echo $read_qr_page_title; ?> - <?php echo $site_name; ?></title>
   </head>
   <body>
   <?php require __DIR__ . '/../inc/header.php'; ?>
@@ -54,10 +60,9 @@ if (defined('ABSPATH')) {
       </svg>
     </div>
 
-    <div class="content mx-auto">
+    <div class="content mx-auto text-center">
       <div class="col-12 fade-in" style="margin-bottom: -30px">
-        <h1 class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">
-          Scansiona <span class="color-header">QRCode</span>
+        <h1 id="read_qr_title" class="m-4 text-center" style="text-shadow: h-shadow v-shadow blur-radius #111">
         </h1>
         <span class="line d-flex mx-auto"></span>
       </div>
@@ -67,7 +72,6 @@ if (defined('ABSPATH')) {
       </div>
       <div id="result-scan"></div>
       <button id="startScan" type="button" class="btn btn-blue mt-4 fade-in" onclick="startScan()">
-        Scansiona
       </button>
     </div>
 

@@ -1,4 +1,4 @@
-const getApiBaseUrl = () => {
+const getApiBaseUrl = (inc) => {
   const themeName = "easySubscribe";
   // Verifica se siamo in ambiente WordPress online, locale o PHP locale
   const isWordPressOnline = window.location.origin.includes("tuodominio.com"); // Modifica con il dominio online di WordPress
@@ -7,25 +7,38 @@ const getApiBaseUrl = () => {
   const isPhpLocal =
     window.location.origin.includes("localhost") &&
     window.location.port === "3000"; // PHP locale con porta 3000
-
-  console.log(
-    window.location.origin,
-    window.location.href,
-    window.location.host,
-    window.location
-  );
-
-  // Restituisce l'URL base in base all'ambiente
-  if (isWordPressOnline) {
-    // WordPress online (produzione)
-    return `${window.location.origin}${window.location.pathname}wp-content/themes/${themeName}/inc/stripe/`;
-  } else if (isWordPressLocal) {
-    // WordPress locale (senza porta specifica)
-    return `${window.location.origin}${window.location.pathname}wp-content/themes/${themeName}/inc/stripe/`;
-  } else {
-    // Ambiente non WordPress
-    return "inc/stripe/";
+  let pathname = ""; // Variabile di fallback
+  try {
+    const pathSegments = window.location.pathname.split("/");
+    pathname = pathSegments.length > 1 ? `/${pathSegments[1]}/` : ""; // "/wpgiovanni/" oppure stringa vuota
+  } catch (error) {
+    console.error("Errore nell'estrazione del percorso:", error);
+    pathname = window.location.pathname; // In caso di errore, usa il pathname completo
   }
+  if (inc === "stripe")
+    if (isWordPressOnline) {
+      // Restituisce l'URL base in base all'ambiente
+      // WordPress online (produzione)
+      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/stripe/`;
+    } else if (isWordPressLocal) {
+      // WordPress locale (senza porta specifica)
+      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/stripe/`;
+    } else {
+      // Ambiente non WordPress
+      return "inc/stripe/";
+    }
+  else if (inc === "api")
+    if (isWordPressOnline) {
+      // Restituisce l'URL base in base all'ambiente
+      // WordPress online (produzione)
+      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/api/`;
+    } else if (isWordPressLocal) {
+      // WordPress locale (senza porta specifica) http://localhost/wpgiovanni/contact-me/wp-content/themes/easySubscribe/inc/api/contact-me.php
+      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/api/`;
+    } else {
+      // Ambiente non WordPress
+      return "../inc/api/";
+    }
 };
 
 const formatDateIntl = (inputDate) => {

@@ -1,6 +1,4 @@
 <?php
-/* Template Name: Script Shared */
-
 // Verifica se siamo su WordPress
 if (defined('ABSPATH')) {
     // Percorsi per WordPress

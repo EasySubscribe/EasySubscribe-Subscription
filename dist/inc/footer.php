@@ -1,7 +1,14 @@
 <?php
 /**
- * Footer Template for EasySubscribe
- * Contains the footer content including logo, social media links, and contact information.
+ * Title: Footer
+ * Slug: EasySubscribe
+ * Categories: footer
+ * Block Types: core/template-part/footer
+ * Description: Footer columns with logo, title, tagline and links.
+ *
+ * @package WordPress
+ * @subpackage EasySubscribe
+ * @since EasySubscribe 1.0
  */
 
 // Verifica se siamo su WordPress

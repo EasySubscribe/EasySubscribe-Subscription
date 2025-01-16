@@ -1,7 +1,14 @@
 <?php
 /**
- * Header Template for EasySubscribe
- * Contains the navigation menu and branding.
+ * Title: Header
+ * Slug: EasySubscribe
+ * Categories: header
+ * Block Types: core/template-part/header
+ * Description: Header columns with logo, title, tagline and links.
+ *
+ * @package WordPress
+ * @subpackage EasySubscribe
+ * @since EasySubscribe 1.0
  */
 
 // Verifica se siamo su WordPress

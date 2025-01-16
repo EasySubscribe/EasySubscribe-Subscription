@@ -1,6 +1,4 @@
 <?php
-/* Template Name: Script Shared */
-
 function easy_subscribe_load_textdomain() {
   error_log('Tentativo di caricare le traduzioni...');
   $loaded = load_theme_textdomain('easy_subscribe', get_template_directory() . '/languages');

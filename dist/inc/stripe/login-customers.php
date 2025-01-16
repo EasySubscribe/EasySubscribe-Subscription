@@ -1,8 +1,26 @@
 <?php
-require dirname(__DIR__, 3) . '/vendor/autoload.php';
+// Gestione dinamica del caricamento di autoload.php
+if (file_exists(dirname(__DIR__, 5) . '/wp-load.php') || defined('ABSPATH')) {
+    // Siamo su WordPress
+    require_once dirname(__DIR__, 4) . '/plugins/easy-subscribe-dependency/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 4) . '/debug.log');
+    $dotenvPath = dirname(__DIR__, 4); // Percorso relativo per WordPress
+
+    // Estrai il percorso dal URL corrente, se presente
+    $pathSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    $wpPath = !empty($pathSegments[1]) ? "/" . $pathSegments[1] : ""; // "/wpgiovanni" o stringa vuota
+    $redirect_post_login = $wpPath . '/billing?data=';
+} else {
+    // Siamo in ambiente PHP locale
+    require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 3) . '/app.log');
+    $dotenvPath = dirname(__DIR__, 3); // Percorso relativo per ambiente locale
+    $redirect_post_login = '/dist/templates/template-customers-billing.php?data=';
+}
+
 
 // Carica le variabili d'ambiente
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 3)); // Cambia il percorso se necessario
+$dotenv = Dotenv\Dotenv::createImmutable($dotenvPath);
 $dotenv->load();
 
 // Accedi alle variabili d'ambiente
@@ -12,6 +30,7 @@ $smtpUsername = $_ENV['SMTP_USERNAME'];
 $smtpPassword = $_ENV['SMTP_PASSWORD'];
 $smtpPort = $_ENV['SMTP_PORT'];
 
+// Configura Monolog per il logging
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Stripe\StripeClient;
@@ -19,9 +38,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Ramsey\Uuid\Uuid; // Assicurati di avere il pacchetto `ramsey/uuid` installato
 
-// Configura Monolog per il logging
 $log = new Logger('stripe');
-$log->pushHandler(new StreamHandler(dirname(__DIR__, 3) . '/app.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler(LOG_FILE, Logger::DEBUG));
 
 // Imposta il logger per Stripe
 \Stripe\Stripe::setLogger($log);
@@ -100,7 +118,7 @@ try {
         }        
 
         // Crea l'URL sostituendo i segnaposto con i valori reali
-        $resetUrl = $redirect_url . '/dist/templates/template-customers-billing.php?data=' . base64_encode("$customer_ids_string:$sessionId");
+        $resetUrl = $redirect_url . $redirect_post_login . base64_encode("$customer_ids_string:$sessionId");
 
         // Sostituisci il segnaposto nel body dell'email
         $emailBody = str_replace('{{RESET_URL}}', $resetUrl, $emailBody);

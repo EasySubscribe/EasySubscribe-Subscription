@@ -10,16 +10,8 @@
   License URI: http://www.gnu.org/licenses/gpl-2.0.html
   Text Domain: easy-subscribe
 */
-// Verifica se siamo su WordPress
-if (defined('ABSPATH')) {
-  // Percorsi per WordPress (usa il tema attivo)
-  $base_url = get_template_directory_uri();
-} else {
-  // Percorsi per lo sviluppo locale
-  $base_url = '/..';  // Cambia con il percorso corretto per lo sviluppo locale
-}
 ?>
-<html lang="it-IT" data-lt-installed="true">
+<html lang="<?= get_locale(); ?>" data-lt-installed="true">
   <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex, nofollow" />
@@ -36,12 +28,27 @@ if (defined('ABSPATH')) {
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
-    <title>Contact - EasySubscribe</title>
+    <title><?php echo esc_html(get_the_title()); ?> - <?php echo esc_html(get_bloginfo('name')); ?></title>
   </head>
   <body>
     <?php require __DIR__ . '/../inc/header.php'; ?>
 
-    
+    <div id="primary" class="content-area">
+      <main id="main" class="site-main">
+        <div class="elementor">
+          <div class="elementor-inner">
+            <div class="elementor-section-wrap">
+              <?php
+                while (have_posts()) : the_post();
+                  the_content();
+                endwhile;
+              ?>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
     <?php require __DIR__ . '/../inc/footer.php'; ?>
   </body>
 </html>

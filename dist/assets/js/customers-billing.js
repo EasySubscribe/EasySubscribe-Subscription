@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const apiUrl = getApiBaseUrl(incType.STRIPE_FROM_TEMPLATE);
+  const baseUrl = getApiBaseUrl(incType.BASE_URL);
+
+  console.log("API-URL: ", apiUrl);
+  console.log("BASE-URL: ", baseUrl);
+
   const loader = document.getElementById("loader");
   const urlParams = new URLSearchParams(window.location.search);
   let data = urlParams.get("data");
@@ -19,7 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let customer_name = "";
 
     // Invia i dati a PHP
-    fetch("../inc/stripe/customers-billing.php", {
+    //fetch("../inc/stripe/customers-billing.php", {
+    fetch(apiUrl + "customers-billing.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          errorDialog("Errore", "Errore nella richiesta: " + data.message);
+          errorDialog(
+            translations.customers_generic_error_title,
+            translations.customers_request_error_text + data.message
+          ).then((result) => {
+            window.location.href = baseUrl;
+          });
         } else {
           // Gestisci i dati delle sottoscrizioni ricevuti
           if (data.data) {
@@ -87,14 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
             class="btn btn-blue fw-bold mb-2 ms-3 me-3 billing"
             target="_blank"
             data-customer-id='${element.subscriptions.customer.id}'
-            >Gestisci Pagamento</a
+            >${translations.customers_handle_payments_title}</a
           >
           <a
             type="button"
             class="btn btn-blue fw-bold mb-2 ms-3 me-3 qrCode"
             target="_blank"
             data-product-name='${subProdText}'
-            >Ottieni il QRCode</a
+            >${translations.customers_get_qr_code_title}</a
           >
           <a
             type="button"
@@ -106,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
               element.subscriptions.id
             }'
           >
-            Cancella Abbonamento
+          ${translations.customers_cancel_subscription_title}
           </a>
         </div>
       </div>
@@ -133,10 +145,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 .split("::")[1];
               button.addEventListener("click", () =>
                 confirmDialogSimple(
-                  "Sicuro di voler disdire l'abbonamento?",
-                  "Non sarai in grado di annulare una volta confermato!",
-                  "Si Disdici!",
-                  "No, Annulla!"
+                  translations.customers_cancel_subscription_confirm_title,
+                  translations.customers_cancel_subscription_confirm_subtitle,
+                  translations.customers_cancel_subscription_confirm_button,
+                  translations.customers_cancel_subscription_deny_button
                 ).then((result) => {
                   if (result.isConfirmed)
                     cancelSubscription(expirationDate, subscription_id);
@@ -145,8 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     result.dismiss === Swal.DismissReason.cancel
                   )
                     errorDialog(
-                      "Operazione Annullata",
-                      "Abbonamento non disdetto"
+                      translations.customers_cancel_subscription_reject_title,
+                      translations.customers_cancel_subscription_reject_subtitle
                     );
                 })
               );
@@ -155,10 +167,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const resumeTitle = document.getElementById("resume-title");
-        resumeTitle.innerHTML =
-          '<h1>Benvenuto <span class="color-header">' +
-          customer_name +
-          "</span></h1>";
+        resumeTitle.innerHTML = translations.customers_page_title.replace(
+          "#CUSTOMER_NAME#",
+          customer_name
+        );
         // resumeTitle.textContent = "Benvenuto " + customer_name;
         loader.style.display = "none";
       })
@@ -167,24 +179,26 @@ document.addEventListener("DOMContentLoaded", function () {
         error = error;
         console.error("Si è verificato un'errore: ", error);
         errorDialog(
-          "Errore",
-          "Si è verificato un problema, riprova più tardi."
+          translations.customers_generic_error_title,
+          translations.customers_generic_error_text
         ).then((result) => {
-          window.location.href = window.location.origin + "/dist/index.php";
+          window.location.href = baseUrl;
         });
       });
   } else {
     loader.style.display = "none";
     errorDialog(
-      "Errore",
-      "Si è verificato un problema, riprova più tardi."
+      translations.customers_generic_error_title,
+      translations.customers_generic_error_text
     ).then((result) => {
-      window.location.href = window.location.origin + "/dist/index.php";
+      window.location.href = baseUrl;
     });
   }
 });
 
 function cancelSubscription(expirationDate, subscription_id) {
+  const apiUrl = getApiBaseUrl(incType.STRIPE_FROM_TEMPLATE);
+
   const loader = document.getElementById("loader");
   const today = new Date(); // Ottieni la data odierna
   const expDate = new Date(expirationDate); // Converti la data di scadenza in oggetto Date
@@ -194,26 +208,32 @@ function cancelSubscription(expirationDate, subscription_id) {
     // Verifica se la data di scadenza è futura rispetto ad oggi
     if (expDate > today) {
       return htmlDialog(
-        "Errore",
+        translations.customers_generic_error_title,
         null,
         "error",
-        `<p>Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la <a href='template-policy.php'>policy sulla cancellazione.</a> L'abbonamento potrà essere cancellato dal giorno ${formatDateIntl(
+        translations.customers_cancel_subscription_error_policy.replace(
+          "#CANCEL_DAY#",
           expDate.toLocaleDateString()
-        )}.</p>`
+        )
+        //`<p>Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la <a href='template-policy.php'>policy sulla cancellazione.</a> L'abbonamento potrà essere cancellato dal giorno ${formatDateIntl(
+        //  expDate.toLocaleDateString()
+        //)}.</p>`
       );
     }
   } else {
     // Gestione errore: `expirationDate` non è valida
     return htmlDialog(
-      "Errore",
+      translations.customers_generic_error_title,
       null,
       "error",
-      `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
+      translations.customers_cancel_subscription_error_generic
+      //`<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
     );
   }
   loader.style.display = "flex";
   // Qui aggiungi la chiamata all'API per cancellare la sottoscrizione
-  fetch(`../inc/stripe/cancel-subscription.php`, {
+  //fetch(`../inc/stripe/cancel-subscription.php`, {
+  fetch(apiUrl + `cancel-subscription.php`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -225,13 +245,13 @@ function cancelSubscription(expirationDate, subscription_id) {
       loader.style.display = "none";
       if (data.error) {
         return errorDialog(
-          "Errore",
-          data.message || "Errore sconosciuto durante la cancellazione."
+          translations.customers_generic_error_title,
+          translations.customers_cancel_subscription_error_unknown
         );
       }
       return simpleDialog(
-        "Operazione Eseguita!",
-        "Il tuo abbonamento è stato disdetto con successo."
+        translations.customers_cancel_subscription_success_title,
+        translations.customers_cancel_subscription_success_subtitle
       ).then((result) => {
         if (result.isConfirmed) window.location.reload();
       });
@@ -240,17 +260,21 @@ function cancelSubscription(expirationDate, subscription_id) {
       loader.style.display = "none";
       console.error("Errore durante la cancellazione:", error);
       return htmlDialog(
-        "Errore",
+        translations.customers_generic_error_title,
         null,
         "error",
-        `<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
+        translations.customers_cancel_subscription_error_generic
+        //`<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
       );
     });
 }
 
 async function redirectToBillingPortal(customerId) {
+  const apiUrl = getApiBaseUrl(incType.STRIPE_FROM_TEMPLATE);
+
   loader.style.display = "flex";
-  const response = await fetch("../inc/stripe/billing.php", {
+  //const response = await fetch("../inc/stripe/billing.php", {
+  const response = await fetch(apiUrl + "billing.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -269,7 +293,10 @@ async function redirectToBillingPortal(customerId) {
   } else {
     loader.style.display = "none";
     console.error("Errore:", result.message || "Errore sconosciuto");
-    errorDialog("Errore", "Si è verificato un errore. Per favore, riprova.");
+    errorDialog(
+      translations.customers_generic_error_title,
+      translations.customers_generic_error_text
+    );
   }
 }
 
@@ -297,14 +324,16 @@ function downloadProductPDF(product) {
     console.error("Immagine QR Code non trovata.");
     loader.style.display = "none";
     errorDialog(
-      "Errore",
-      "Si è verificato un problema, download non riuscito."
+      translations.customers_generic_error_title,
+      translations.customers_get_qr_code_download_error
     );
     return;
   }
 
   html2canvas(qrCodeImage, { backgroundColor: "#ffffff" })
     .then((canvas) => {
+      const imageUrl = getApiBaseUrl(incType.IMAGE_URL);
+      const apiUrl = getApiBaseUrl(incType.API);
       const qrCodeDataURL = canvas.toDataURL("image/png");
 
       const { jsPDF } = window.jspdf;
@@ -322,14 +351,15 @@ function downloadProductPDF(product) {
 
       // Aggiungi il logo in alto a sinistra con larghezza maggiore
       const logo = new Image();
-      logo.src = "/../dist/assets/images/easy.png"; // Cambia con l'URL del tuo logo
+      //logo.src = "/../dist/assets/images/easy.png"; // Cambia con l'URL del tuo logo
+      logo.src = imageUrl + "easy.png"; // Cambia con l'URL del tuo logo
 
       logo.onerror = function () {
         console.error("Logo non trovato. Download interrotto.");
         loader.style.display = "none";
         errorDialog(
-          "Errore",
-          "Si è verificato un problema, download non riuscito."
+          translations.customers_generic_error_title,
+          translations.customers_get_qr_code_download_error
         );
       };
 
@@ -349,56 +379,71 @@ function downloadProductPDF(product) {
         pdf.setFontSize(10);
         pdf.setFont("helvetica", "bold"); // Imposta il font Helvetica in grassetto
         pdf.text(
-          "Ciao " +
-            product.customer_name +
-            ", Accedi all'Evento Mostrando il QR Code!",
+          translations.customers_pdf_welcome_text.replace(
+            "#CUSTOMER_NAME#",
+            product.customer_name
+          ),
           10,
           70
         );
         if (product.product_description) {
           pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
           pdf.text(
-            "Evento/i a cui puoi accedere: " + product.product_description,
+            translations.customers_pdf_event_text + product.product_description,
             10,
             80
           );
         }
 
         pdf.setFont("helvetica", "bold"); // Imposta il font Helvetica in grassetto
-        pdf.text("GENERAL TERMS OF SALE", 85, 90);
+        pdf.text(translations.customers_pdf_terms_title, 85, 90);
         pdf.setFont("helvetica", "normal"); // Ripristina il font normale per il testo successivo
         pdf.setFontSize(8);
 
+        // Array di testo da aggiungere al PDF
         const generalTerms = [
-          "To be valid, the e-ticket (electronic ticket) is subject to the terms of sale of Weezevent, and possibly those of the organizer that you agreed to when ordering. REMINDER: This e-ticket is not refundable. Unless otherwise agreed by the organizer, e-ticket is personal, not transferable or exchangeable.",
-          "CONTROL: Access to the event is under the control of validity of your e-ticket. This e-ticket is only valid for the location, session, date and hour written on the e-ticket. Past the start time, access to the event is not guaranteed and does not entitle to any refund. We therefore advise you to arrive before the start of the event. To be valid, this e-ticket must be printed on white A4 blank paper, without changing the print size and with a good quality. E-tickets partially printed, dirty, damaged or illegible will be invalid and may be denied by the organizer. The organizer also reserves the right to accept or refuse other media, including electronic (mobile phone, tablet, etc ...).",
-          "Each e-ticket has a barcode allowing access to the event to one person. To be valid the payment of this e-ticket must not have been rejected by the credit card owner used for ordering. In this case the barcode is deactivated. At the door, you must be in possession of a valid official ID with photo. Following the inspection, the e-ticket must be retained until the end of the event. In some cases the organizer will issue you a ticket to two strains (whether or not reveal the rental fee).",
-          "FRAUD: It is prohibited to reproduce, use, copy, duplicate, counterfeit this e-ticket in any manner whatsoever, under pain of criminal prosecution. Similarly, any order placed with a way to bribe to get an e-ticket will result in criminal prosecution and the invalidity of such e-ticket.",
-          "LIABILITY: The purchaser remains responsible for the use made of e-tickets, and if lost, stolen or duplicate a valid e-ticket, only the first person who holds the e-ticket can access the event. Weezevent is not responsible for abnormalities that may occur during the ordering, processing or printing the e-ticket to the extent that it has not caused intentionally or by negligence in case of loss, theft or unauthorized use of e-ticket.",
-          "EVENT: The events are and remain the sole responsibility of the organizer. The acquisition of this e-ticket wins if adherence to rules of the place of the event and / or organizer. In case of cancellation or postponement of the event, a refund of the ticket without costs (transport, hotels, etc ...) will be subject to the conditions of the organizer (you can find his email address above in Additional information) who receives the income from the sale of e-tickets.",
+          translations.customers_pdf_terms_part_1,
+          translations.customers_pdf_terms_part_2,
+          translations.customers_pdf_terms_part_3,
+          translations.customers_pdf_terms_part_4,
+          translations.customers_pdf_terms_part_5,
+          translations.customers_pdf_terms_part_6,
         ];
 
-        const generalTerms1 = pdf.splitTextToSize(generalTerms[0], 115); // Imposta la larghezza massima
-        const generalTerms2 = pdf.splitTextToSize(generalTerms[1], 115); // Imposta la larghezza massima
-        const generalTerms3 = pdf.splitTextToSize(generalTerms[2], 115); // Imposta la larghezza massima
-        const generalTerms4 = pdf.splitTextToSize(generalTerms[3], 115); // Imposta la larghezza massima
-        const generalTerms5 = pdf.splitTextToSize(generalTerms[4], 115); // Imposta la larghezza massima
-        const generalTerms6 = pdf.splitTextToSize(generalTerms[5], 115); // Imposta la larghezza massima
+        // Imposta la larghezza massima per il testo
+        const maxWidth = 115;
 
-        // Aggiungi il testo che va a capo
-        pdf.text(generalTerms1, 85, 95);
-        pdf.text(generalTerms2, 85, 109);
-        pdf.text(generalTerms3, 85, 135);
-        pdf.text(generalTerms4, 85, 155);
-        pdf.text(generalTerms5, 85, 169);
-        pdf.text(generalTerms6, 85, 186);
+        // Posizione verticale iniziale
+        let verticalPosition = 95;
+
+        // Dimensione font (per calcolare l'altezza delle righe)
+        const fontSize = pdf.internal.getFontSize(); // Dimensione font attuale
+        const lineHeight = fontSize * 0.352778; // Altezza riga in mm (1 pt = 0.352778 mm)
+
+        // Gestione dinamica del testo
+        generalTerms.forEach((term) => {
+          // Dividi il testo in righe in base alla larghezza massima
+          const lines = pdf.splitTextToSize(term, maxWidth);
+
+          // Stampa il blocco di testo nel PDF
+          pdf.text(lines, 85, verticalPosition);
+
+          // Calcola l'altezza occupata da questo blocco di testo
+          const blockHeight = lines.length * lineHeight;
+
+          // Aggiorna la posizione verticale per il prossimo blocco
+          verticalPosition += blockHeight + (lines.length > 5 ? 4 : 3);
+          console.log(
+            `Blocco di ${lines.length} righe: Altezza = ${blockHeight}, Posizione = ${verticalPosition}`
+          );
+        });
 
         pdf.setFontSize(10);
 
         // Testo che va a capo
         const descriptionText = [
-          "Per accedere all'evento, mostra il QR Code alla reception all'ingresso. Scansionando il codice, il nostro sistema verificherà il tuo accesso e ti permetterà di entrare senza problemi.",
-          "Assicurati di avere il QR Code pronto sul tuo dispositivo mobile o su una stampa cartacea per un ingresso rapido e semplice.",
+          translations.customers_pdf_event_access_part_1,
+          translations.customers_pdf_event_access_part_2,
         ];
 
         const lines1 = pdf.splitTextToSize(descriptionText[0], 180); // Imposta la larghezza massima
@@ -409,14 +454,16 @@ function downloadProductPDF(product) {
         pdf.text(lines2, 10, pdf.internal.pageSize.height - 20);
 
         // Aggiungi il footer in basso a destra
-        const footerText =
-          "Per informazioni contattaci su https://www.easysubscribe.it";
+        const footerText = translations.customers_pdf_event_access_part_3;
         pdf.setFontSize(8);
         pdf.text(footerText, 10, pdf.internal.pageSize.height - 10);
 
         if (product.product_image) {
+          //const imageUrl =
+          //  "../inc/api/image-proxy.php?url=" + product.product_image;
+
           const imageUrl =
-            "../inc/api/image-proxy.php?url=" + product.product_image;
+            apiUrl + "image-proxy.php?url=" + product.product_image;
 
           fetch(imageUrl)
             .then((response) => response.blob())
@@ -439,29 +486,33 @@ function downloadProductPDF(product) {
                     imgWidth,
                     imgHeight
                   ); // Usa le dimensioni calcolate
-                  pdf.save("QRCode_" + product.product_name + ".pdf");
+                  pdf.save("Ticket_" + product.product_name + ".pdf");
                   loader.style.display = "none";
                   simpleDialog(
-                    "Download Iniziato",
-                    "Ora puoi accedere a ".concat(product.product_name)
+                    translations.customers_get_qr_code_download_success_title,
+                    translations.customers_get_qr_code_download_success_subtitle.concat(
+                      product.product_name
+                    )
                   );
                 };
               };
             })
             .catch((error) => {
               loader.style.display = "none";
+              console.error("Errore nel recupero dell'immagine:", error);
               errorDialog(
-                "Errore",
-                "Errore nel recupero dell'immagine:",
-                error
+                translations.customers_generic_error_title,
+                translations.customers_generic_error_text
               );
             });
         } else {
-          pdf.save("QRCode_" + product.product_name + ".pdf");
+          pdf.save("Ticket_" + product.product_name + ".pdf");
           loader.style.display = "none";
           simpleDialog(
-            "Download Iniziato",
-            "Ora puoi accedere a ".concat(product.product_name)
+            translations.customers_get_qr_code_download_success_title,
+            translations.customers_get_qr_code_download_success_subtitle.concat(
+              product.product_name
+            )
           );
         }
       };
@@ -469,8 +520,8 @@ function downloadProductPDF(product) {
     .catch((error) => {
       loader.style.display = "none";
       errorDialog(
-        "Errore di rete",
-        "Si è verificato un problema, riprova più tardi."
+        translations.customers_generic_error_title,
+        translations.customers_generic_error_text
       );
     });
 }

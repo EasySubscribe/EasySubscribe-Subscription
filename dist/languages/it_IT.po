@@ -216,3 +216,106 @@ msgstr "Accesso Consentito."
 
 msgid "read_qr_access_denied"
 msgstr "Accesso Vietato."
+
+# Customer Billing.js
+msgid "customers_subscription_title"
+msgstr "Abbonamenti"
+
+msgid "customers_generic_error_title"
+msgstr "Errore"
+
+msgid "customers_generic_error_text"
+msgstr "Si è verificato un problema, riprova più tardi."
+
+msgid "customers_request_error_text"
+msgstr "Errore nella richiesta: "
+
+msgid "customers_handle_payments_title"
+msgstr "Gestisci Pagamento"
+
+msgid "customers_get_qr_code_title"
+msgstr "Ottieni il Biglietto"
+
+msgid "customers_cancel_subscription_title"
+msgstr "Cancella Abbonamento"
+
+msgid "customers_cancel_subscription_confirm_title"
+msgstr "Sicuro di voler disdire l'abbonamento?"
+
+msgid "customers_cancel_subscription_confirm_subtitle"
+msgstr "Non sarai in grado di annulare una volta confermato!"
+
+msgid "customers_cancel_subscription_confirm_button"
+msgstr "Si Disdici!"
+
+msgid "customers_cancel_subscription_deny_button"
+msgstr "No, Annulla!"
+
+msgid "customers_cancel_subscription_reject_title"
+msgstr "Operazione Annullata"
+
+msgid "customers_cancel_subscription_reject_subtitle"
+msgstr "Abbonamento non disdetto"
+
+msgid "customers_page_title"
+msgstr "<h1>Benvenuto <span class='color-header'>#CUSTOMER_NAME#</span></h1>"
+
+msgid "customers_cancel_subscription_error_policy"
+msgstr "<p>Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la <a href='terms-and-conditions'>policy sulla cancellazione.</a> L'abbonamento potrà essere cancellato dal giorno #CANCEL_DAY#</p>"
+
+msgid "customers_cancel_subscription_error_generic"
+msgstr "<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>"
+
+msgid "customers_cancel_subscription_error_unknown"
+msgstr "Errore sconosciuto durante la cancellazione."
+
+msgid "customers_cancel_subscription_success_title"
+msgstr "Operazione Eseguita!"
+
+msgid "customers_cancel_subscription_success_subtitle"
+msgstr "Il tuo abbonamento è stato disdetto con successo."
+
+msgid "customers_get_qr_code_download_error"
+msgstr "Si è verificato un problema, download non riuscito."
+
+msgid "customers_get_qr_code_download_success_title"
+msgstr "Download Iniziato"
+
+msgid "customers_get_qr_code_download_success_subtitle"
+msgstr "Ora puoi accedere a "
+
+msgid "customers_pdf_welcome_text"
+msgstr "Ciao #CUSTOMER_NAME#, Accedi all'Evento Mostrando il QR Code!"
+
+msgid "customers_pdf_event_text"
+msgstr "Evento/i a cui puoi accedere: "
+
+msgid "customers_pdf_terms_title"
+msgstr "TERMINI GENERALI DI VENDITA"
+
+msgid "customers_pdf_terms_part_1"
+msgstr "Per essere valido, l'e-ticket (biglietto elettronico) è soggetto ai termini di vendita di Weezevent e, eventualmente, a quelli dell'organizzatore accettati al momento dell'acquisto. PROMEMORIA: Questo e-ticket non è rimborsabile. Salvo diverso accordo con l'organizzatore, l'e-ticket è personale, non trasferibile né scambiabile."
+
+msgid "customers_pdf_terms_part_2"
+msgstr "CONTROLLO: L'accesso all'evento è subordinato alla validità del tuo e-ticket. Questo e-ticket è valido solo per il luogo, la sessione, la data e l'orario indicati sull'e-ticket. Dopo l'orario di inizio, l'accesso all'evento non è garantito e non dà diritto ad alcun rimborso. Ti consigliamo quindi di arrivare prima dell'inizio dell'evento. Per essere valido, l'e-ticket deve essere stampato su carta bianca A4, senza modificare le dimensioni di stampa e con una buona qualità. Gli e-ticket stampati parzialmente, sporchi, danneggiati o illeggibili saranno considerati non validi e potrebbero essere rifiutati dall'organizzatore. L'organizzatore si riserva inoltre il diritto di accettare o rifiutare altri supporti, inclusi quelli elettronici (telefono cellulare, tablet, ecc.)."
+
+msgid "customers_pdf_terms_part_3"
+msgstr "Ogni e-ticket è dotato di un codice a barre che consente l'accesso all'evento a una sola persona. Per essere valido, il pagamento di questo e-ticket non deve essere stato respinto dal titolare della carta di credito utilizzata per l'acquisto. In caso contrario, il codice a barre sarà disattivato. All'ingresso, devi essere in possesso di un documento di identità ufficiale valido con foto. Dopo il controllo, l'e-ticket deve essere conservato fino al termine dell'evento. In alcuni casi, l'organizzatore potrebbe emettere un biglietto a due matrici (che potrebbe o meno rivelare la tariffa di noleggio)."
+
+msgid "customers_pdf_terms_part_4"
+msgstr "FRODE: È vietato riprodurre, utilizzare, copiare, duplicare o contraffare questo e-ticket in qualsiasi modo, pena l'azione penale. Allo stesso modo, qualsiasi ordine effettuato con mezzi fraudolenti per ottenere un e-ticket comporterà un'azione legale e l'invalidità del suddetto e-ticket."
+
+msgid "customers_pdf_terms_part_5"
+msgstr "RESPONSABILITÀ: L'acquirente rimane responsabile per l'uso degli e-ticket e, in caso di smarrimento, furto o duplicazione di un e-ticket valido, solo la prima persona in possesso dell'e-ticket può accedere all'evento. Weezevent non è responsabile per eventuali anomalie che possono verificarsi durante l'ordinazione, l'elaborazione o la stampa dell'e-ticket, salvo che tali anomalie siano causate intenzionalmente o per negligenza in caso di smarrimento, furto o uso non autorizzato dell'e-ticket."
+
+msgid "customers_pdf_terms_part_6"
+msgstr "EVENTO: Gli eventi sono e rimangono di esclusiva responsabilità dell'organizzatore. L'acquisto di questo e-ticket implica l'adesione alle regole del luogo dell'evento e/o dell'organizzatore. In caso di cancellazione o posticipo dell'evento, il rimborso del biglietto senza costi aggiuntivi (trasporti, hotel, ecc...) sarà soggetto alle condizioni dell'organizzatore (puoi trovare il suo indirizzo email sopra nelle informazioni aggiuntive) che riceve i proventi dalla vendita degli e-ticket."
+
+msgid "customers_pdf_event_access_part_1"
+msgstr "Per accedere all'evento, mostra il QR Code alla reception all'ingresso. Scansionando il codice, il nostro sistema verificherà il tuo accesso e ti permetterà di entrare senza problemi."
+
+msgid "customers_pdf_event_access_part_2"
+msgstr "Assicurati di avere il QR Code pronto sul tuo dispositivo mobile o su una stampa cartacea per un ingresso rapido e semplice."
+
+msgid "customers_pdf_event_access_part_3"
+msgstr "Per informazioni contattaci su https://www.easysubscribe.it"

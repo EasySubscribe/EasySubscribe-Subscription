@@ -1,3 +1,11 @@
+const incType = {
+  STRIPE: "stripe",
+  STRIPE_FROM_TEMPLATE: "stripe-template",
+  API: "api",
+  BASE_URL: "baseUrl",
+  IMAGE_URL: "image",
+};
+
 const getApiBaseUrl = (inc) => {
   const themeName = "easySubscribe";
   const isWordPressOnline = window.location.origin.includes("easysubscribe.it"); // Dominio online di WordPress
@@ -19,7 +27,14 @@ const getApiBaseUrl = (inc) => {
     pathname = ""; // In caso di errore, usa il pathname completo
   }
 
-  if (inc === "stripe") {
+  console.log("Inc: ", inc);
+  console.log("Wordpress Local: ", isWordPressLocal);
+  console.log("Wordpress Online: ", isWordPressOnline);
+  console.log("PHP Server: ", isPhpLocal);
+  console.log("Location: ", window.location.origin);
+  console.log("Pathname :", pathname);
+
+  if (inc === incType.STRIPE || inc === incType.STRIPE_FROM_TEMPLATE) {
     if (isWordPressOnline) {
       // WordPress online (produzione)
       return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/stripe/`;
@@ -27,10 +42,11 @@ const getApiBaseUrl = (inc) => {
       // WordPress locale (senza porta specifica)
       return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/stripe/`;
     } else {
+      if (inc === incType.STRIPE_FROM_TEMPLATE) return "../inc/stripe/";
       // Ambiente non WordPress
-      return "inc/stripe/";
+      else return "inc/stripe/";
     }
-  } else if (inc === "api") {
+  } else if (inc === incType.API) {
     if (isWordPressOnline) {
       // WordPress online (produzione)
       return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/api/`;
@@ -40,6 +56,28 @@ const getApiBaseUrl = (inc) => {
     } else {
       // Ambiente non WordPress
       return "../inc/api/";
+    }
+  } else if (inc === incType.BASE_URL) {
+    if (isWordPressOnline) {
+      // WordPress online (produzione)
+      return `${window.location.origin}${pathname}`;
+    } else if (isWordPressLocal) {
+      // WordPress locale (con percorso relativo /wpgiovanni)
+      return `${window.location.origin}${pathname}`;
+    } else {
+      // Ambiente non WordPress
+      return window.location.origin + "/dist/index.php";
+    }
+  } else if (inc === incType.IMAGE_URL) {
+    if (isWordPressOnline) {
+      // WordPress online (produzione)
+      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/assets/images/`;
+    } else if (isWordPressLocal) {
+      // WordPress locale (con percorso relativo /wpgiovanni)
+      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/assets/images/`;
+    } else {
+      // Ambiente non WordPress
+      return "/../dist/assets/images/";
     }
   }
 };

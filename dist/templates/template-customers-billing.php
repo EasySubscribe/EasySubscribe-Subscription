@@ -14,12 +14,18 @@
 if (defined('ABSPATH')) {
   // Percorsi per WordPress (usa il tema attivo)
   $base_url = get_template_directory_uri();
+  $locale = get_locale(); // Recupera la lingua di WordPress
+  $customers_subscription_title = __('customers_subscription_title', 'easy_subscribe');
+  $site_name = esc_html(get_bloginfo('name'));
 } else {
   // Percorsi per lo sviluppo locale
   $base_url = '/..';  // Cambia con il percorso corretto per lo sviluppo locale
+  $locale = 'it-IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
+  $customers_subscription_title = "Abbonamenti";
+  $site_name = 'EasySubscribe'; // Nome del sito di fallback per PHP locale
 }
 ?>
-<html lang="it-IT" data-lt-installed="true">
+<html lang="<?= $locale; ?>" data-lt-installed="true">
   <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex, nofollow" />
@@ -42,7 +48,7 @@ if (defined('ABSPATH')) {
     />
     <link rel="stylesheet" href="https://atugatran.github.io/FontAwesome6Pro/css/all.min.css" >
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <title>Abbonamenti - EasySubscribe</title>
+    <title><?php echo $customers_subscription_title; ?> - <?php echo $site_name; ?></title>
   </head>
   <body>
     <?php require __DIR__ . '/../inc/header.php'; ?>

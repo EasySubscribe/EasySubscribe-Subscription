@@ -10,7 +10,7 @@ const defaultTranslations = {
   contact_text: "Contattami",
 
   // Index
-  access_button: "Default Accedi",
+  access_button: "Accedi",
   back_button: "Indietro",
   login_text: "Inserisci la tua email per visualizzare o scaricare il Pass.",
   welcome_text: 'Welcome to <span class="color-header">EasySubscribe</span>',
@@ -80,6 +80,60 @@ const defaultTranslations = {
   read_qr_error_focus: "Messa a fuoco in corso...",
   read_qr_access_allowed: "Accesso Consentito.",
   read_qr_access_denied: "Accesso Vietato.",
+
+  // Customer Billing.js
+  customers_generic_error_title: "Errore",
+  customers_generic_error_text:
+    "Si è verificato un problema, riprova più tardi.",
+  customers_request_error_text: "Errore nella richiesta: ",
+  customers_handle_payments_title: "Gestisci Pagamento",
+  customers_get_qr_code_title: "Ottieni il QRCode",
+  customers_cancel_subscription_title: "Cancella Abbonamento",
+  customers_cancel_subscription_confirm_title:
+    "Sicuro di voler disdire l'abbonamento?",
+  customers_cancel_subscription_confirm_subtitle:
+    "Non sarai in grado di annulare una volta confermato!",
+  customers_cancel_subscription_confirm_button: "Si Disdici!",
+  customers_cancel_subscription_deny_button: "No, Annulla!",
+  customers_cancel_subscription_reject_title: "Operazione Annullata",
+  customers_cancel_subscription_reject_subtitle: "Abbonamento non disdetto",
+  customers_page_title:
+    "<h1>Benvenuto <span class='color-header'>#CUSTOMER_NAME#</span></h1>",
+  customers_cancel_subscription_error_policy:
+    "<p>Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la <a href='template-policy.php'>policy sulla cancellazione.</a> L'abbonamento potrà essere cancellato dal giorno #CANCEL_DAY#</p>",
+  customers_cancel_subscription_error_generic:
+    "<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>",
+  customers_cancel_subscription_error_unknown:
+    "Errore sconosciuto durante la cancellazione.",
+  customers_cancel_subscription_success_title: "Operazione Eseguita!",
+  customers_cancel_subscription_success_subtitle:
+    "Il tuo abbonamento è stato disdetto con successo.",
+  customers_get_qr_code_download_error:
+    "Si è verificato un problema, download non riuscito.",
+  customers_get_qr_code_download_success_title: "Download Iniziato",
+  customers_get_qr_code_download_success_subtitle: "Ora puoi accedere a ",
+  customers_pdf_welcome_text:
+    "Ciao #CUSTOMER_NAME#, Accedi all'Evento Mostrando il QR Code!",
+  customers_pdf_event_text: "Evento/i a cui puoi accedere: ",
+  customers_pdf_terms_title: "GENERAL TERMS OF SALE",
+  customers_pdf_terms_part_1:
+    "To be valid, the e-ticket (electronic ticket) is subject to the terms of sale of Weezevent, and possibly those of the organizer that you agreed to when ordering. REMINDER: This e-ticket is not refundable. Unless otherwise agreed by the organizer, e-ticket is personal, not transferable or exchangeable.",
+  customers_pdf_terms_part_2:
+    "CONTROL: Access to the event is under the control of validity of your e-ticket. This e-ticket is only valid for the location, session, date and hour written on the e-ticket. Past the start time, access to the event is not guaranteed and does not entitle to any refund. We therefore advise you to arrive before the start of the event. To be valid, this e-ticket must be printed on white A4 blank paper, without changing the print size and with a good quality. E-tickets partially printed, dirty, damaged or illegible will be invalid and may be denied by the organizer. The organizer also reserves the right to accept or refuse other media, including electronic (mobile phone, tablet, etc ...).",
+  customers_pdf_terms_part_3:
+    "Each e-ticket has a barcode allowing access to the event to one person. To be valid the payment of this e-ticket must not have been rejected by the credit card owner used for ordering. In this case the barcode is deactivated. At the door, you must be in possession of a valid official ID with photo. Following the inspection, the e-ticket must be retained until the end of the event. In some cases the organizer will issue you a ticket to two strains (whether or not reveal the rental fee).",
+  customers_pdf_terms_part_4:
+    "FRAUD: It is prohibited to reproduce, use, copy, duplicate, counterfeit this e-ticket in any manner whatsoever, under pain of criminal prosecution. Similarly, any order placed with a way to bribe to get an e-ticket will result in criminal prosecution and the invalidity of such e-ticket.",
+  customers_pdf_terms_part_5:
+    "LIABILITY: The purchaser remains responsible for the use made of e-tickets, and if lost, stolen or duplicate a valid e-ticket, only the first person who holds the e-ticket can access the event. Weezevent is not responsible for abnormalities that may occur during the ordering, processing or printing the e-ticket to the extent that it has not caused intentionally or by negligence in case of loss, theft or unauthorized use of e-ticket.",
+  customers_pdf_terms_part_6:
+    "EVENT: The events are and remain the sole responsibility of the organizer. The acquisition of this e-ticket wins if adherence to rules of the place of the event and / or organizer. In case of cancellation or postponement of the event, a refund of the ticket without costs (transport, hotels, etc ...) will be subject to the conditions of the organizer (you can find his email address above in Additional information) who receives the income from the sale of e-tickets.",
+  customers_pdf_event_access_part_1:
+    "Per accedere all'evento, mostra il QR Code alla reception all'ingresso. Scansionando il codice, il nostro sistema verificherà il tuo accesso e ti permetterà di entrare senza problemi.",
+  customers_pdf_event_access_part_2:
+    "Assicurati di avere il QR Code pronto sul tuo dispositivo mobile o su una stampa cartacea per un ingresso rapido e semplice.",
+  customers_pdf_event_access_part_3:
+    "Per informazioni contattaci su https://www.easysubscribe.it",
 };
 
 // Usa le traduzioni fornite da WordPress (via wp_localize_script) o il fallback

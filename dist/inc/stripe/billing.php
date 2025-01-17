@@ -1,8 +1,25 @@
 <?php
-require dirname(__DIR__, 3) . '/vendor/autoload.php';
+// Gestione dinamica del caricamento di autoload.php
+if (file_exists(dirname(__DIR__, 5) . '/wp-load.php') || defined('ABSPATH')) {
+    // Siamo su WordPress
+    require_once dirname(__DIR__, 4) . '/plugins/easy-subscribe-dependency/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 4) . '/debug.log');
+    $dotenvPath = dirname(__DIR__, 4); // Percorso relativo per WordPress
+
+    // Estrai il percorso dal URL corrente, se presente
+    $pathSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    $wpPath = !empty($pathSegments[1]) ? "/" . $pathSegments[1] : ""; // "/wpgiovanni" o stringa vuota
+    $redirect_post_login = $wpPath . '/billing?data=';
+} else {
+    // Siamo in ambiente PHP locale
+    require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 3) . '/app.log');
+    $dotenvPath = dirname(__DIR__, 3); // Percorso relativo per ambiente locale
+    $redirect_post_login = '/dist/templates/template-customers-billing.php?data=';
+}
 
 // Carica le variabili d'ambiente
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 3)); // Cambia il percorso se necessario
+$dotenv = Dotenv\Dotenv::createImmutable($dotenvPath);
 $dotenv->load();
 
 // Accedi alla chiave Stripe
@@ -15,7 +32,7 @@ use Monolog\Handler\StreamHandler;
 
 // Configura Monolog per il logging
 $log = new Logger('stripe');
-$log->pushHandler(new StreamHandler(dirname(__DIR__, 3) . '/app.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler(LOG_FILE, Logger::DEBUG));
 
 // Imposta il logger per Stripe
 \Stripe\Stripe::setLogger($log);

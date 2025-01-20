@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (data) {
     // Decodifica e verifica immediatamente se il parametro `data` è presente nell'URL
     decodeAndVerify(data);
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState(null, "", cleanUrl);
   }
 });
 
@@ -227,6 +229,7 @@ function showData(sub, isActive) {
 }
 
 async function verifySubscription(subscription_id) {
+  const apiUrl = getApiBaseUrl(incType.STRIPE_FROM_TEMPLATE);
   const loader = document.getElementById("loader");
   loader.style.visibility = "visible";
   let response = {
@@ -234,7 +237,8 @@ async function verifySubscription(subscription_id) {
     subscription: null,
   };
   try {
-    fetch("qrcode.php", {
+    //fetch("/dist/inc/stripe/qrcode.php", {
+    fetch(apiUrl + "qrcode.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -285,7 +289,7 @@ async function verifySubscription(subscription_id) {
 }
 
 function getHTMLData(sub, activeUser) {
-  const html = `<hr><div class="card text-center fade show" id="card">
+  const html = `<hr><div class="card text-center fade show" id="card" style="box-shadow: none !important;">
     <img
       style="border-radius: 7px;"
       class="mx-auto m-3"

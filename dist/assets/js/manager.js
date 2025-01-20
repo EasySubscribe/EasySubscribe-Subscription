@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const apiUrl = getApiBaseUrl(incType.STRIPE_FROM_TEMPLATE);
+  const baseUrl = getApiBaseUrl(incType.BASE_URL);
+
   const loader = document.getElementById("loader");
   const urlParams = new URLSearchParams(window.location.search);
   let data = urlParams.get("data");
@@ -16,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cleanUrl = window.location.origin + window.location.pathname;
     window.history.replaceState(null, "", cleanUrl);
 
-    fetch("/dist/inc/stripe/manager.php", {
+    fetch(apiUrl + "manager.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,12 +34,18 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         loader.style.display = "none";
         if (data.error) {
-          errorDialog("Errore", "Errore nella richiesta: " + data.message);
+          errorDialog(
+            translations.manager_generic_error_title,
+            translations.manager_generic_error_text
+          );
         } else {
           if (data.data && data.data.length > 0) {
             renderTable(data.data, email);
           } else {
-            errorDialog("Informazione", "Nessuna sottoscrizione trovata.");
+            errorDialog(
+              translations.manager_generic_error_title,
+              translations.manager_subscription_error_text
+            );
           }
         }
       })
@@ -44,18 +53,17 @@ document.addEventListener("DOMContentLoaded", function () {
         loader.style.display = "none";
         console.error("Errore durante la richiesta:", error);
         errorDialog(
-          "Errore",
-          "Si è verificato un problema durante la richiesta. Riprova più tardi."
+          translations.manager_generic_error_title,
+          translations.manager_request_error_text
         );
       });
   } else {
     loader.style.display = "none";
     errorDialog(
-      "Errore",
-      "Si è verificato un problema, riprova più tardi."
+      translations.manager_generic_error_title,
+      translations.manager_generic_error_text
     ).then((result) => {
-      window.location.href =
-        window.location.origin + "/html/login_page/index.php";
+      window.location.href = baseUrl;
     });
   }
 
@@ -65,10 +73,10 @@ document.addEventListener("DOMContentLoaded", function () {
       <table id="example1" class="display fade-in" data-page-length='10'>
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Prodotto</th>
-            <th class="text-end">Data di Sottoscrizione</th>
+            <th>${translations.manager_table_element_1}</th>
+            <th>${translations.manager_table_element_2}</th>
+            <th>${translations.manager_table_element_3}</th>
+            <th class="text-end">${translations.manager_table_element_4}</th>
           </tr>
         </thead>
         <tbody>`;
@@ -169,6 +177,6 @@ document.addEventListener("DOMContentLoaded", function () {
     selBox.select();
     document.execCommand("copy");
     document.body.removeChild(selBox);
-    toastMessage("success", "Elemento copiato");
+    toastMessage("success", translations.manager_table_copy);
   }
 });

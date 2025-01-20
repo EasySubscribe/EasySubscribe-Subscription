@@ -80,12 +80,25 @@ if (defined('ABSPATH')) {
                 </div>
               </div>
               <div class="col-12 col-md-10">
-                <stripe-pricing-table pricing-table-id="prctbl_1QO5F5Run27ngB3YRsFdHCSS"
-                  publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN">
-                </stripe-pricing-table>
-                <stripe-pricing-table pricing-table-id="prctbl_1QCmSdRun27ngB3Ya01NPXNY"
-                  publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN">
-                </stripe-pricing-table>
+              <?php
+              // Verifica se siamo in locale o su WordPress
+              if (defined('ABSPATH')) {
+                  // Se siamo su WordPress, carica le tabelle Stripe dinamicamente
+                  $stripe_tables = get_option('stripe_pricing_tables', []);
+                  if (empty($stripe_tables)) {
+                      echo '<p>Non ci sono tabelle di prezzo disponibili.</p>';
+                      echo '<p>Per aggiungere una nuova tabella di prezzo, vai nelle <a href="' . admin_url('admin.php?page=easysubscribe-settings') . '">Impostazioni di EasySubscribe</a> e inserisci l\'ID della tabella e la chiave pubblicabile di Stripe.</p>';
+                  } else {
+                      foreach ($stripe_tables as $table) {
+                          echo '<stripe-pricing-table pricing-table-id="' . esc_attr($table['pricing-table-id']) . '" publishable-key="' . esc_attr($table['publishable-key']) . '"></stripe-pricing-table>';
+                      }
+                  }
+              } else {
+                  // Se siamo in locale, mostra due tabelle di esempio
+                  echo '<stripe-pricing-table pricing-table-id="prctbl_1QO5F5Run27ngB3YRsFdHCSS" publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN"></stripe-pricing-table>';
+                  echo '<stripe-pricing-table pricing-table-id="prctbl_1QCmSdRun27ngB3Ya01NPXNY" publishable-key="pk_test_51Q5WXyRun27ngB3YbfBEWlPiAtjmSa5RFXOaF2HwQl1MD44Df3cFWVxy40LAlg0MrtTSKHDzbpENZDGO3JamWsCC00bm73xoRN"></stripe-pricing-table>';
+              }
+              ?>
               </div>
             </div>
           </div>

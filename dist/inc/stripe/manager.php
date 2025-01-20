@@ -1,20 +1,31 @@
 <?php
-require dirname(__DIR__, 3) . '/vendor/autoload.php';
+// Gestione dinamica del caricamento di autoload.php
+if (file_exists(dirname(__DIR__, 5) . '/wp-load.php') || defined('ABSPATH')) {
+    // Siamo su WordPress
+    require_once dirname(__DIR__, 4) . '/plugins/easy-subscribe-dependency/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 4) . '/debug.log');
+    $dotenvPath = dirname(__DIR__, 4); // Percorso relativo per WordPress
+} else {
+    // Siamo in ambiente PHP locale
+    require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 3) . '/app.log');
+    $dotenvPath = dirname(__DIR__, 3); // Percorso relativo per ambiente locale
+}
+
+// Carica le variabili d'ambiente
+$dotenv = Dotenv\Dotenv::createImmutable($dotenvPath);
+$dotenv->load();
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Stripe\StripeClient;
-
-// Caricamento delle variabili d'ambiente
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 3)); // Cambia il percorso se necessario
-$dotenv->load();
 
 $stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'];
 $stripe = new StripeClient($stripeSecretKey);
 
 // Logger
 $log = new Logger('stripe');
-$log->pushHandler(new StreamHandler(dirname(__DIR__, 3) . '/app.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler(LOG_FILE, Logger::DEBUG));
 
 header('Content-Type: application/json');
 

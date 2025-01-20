@@ -319,3 +319,47 @@ msgstr "Assicurati di avere il QR Code pronto sul tuo dispositivo mobile o su un
 
 msgid "customers_pdf_event_access_part_3"
 msgstr "Per informazioni contattaci su https://www.easysubscribe.it"
+
+# Pagina Manager
+msgid "manager_page_title"
+msgstr "Manager"
+
+msgid "manager_title"
+msgstr "Gestione <span class='color-header'>Utenti</span>"
+
+msgid "manager_client_text"
+msgstr "Clienti Attivi"
+
+msgid "manager_profit_text"
+msgstr "Profitti del Mese"
+
+msgid "manager_no_user_text"
+msgstr "Nessun Utente Attivo"
+
+# Pagina Manager.js
+msgid "manager_generic_error_title"
+msgstr "Errore"
+
+msgid "manager_generic_error_text"
+msgstr "Si è verificato un problema, riprova più tardi."
+
+msgid "manager_request_error_text"
+msgstr "Si è verificato un problema durante la richiesta. Riprova più tardi."
+
+msgid "manager_subscription_error_text"
+msgstr "Nessuna sottoscrizione trovata."
+
+msgid "manager_table_element_1"
+msgstr "Nome e Cognome"
+
+msgid "manager_table_element_2"
+msgstr "Indirizzo Email"
+
+msgid "manager_table_element_3"
+msgstr "Prodotto"
+
+msgid "manager_table_element_4"
+msgstr "Data di Sottoscrizione"
+
+msgid "manager_table_copy"
+msgstr "Elemento copiato"

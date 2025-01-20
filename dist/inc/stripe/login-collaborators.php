@@ -1,5 +1,26 @@
 <?php
-require dirname(__DIR__, 3) . '/vendor/autoload.php';
+// Gestione dinamica del caricamento di autoload.php
+if (file_exists(dirname(__DIR__, 5) . '/wp-load.php') || defined('ABSPATH')) {
+    // Siamo su WordPress
+    require_once dirname(__DIR__, 4) . '/plugins/easy-subscribe-dependency/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 4) . '/debug.log');
+    $dotenvPath = dirname(__DIR__, 4); // Percorso relativo per WordPress
+
+    // Estrai il percorso dal URL corrente, se presente
+    $pathSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    $wpPath = !empty($pathSegments[1]) ? "/" . $pathSegments[1] : ""; // "/wpgiovanni" o stringa vuota
+    $redirect_post_login = $wpPath . '/manager?data=';
+} else {
+    // Siamo in ambiente PHP locale
+    require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
+    define('LOG_FILE', dirname(__DIR__, 3) . '/app.log');
+    $dotenvPath = dirname(__DIR__, 3); // Percorso relativo per ambiente locale
+    $redirect_post_login = '/dist/templates/template-manager.php?data=';
+}
+
+// Carica le variabili d'ambiente
+$dotenv = Dotenv\Dotenv::createImmutable($dotenvPath);
+$dotenv->load();
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -7,10 +28,6 @@ use Stripe\StripeClient;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Ramsey\Uuid\Uuid;
-
-// Carica le variabili d'ambiente
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 3));
-$dotenv->load();
 
 $stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'];
 $smtpHost = $_ENV['SMTP_HOST'];
@@ -20,7 +37,7 @@ $smtpPort = $_ENV['SMTP_PORT'];
 
 // Configura Monolog
 $log = new Logger('stripe');
-$log->pushHandler(new StreamHandler(dirname(__DIR__, 3) . '/app.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler(LOG_FILE, Logger::DEBUG));
 
 header('Content-Type: application/json');
 
@@ -90,7 +107,7 @@ try {
         ]);
         $log->info('SESSION_ID salvato su Stripe', ['session_id' => $sessionId, 'email' => $email]);
 
-        $resetUrl = $redirect_url . '/dist/templates/template-manager.php?data=' . base64_encode("$productIdsString:$sessionId:$email");
+        $resetUrl = $redirect_url . $redirect_post_login . base64_encode("$productIdsString:$sessionId:$email");
         $log->info('Reset URL is '. $resetUrl);
 
         $templatePath = __DIR__ . '/../../email-templates/email-collaborators.html';

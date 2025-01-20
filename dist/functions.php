@@ -10,6 +10,189 @@ function easy_subscribe_load_textdomain() {
 }
 add_action('after_setup_theme', 'easy_subscribe_load_textdomain');
 
+if (!is_admin()) {
+  add_filter('show_admin_bar', '__return_false');
+}
+
+// Aggiungi la pagina di impostazioni nel menu di amministrazione
+function easysubscribe_register_settings_page() {
+  add_menu_page(
+      'EasySubscribe Settings',
+      'EasySubscribe',
+      'manage_options',
+      'easysubscribe-settings',
+      'easysubscribe_settings_page_html',
+      'dashicons-admin-generic',
+      20
+  );
+}
+add_action('admin_menu', 'easysubscribe_register_settings_page');
+
+function easysubscribe_settings_page_html() {
+  // Verifica le autorizzazioni
+  if (!current_user_can('manage_options')) {
+      return;
+  }
+
+  // Salva i dati se inviati
+  if (isset($_POST['easysubscribe_save_settings'])) {
+      $stripe_tables = [];
+      if (isset($_POST['stripe_pricing_table_ids']) && is_array($_POST['stripe_pricing_table_ids']) && isset($_POST['stripe_publishable_keys']) && is_array($_POST['stripe_publishable_keys'])) {
+          foreach ($_POST['stripe_pricing_table_ids'] as $key => $table_id) {
+              if (isset($_POST['stripe_publishable_keys'][$key])) {
+                  $stripe_tables[] = [
+                      'pricing-table-id' => sanitize_text_field($table_id),
+                      'publishable-key' => sanitize_text_field($_POST['stripe_publishable_keys'][$key])
+                  ];
+              }
+          }
+      }
+
+      update_option('stripe_pricing_tables', $stripe_tables);
+      echo '<div class="updated"><p>Impostazioni salvate!</p></div>';
+  }
+
+  // Recupera i valori salvati
+  $stripe_tables = get_option('stripe_pricing_tables', []);
+  
+  // Aggiungi una verifica per assicurarti che $stripe_tables sia un array
+  if (!is_array($stripe_tables)) {
+      $stripe_tables = [];
+  }
+  ?>
+  <div class="wrap">
+      <h1>Impostazioni EasySubscribe</h1>
+      <form method="post">
+      <h3 scope="row">Codici delle tabelle di prezzo</h3>
+          <table class="form-table">
+              <tr valign="top">
+                  <td>
+                      <div id="pricing-tables">
+                          <?php
+                          // Visualizza ogni tabella salvata
+                          foreach ($stripe_tables as $index => $table) {
+                              ?>
+                              <div class="pricing-table" style="margin-bottom: 20px;">
+                                  <label for="stripe_pricing_table_ids_<?php echo $index; ?>">ID Tabella:</label>
+                                  <?php if (is_array($table) && isset($table['pricing-table-id'])): ?>
+                                      <input type="text" name="stripe_pricing_table_ids[]" value="<?php echo esc_attr($table['pricing-table-id']); ?>" class="form-control" />
+                                  <?php else: ?>
+                                      <!-- Gestisci il caso in cui $table non è un array -->
+                                      <input type="text" name="stripe_pricing_table_ids[]" value="" class="form-control" />
+                                  <?php endif; ?>
+                                  <label for="stripe_publishable_keys_<?php echo $index; ?>">Chiave Pubblicabile:</label>
+                                  <?php if (is_array($table) && isset($table['publishable-key'])): ?>
+                                      <input type="text" name="stripe_publishable_keys[]" value="<?php echo esc_attr($table['publishable-key']); ?>" class="form-control" />
+                                  <?php else: ?>
+                                      <!-- Gestisci il caso in cui $table non è un array -->
+                                      <input type="text" name="stripe_publishable_keys[]" value="" class="form-control" />
+                                  <?php endif; ?>
+                                  <button type="button" onclick="removePricingTable(<?php echo $index; ?>)" class="btn-blue">Rimuovi Tabella</button>
+                              </div>
+                              <?php
+                          }
+                          ?>
+                      </div>
+                      <button type="button" onclick="addPricingTable()" class="btn-blue">Aggiungi Tabella</button>
+                  </td>
+              </tr>
+          </table>
+          <?php submit_button('Salva Impostazioni', 'primary', 'easysubscribe_save_settings'); ?>
+      </form>
+  </div>
+
+  <style>
+      :root {
+        --header-color: #084b83;
+        --body-color: #f0f6f6;
+        --card-color: #e6f1f1;
+        --btn-color: #d0e6e6;
+        --btn-touch-color: #cadfdf;
+      }
+      /** Inputs */
+      .form-floating .form-control:focus:placeholder-shown ~ label {
+          border-color: rgba(240, 246, 246, 0.25) !important;
+      }
+
+      .form-control {
+          height: 50px;
+          width: 500px;
+          border-radius: 10px !important;
+          background-color: #f0f6f6 !important;
+          border: 1px solid #d0e6e6 !important;
+          transition: border-color 0.3s, background-color 0.3s;
+          outline: none !important;
+      }
+
+      .form-control:focus {
+          border-color: #d0e6e6 !important;
+          background-color: #f0f6f6 !important;
+          outline: none !important;
+          box-shadow: 0 0 0 0.2rem rgba(208, 230, 230, 0.5) !important;
+      }
+
+      .form-control:active {
+          border-color: #d0e6e6 !important;
+          background-color: #f0f6f6 !important;
+      }
+      /** END Inputs */
+
+      .btn-blue {
+          width: 150px;
+          min-height: 40px;
+          --bs-btn-padding-y: 0.5rem !important;
+          border-radius: 5px;
+          background-color: var(--btn-color) !important;
+          border: none !important;
+          outline: none !important;
+          transition: background-color 0.3s, box-shadow 0.3s;
+      }
+
+      .btn-blue:hover {
+          background-color: #cadfdf !important;
+      }
+
+      .btn-blue:active,
+      .btn-blue.active {
+          background-color: var(--btn-touch-color) !important;
+          outline: 3px solid var(--card-color) !important;
+          box-shadow: 0 0 0 6px var(--btn-touch-color), 0 0 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .pricing-table {
+          margin-bottom: 20px;
+      }
+
+      #pricing-tables {
+          margin-bottom: 20px;
+      }
+  </style>
+
+  <script>
+      function addPricingTable() {
+          const container = document.getElementById('pricing-tables');
+          const index = container.children.length;
+          const newRow = document.createElement('div');
+          newRow.classList.add('pricing-table');
+          newRow.style.marginBottom = '20px';
+          newRow.innerHTML = `
+              <label for="stripe_pricing_table_ids_${index}">ID Tabella:</label>
+              <input type="text" name="stripe_pricing_table_ids[]" class="form-control" />
+              <label for="stripe_publishable_keys_${index}">Chiave Pubblicabile:</label>
+              <input type="text" name="stripe_publishable_keys[]" class="form-control" />
+              <button type="button" onclick="removePricingTable(${index})" class="btn-blue">Rimuovi Tabella</button>
+          `;
+          container.appendChild(newRow);
+      }
+
+      function removePricingTable(index) {
+          const container = document.getElementById('pricing-tables');
+          container.removeChild(container.children[index]);
+      }
+  </script>
+  <?php
+}
+
 function enqueue_translate() {
   // Registra lo script
   wp_enqueue_script(
@@ -126,6 +309,17 @@ function enqueue_translate() {
       'customers_pdf_event_access_part_1' => __('customers_pdf_event_access_part_1', 'easy_subscribe'),
       'customers_pdf_event_access_part_2' => __('customers_pdf_event_access_part_2', 'easy_subscribe'),
       'customers_pdf_event_access_part_3' => __('customers_pdf_event_access_part_3', 'easy_subscribe'),
+
+      // Manager.js
+      'manager_generic_error_title' => __('manager_generic_error_title', 'easy_subscribe'),
+      'manager_generic_error_text' => __('manager_generic_error_text', 'easy_subscribe'),
+      'manager_request_error_text' => __('manager_request_error_text', 'easy_subscribe'),
+      'manager_subscription_error_text' => __('manager_subscription_error_text', 'easy_subscribe'),
+      'manager_table_element_1' => __('manager_table_element_1', 'easy_subscribe'),
+      'manager_table_element_2' => __('manager_table_element_2', 'easy_subscribe'),
+      'manager_table_element_3' => __('manager_table_element_3', 'easy_subscribe'),
+      'manager_table_element_4' => __('manager_table_element_4', 'easy_subscribe'),
+      'manager_table_copy' => __('manager_table_copy', 'easy_subscribe'),
     ));
 }
 add_action('wp_enqueue_scripts', 'enqueue_translate');

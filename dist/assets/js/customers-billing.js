@@ -301,10 +301,11 @@ async function redirectToBillingPortal(customerId) {
 }
 
 function getQRCode(subProd) {
+  const qrUrl = getApiBaseUrl(incType.QR_CODE);
   const product = JSON.parse(subProd);
-  const redirect_url = window.location.origin;
-  const url = redirect_url
-    .concat("/dist/templates/template-read-qrcode.php?data=")
+  const url = qrUrl
+    //.concat("/dist/templates/template-read-qrcode.php?data=")
+    .concat("?data=")
     .concat(btoa(product.subscription_id));
   console.log(url);
   qrCodeDialog(product.product_name, null, url).then((result) => {

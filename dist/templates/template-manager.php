@@ -14,12 +14,26 @@
 if (defined('ABSPATH')) {
   // Percorsi per WordPress (usa il tema attivo)
   $base_url = get_template_directory_uri();
+  $locale = get_locale(); // Recupera la lingua di WordPress
+  $manager_page_title = __('manager_page_title', 'easy_subscribe');
+  $site_name = esc_html(get_bloginfo('name'));
+  $manager_title = __('manager_title', 'easy_subscribe');
+  $manager_client_text = __('manager_client_text', 'easy_subscribe');
+  $manager_profit_text = __('manager_profit_text', 'easy_subscribe');
+  $manager_no_user_text = __('manager_no_user_text', 'easy_subscribe');
 } else {
   // Percorsi per lo sviluppo locale
   $base_url = '/..';  // Cambia con il percorso corretto per lo sviluppo locale
+  $locale = 'it-IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
+  $manager_page_title = "Manager";
+  $site_name = 'EasySubscribe'; // Nome del sito di fallback per PHP locale
+  $manager_title = "Gestione <span class='color-header'>Utenti</span>";
+  $manager_client_text = "Clienti Attivi";
+  $manager_profit_text = "Profitti del Mese";
+  $manager_no_user_text = "Nessun Utente Attivo";
 }
 ?>
-<html lang="it-IT" data-lt-installed="true">
+<html lang="<?= $locale; ?>" data-lt-installed="true">
   <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex, nofollow" />
@@ -50,7 +64,7 @@ if (defined('ABSPATH')) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.print.min.js"></script>
-    <title>Manager - EasySubscribe</title>
+    <title><?php echo $manager_page_title; ?> - <?php echo $site_name; ?></title>
   </head>
   <body>
   <?php require __DIR__ . '/../inc/header.php'; ?>
@@ -65,7 +79,7 @@ if (defined('ABSPATH')) {
       <section id="login-btn" class="mx-auto">
         <div class="row">
           <div class="col-12 fade-in" style="margin-bottom: -30px">
-            <h1>Gestione <span class="color-header">Utenti</span></h1>
+            <h1><?php echo $manager_title; ?></h1>
             <span class="line d-flex mx-auto"></span>
           </div>
         </div>
@@ -85,7 +99,7 @@ if (defined('ABSPATH')) {
                 
 
                 <!-- Titolo -->
-                <h5 class="card-title mb-3">Clienti Attivi</h5>
+                <h5 class="card-title mb-3"><?php echo $manager_client_text; ?></h5>
 
                 <!-- Numero -->
                 <div class="display-2 text-success" id="active-count">0</div>
@@ -99,7 +113,7 @@ if (defined('ABSPATH')) {
                 <i class="fa-solid fa-coins fa-3x mb-3 mt-2 text-warning bounce"></i>
 
                 <!-- Titolo -->
-                <h5 class="card-title mb-3">Profitti del Mese</h5>
+                <h5 class="card-title mb-3"><?php echo $manager_profit_text; ?></h5>
 
                 <!-- Numero -->
                 <div class="display-2 text-success" id="profit-amount">€ 0.00</div>
@@ -110,7 +124,7 @@ if (defined('ABSPATH')) {
 
         <div class="card" id="card">
             <div class="m-4 table-responsive">
-                <div id="subscription-container" class="text-center">Nessun Utente Attivo</div>
+                <div id="subscription-container" class="text-center"><?php echo $manager_no_user_text; ?></div>
             </div>
         </div>
       </div>

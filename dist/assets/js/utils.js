@@ -4,11 +4,13 @@ const incType = {
   API: "api",
   BASE_URL: "baseUrl",
   IMAGE_URL: "image",
+  QR_CODE: "qr-code",
 };
 
 const getApiBaseUrl = (inc) => {
   const themeName = "easySubscribe";
-  const isWordPressOnline = window.location.origin.includes("easysubscribe.it"); // Dominio online di WordPress
+  //const isWordPressOnline = window.location.origin.includes("easysubscribe.it"); // Dominio online di WordPress
+  const isWordPressOnline = window.location.origin.includes("ngrok-free.app"); // Dominio online di WordPress
   const isWordPressLocal =
     window.location.origin.includes("localhost") && !window.location.port; // WordPress locale senza porta
   const isPhpLocal =
@@ -78,6 +80,19 @@ const getApiBaseUrl = (inc) => {
     } else {
       // Ambiente non WordPress
       return "/../dist/assets/images/";
+    }
+  } else if (inc === incType.QR_CODE) {
+    if (isWordPressOnline) {
+      // WordPress online (produzione)
+      return `${window.location.origin}${pathname}scan`;
+    } else if (isWordPressLocal) {
+      // WordPress locale (con percorso relativo /wpgiovanni)
+      return `${window.location.origin}${pathname}scan`;
+    } else {
+      // Ambiente non WordPress
+      return (
+        window.location.origin + "/dist/templates/template-read-qrcode.php"
+      );
     }
   }
 };

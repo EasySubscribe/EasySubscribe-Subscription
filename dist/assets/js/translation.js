@@ -134,6 +134,18 @@ const defaultTranslations = {
     "Assicurati di avere il QR Code pronto sul tuo dispositivo mobile o su una stampa cartacea per un ingresso rapido e semplice.",
   customers_pdf_event_access_part_3:
     "Per informazioni contattaci su https://www.easysubscribe.it",
+
+  // Manager.js
+  manager_generic_error_title: "Errore",
+  manager_generic_error_text: "Si è verificato un problema, riprova più tardi.",
+  manager_request_error_text:
+    "Si è verificato un problema durante la richiesta. Riprova più tardi.",
+  manager_subscription_error_text: "Nessuna sottoscrizione trovata.",
+  manager_table_element_1: "Nome",
+  manager_table_element_2: "Email",
+  manager_table_element_3: "Prodotto",
+  manager_table_element_4: "Data di Sottoscrizione",
+  manager_table_copy: "Elemento copiato",
 };
 
 // Usa le traduzioni fornite da WordPress (via wp_localize_script) o il fallback

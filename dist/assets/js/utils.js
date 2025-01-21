@@ -9,8 +9,7 @@ const incType = {
 
 const getApiBaseUrl = (inc) => {
   const themeName = "easySubscribe";
-  //const isWordPressOnline = window.location.origin.includes("easysubscribe.it"); // Dominio online di WordPress
-  const isWordPressOnline = window.location.origin.includes("ngrok-free.app"); // Dominio online di WordPress
+  const isWordPressOnline = window.location.origin.includes("easysubscribe.it"); // Dominio online di WordPress
   const isWordPressLocal =
     window.location.origin.includes("localhost") && !window.location.port; // WordPress locale senza porta
   const isPhpLocal =

@@ -20,6 +20,7 @@ if (defined('ABSPATH')) {
     $scan = home_url('/scan/');
     $contact = home_url('/contact-me/');
     wp_head();
+    $locale = get_locale(); // Recupera la lingua di WordPress
 } else {
     // Percorsi per lo sviluppo locale
     $base_url = '/../dist';  // Cambia con il percorso corretto per lo sviluppo locale
@@ -27,15 +28,10 @@ if (defined('ABSPATH')) {
     $terms_and_condition = '/../dist/templates/template-policy.php';
     $scan = '/../dist/templates/template-read-qrcode.php';
     $contact = '/../dist/templates/template-contact-me.php';
+    $locale = 'it_IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
 }
 ?>
-
 <!-- File personalizzati -->
-<script src="<?php echo $base_url; ?>/assets/js/sweetalert.js"></script>
-<script src="<?php echo $base_url; ?>/assets/js/utils.js"></script>
-<link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css" />
-<link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/animation.css" />
-
 <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/header.css" />
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
@@ -73,7 +69,26 @@ if (defined('ABSPATH')) {
           <li class="nav-item">
               <a class="nav-link active fw-bold" id="home_text" href="<?php echo $home_url; ?>"></a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="<?php echo $base_url; ?>/assets/images/languages/<?php echo $locale; ?>.png" alt="Flags" class="flags">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#" onclick="setLanguage('it_IT')"><img src="<?php echo $base_url; ?>/assets/images/languages/it_IT.png" alt="Flags" class="flags-menu"> Italiano</a></li>
+              <li><a class="dropdown-item" href="#" onclick="setLanguage('en_GB')"><img src="<?php echo $base_url; ?>/assets/images/languages/en_GB.png" alt="Flags" class="flags-menu"> Inglese</a></li>
+              <li><a class="dropdown-item" href="#" onclick="setLanguage('es_ES')"><img src="<?php echo $base_url; ?>/assets/images/languages/es_ES.png" alt="Flags" class="flags-menu"> Spagnolo</a></li>
+              <li><a class="dropdown-item" href="#" onclick="setLanguage('fr_FR')"><img src="<?php echo $base_url; ?>/assets/images/languages/fr_FR.png" alt="Flags" class="flags-menu"> Francese</a></li>
+              <li><a class="dropdown-item" href="#" onclick="setLanguage('de_DE')"><img src="<?php echo $base_url; ?>/assets/images/languages/de_DE.png" alt="Flags" class="flags-menu"> Tedesco</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
 </nav>
+<script>
+  function setLanguage(languageCode) {
+    // Imposta un cookie con la lingua selezionata
+    document.cookie = "site_language=" + languageCode + "; path=/";
+    location.reload(); // Ricarica la pagina per applicare la nuova lingua
+  }
+</script>

@@ -21,7 +21,7 @@ if (defined('ABSPATH')) {
 } else {
   // Percorsi per lo sviluppo locale
   $base_url = '/../dist';
-  $locale = 'it-IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
+  $locale = 'it_IT'; // Imposta una lingua di fallback per il PHP locale (esempio: en_US)
   $site_name = 'EasySubscribe'; // Nome del sito di fallback per PHP locale
   $access_button = 'Default Accedi';
 }

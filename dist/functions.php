@@ -1,4 +1,13 @@
 <?php
+function change_language_based_on_cookie($locale) {
+    if (isset($_COOKIE['site_language'])) {
+        $locale = $_COOKIE['site_language']; // Prende la lingua dal cookie
+    }
+    return $locale;
+}
+
+add_filter('locale', 'change_language_based_on_cookie');
+
 function easy_subscribe_load_textdomain() {
   error_log('Tentativo di caricare le traduzioni...');
   $loaded = load_theme_textdomain('easy_subscribe', get_template_directory() . '/languages');

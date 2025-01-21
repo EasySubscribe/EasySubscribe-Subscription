@@ -62,7 +62,6 @@ if (defined('ABSPATH')) {
     class="text-center p-3"
     style="background-color: rgba(255, 255, 255, 0.1)"
   >
-    © 2025 Copyright:
-    <a class="text-white" href="#">EasySubscribe</a>
+    © 2025 <a class="text-white" href="#">EasySubscribe</a>
   </div>
 </footer>

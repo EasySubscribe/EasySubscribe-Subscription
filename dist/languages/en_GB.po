@@ -1,0 +1,365 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+# Login Page
+msgid "login_text"
+msgstr "Enter your email to view or download the Pass."
+
+msgid "welcome_text"
+msgstr "Welcome to <span class=\"color-header\">EasySubscribe</span>"
+
+msgid "email_placeholder"
+msgstr "Email address"
+
+msgid "email_help"
+msgstr "Enter your email to access the portal."
+
+msgid "access_button"
+msgstr "Access"
+
+msgid "back_button"
+msgstr "Back"
+
+msgid "organizer_button"
+msgstr "Are you an Organizer?"
+
+msgid "get_pass"
+msgstr "Get the Pass"
+
+# Header & Footer
+msgid "terms_and_condition_text"
+msgstr "Terms and Conditions"
+
+msgid "scan_text"
+msgstr "Scan"
+
+msgid "contact_text"
+msgstr "Contact Us"
+
+msgid "home_text"
+msgstr "Homepage"
+
+msgid "follow_text"
+msgstr "Follow us"
+
+msgid "phone_text"
+msgstr "Phone: "
+
+# Login.js
+msgid "network_error_title"
+msgstr "Network Error"
+
+msgid "network_error_text"
+msgstr "An issue occurred, please try again later."
+
+msgid "invalid_email_title"
+msgstr "Invalid Email"
+
+msgid "invalid_email_text"
+msgstr "Enter a valid email address to log in."
+
+msgid "sent_email_title"
+msgstr "Email Sent"
+
+msgid "sent_email_text"
+msgstr "Check the email address #EMAIL# to log in."
+
+msgid "email_not_found_title"
+msgstr "Email Not Found"
+
+msgid "email_not_found_text"
+msgstr "The email #EMAIL# is not registered on the portal."
+
+msgid "generic_error_title"
+msgstr "Error"
+
+msgid "generic_error_text"
+msgstr "An issue occurred, please try again later."
+
+# Terms and Conditions Page
+msgid "terms_and_condition_title"
+msgstr "Terms and <span class='color-header'>Conditions</span>"
+
+msgid "terms_and_condition_intro"
+msgstr ""
+"<p>These General Subscription Terms (the “General Terms”) govern the subscription of plans (the “Subscriptions”) for partner events (the “Partner Events”) on the website https://stripe.com/ (the “Website”), accessible by participating in said partner events.</p>\n"
+"<p>These General Terms constitute a binding agreement between each user subscribed to the Partner Events (the “User”) and Neverland Events – Strada Sora 15 – 27100 Pavia – Tel. +393313476201 – C.F./P.IVA 07619210961, REA 1971432 Registro delle Imprese di Milano (hereinafter referred to as the “Company”).</p>"
+
+msgid "terms_and_condition_scope"
+msgstr ""
+"<h3>Scope of the General Terms</h3>\n"
+"<p>1.1. These General Terms constitute the comprehensive agreement between the User and the Company regarding the subscription and use of the Subscriptions.</p>\n"
+"<p>1.2. By declaring acceptance of these General Terms when subscribing to a Subscription on the Website, the User agrees to comply with these General Terms. Users may not subscribe to or use the Subscriptions if they do not accept these General Terms.</p>"
+
+msgid "terms_and_condition_changes"
+msgstr ""
+"<h3>Amendments to the General Terms</h3>\n"
+"<p>2.1. The Company reserves the right to amend these General Terms from time to time, for example, to:</p>\n"
+"<ul>\n"
+"<li>ensure compliance with new legal provisions;</li>\n"
+"<li>technical reasons;</li>\n"
+"<li>other reasonable business reasons as communicated to the User.</li>\n"
+"</ul>\n"
+"<p>2.2. Users will be notified of these amendments via email. The amended General Terms will take effect 15 days after the date of notification to the User. If the User does not agree with the changes, they may withdraw from these General Terms free of charge within the 15-day period by providing written notice to the Company, as provided in Article 12. If no withdrawal occurs within this period, the amendments will be deemed accepted by the User.</p>"
+
+msgid "terms_and_condition_subscription"
+msgstr ""
+"<h3>Subscription</h3>\n"
+"<p>3.1. To subscribe, the User must provide all mandatory information marked with an asterisk on the Website. A valid email address and phone number are required for registration.</p>\n"
+"<p>3.2. Subscription prices are indicated on the Website and vary depending on the chosen plan. Payment must be made at the time of order. Accepted payment methods include credit card, ApplePay, SEPA direct debit, and bank transfer. Users may update their payment details for renewals in their personal area on the Website. The Company will not collect or process credit card details except for the last four digits and the expiration date. Payments will be processed by an authorized third-party payment processor.</p>\n"
+"<p>3.3. Charges will be applied upon subscription confirmation. Receipts or invoices will be sent via email.</p>\n"
+"<p>3.4. Users will receive an email confirmation containing essential subscription details and payment information. This confirmation will be sent only to the email address provided during registration.</p>\n"
+"<p>3.5. Access to Subscriptions requires an active account. Deleting the account will result in losing access to the Subscriptions.</p>"
+
+msgid "terms_and_condition_subscription_plans"
+msgstr ""
+"<h3>Subscription Plans</h3>\n"
+"<p>4.1. Different Subscription plans are available, enabling participation in Partner Events. These plans include:</p>\n"
+"<ul>\n"
+"<li>4.2. All You Can Dance – Italy A: grants access to Neverland International Congress, Roma Symposium, KizMi, and MAK. Monthly Subscription Cost: €25 excluding VAT. Minimum duration: 1 year.</li>\n"
+"<li>4.3. All You Can Dance – Italy B: includes Neverland International Congress, Roma Symposium, KizMi, MAK, Levante Kizomba Festival, and LoveMi. Monthly Subscription Cost: €35 excluding VAT. Minimum duration: 1 year.</li>\n"
+"<li>4.4. Special Combo – LoveMi: includes LoveMi, double room accommodation for two nights, breakfast, and tourist tax at the FastHotel. Monthly Subscription Cost: €70 excluding VAT. Minimum duration: 3 months.</li>\n"
+"</ul>"
+
+msgid "terms_and_condition_subscription_duration"
+msgstr ""
+"<h3>Duration and Renewal of Subscription</h3>\n"
+"<p>5.1. These General Conditions are effective indefinitely, provided that either party may terminate them at any time by giving written notice to the other party. However, it is understood that, in the event of the exercise of the right of termination by either party, the termination will not affect the services already provided or the obligations already undertaken by either party before the date of termination.</p>\n"
+"<p>5.2. Unless otherwise stated in the specific plan, the Subscription will be automatically renewed upon its expiration for the same duration and under the same conditions, unless the User provides notice of termination at least 15 days before the renewal date, through the methods described in Article 12.</p>\n"
+"<p>5.3. The automatic renewal of the Subscription is subject to the payment of the related price. If the payment of the renewal fee is not successful for reasons attributable to the User, the Company reserves the right to deactivate the Subscription and deny the User access to the relevant Partner Events.</p>"
+
+msgid "terms_and_condition_assistance"
+msgstr ""
+"<h3>Assistance</h3>\n"
+"<p>6.1. The Company guarantees support to the User for any difficulties encountered in using the service. The assistance service is active 24/7 through the email service at <a href=\"mailto:support@neverland.com\">support@neverland.com</a>.</p>"
+
+msgid "terms_and_condition_responsibility"
+msgstr ""
+"<h3>Responsibility</h3>\n"
+"<p>7.1. The Company is not liable for damages resulting from unforeseeable events beyond its control, due to force majeure or extraordinary events.</p>"
+
+msgid "terms_and_condition_applicable_law"
+msgstr ""
+"<h3>Applicable Law</h3>\n"
+"<p>8.1. These General Terms and Conditions are governed by Italian law.</p>"
+
+# Contact Me Page
+msgid "contact_page_title"
+msgstr "Contact Us"
+
+msgid "contact_me_title"
+msgstr "Not <span class='color-header'>Sure?</span>"
+
+msgid "contact_me_subtitle"
+msgstr "Do you have any questions? Feel free to write them in this form. We will get back to you as soon as possible."
+
+msgid "contact_me_form_name"
+msgstr "Full Name"
+
+msgid "contact_me_form_email"
+msgstr "Email Address"
+
+msgid "contact_me_form_phone"
+msgstr "Phone Number"
+
+msgid "contact_me_form_description"
+msgstr "Description"
+
+msgid "contact_me_form_send"
+msgstr "Send"
+
+# Contact-Me.js
+msgid "contact_me_sent_email_title"
+msgstr "Email Sent"
+
+msgid "contact_me_sent_email_text"
+msgstr "Thank you for contacting us."
+
+# Read QRCode
+msgid "read_qr_page_title"
+msgstr "Ticket Scanning"
+
+msgid "read_qr_title"
+msgstr "Scan <span class='color-header'>Ticket</span>"
+
+msgid "read_qr_button"
+msgstr "Scan"
+
+# Read QRCode.js
+msgid "read_qr_error_title"
+msgstr "Error"
+
+msgid "read_qr_error_data_not_valid"
+msgstr "The Ticket contains invalid data."
+
+msgid "read_qr_error_data"
+msgstr "Unable to read the Ticket."
+
+msgid "read_qr_error_camera"
+msgstr "Unable to access the camera."
+
+msgid "read_qr_error_focus"
+msgstr "Focusing in progress..."
+
+msgid "read_qr_access_allowed"
+msgstr "Access Allowed."
+
+msgid "read_qr_access_denied"
+msgstr "Access Denied."
+
+# Customer Billing.js
+msgid "customers_subscription_title"
+msgstr "Subscriptions"
+
+msgid "customers_generic_error_title"
+msgstr "Error"
+
+msgid "customers_generic_error_text"
+msgstr "An issue occurred, please try again later."
+
+msgid "customers_request_error_text"
+msgstr "Request Error: "
+
+msgid "customers_handle_payments_title"
+msgstr "Manage Payment"
+
+msgid "customers_get_qr_code_title"
+msgstr "Get Ticket"
+
+msgid "customers_cancel_subscription_title"
+msgstr "Cancel Subscription"
+
+msgid "customers_cancel_subscription_confirm_title"
+msgstr "Are you sure you want to cancel the subscription?"
+
+msgid "customers_cancel_subscription_confirm_subtitle"
+msgstr "You won’t be able to undo this action!"
+
+msgid "customers_cancel_subscription_confirm_button"
+msgstr "Yes, Cancel!"
+
+msgid "customers_cancel_subscription_deny_button"
+msgstr "No, Dismiss!"
+
+msgid "customers_cancel_subscription_reject_title"
+msgstr "Operation Canceled"
+
+msgid "customers_cancel_subscription_reject_subtitle"
+msgstr "Subscription not canceled"
+
+msgid "customers_page_title"
+msgstr "<h1>Welcome <span class='color-header'>#CUSTOMER_NAME#</span></h1>"
+
+msgid "customers_cancel_subscription_error_policy"
+msgstr "<p>You cannot cancel the subscription as the <a href='terms-and-conditions'>cancellation policy</a> was not respected. The subscription will be cancelable starting from #CANCEL_DAY#</p>"
+
+msgid "customers_cancel_subscription_error_generic"
+msgstr "<p>Error while canceling the subscription.<br>Please contact <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>"
+
+msgid "customers_cancel_subscription_error_unknown"
+msgstr "Unknown error occurred while canceling."
+
+msgid "customers_cancel_subscription_success_title"
+msgstr "Operation Completed!"
+
+msgid "customers_cancel_subscription_success_subtitle"
+msgstr "Your subscription has been successfully canceled."
+
+msgid "customers_get_qr_code_download_error"
+msgstr "An issue occurred, download failed."
+
+msgid "customers_get_qr_code_download_success_title"
+msgstr "Download Started"
+
+msgid "customers_get_qr_code_download_success_subtitle"
+msgstr "You can now access "
+
+msgid "customers_pdf_welcome_text"
+msgstr "Hi #CUSTOMER_NAME#, access the event by showing the QR Code!"
+
+msgid "customers_pdf_event_text"
+msgstr "Event(s) you can access: "
+
+msgid "customers_pdf_terms_title"
+msgstr "GENERAL SALES TERMS"
+
+msgid "customers_pdf_terms_part_1"
+msgstr "To be valid, the e-ticket is subject to the Weezevent sales terms and, if applicable, to those of the organizer accepted at the time of purchase. REMINDER: This e-ticket is non-refundable. Unless otherwise agreed with the organizer, the e-ticket is personal, non-transferable, and non-exchangeable."
+
+msgid "customers_pdf_terms_part_2"
+msgstr "CHECK-IN: Access to the event is subject to the validity of your e-ticket. This e-ticket is valid only for the venue, session, date, and time indicated on the e-ticket. After the start time, access to the event is not guaranteed and does not entitle you to any refund. We recommend arriving before the start of the event. To be valid, the e-ticket must be printed on A4 white paper, without altering the print size and with good quality. Partially printed, dirty, damaged, or illegible e-tickets will be considered invalid and may be refused by the organizer. The organizer also reserves the right to accept or reject other media, including electronic ones (mobile phone, tablet, etc.)."
+
+msgid "customers_pdf_terms_part_3"
+msgstr "Each e-ticket is equipped with a barcode allowing access to the event for one person only. To be valid, the payment for this e-ticket must not have been rejected by the credit card holder used for the purchase. Otherwise, the barcode will be deactivated. At the entrance, you must have a valid official photo ID. After the check, the e-ticket must be kept until the end of the event. In some cases, the organizer may issue a dual-stub ticket (which may or may not reveal the rental fee)."
+
+msgid "customers_pdf_terms_part_4"
+msgstr "FRAUD: It is prohibited to reproduce, use, copy, duplicate, or counterfeit this e-ticket in any way, under penalty of prosecution. Similarly, any order made fraudulently to obtain an e-ticket will result in legal action and the invalidation of the said e-ticket."
+
+msgid "customers_pdf_terms_part_5"
+msgstr "RESPONSIBILITY: The buyer remains responsible for the use of e-tickets and, in case of loss, theft, or duplication of a valid e-ticket, only the first person in possession of the e-ticket can access the event. Weezevent is not responsible for any anomalies that may occur during the ordering, processing, or printing of the e-ticket unless such anomalies are caused intentionally or negligently in case of loss, theft, or unauthorized use of the e-ticket."
+
+msgid "customers_pdf_terms_part_6"
+msgstr "EVENT: Events are and remain the sole responsibility of the organizer. The purchase of this e-ticket implies adherence to the rules of the event venue and/or the organizer. In case of cancellation or postponement of the event, the ticket refund without additional costs (transportation, hotel, etc...) will be subject to the conditions of the organizer (you can find their email address above in the additional information) who receives the proceeds from the sale of the e-tickets."
+
+msgid "customers_pdf_event_access_part_1"
+msgstr "To access the event, show the QR Code at the reception at the entrance. By scanning the code, our system will verify your access and allow you to enter without issues."
+
+msgid "customers_pdf_event_access_part_2"
+msgstr "Ensure you have the QR Code ready on your mobile device or printed for a quick and smooth entry."
+
+msgid "customers_pdf_event_access_part_3"
+msgstr "For information, contact us at https://www.easysubscribe.it"
+
+# Manager Page
+msgid "manager_page_title"
+msgstr "Manager"
+
+msgid "manager_title"
+msgstr "User <span class='color-header'>Management</span>"
+
+msgid "manager_client_text"
+msgstr "Active Customers"
+
+msgid "manager_profit_text"
+msgstr "Monthly Profits"
+
+msgid "manager_no_user_text"
+msgstr "No Active Users"
+
+# Manager Page.js
+msgid "manager_generic_error_title"
+msgstr "Error"
+
+msgid "manager_generic_error_text"
+msgstr "A problem occurred, please try again later."
+
+msgid "manager_request_error_text"
+msgstr "There was an issue with the request. Please try again later."
+
+msgid "manager_subscription_error_text"
+msgstr "No subscription found."
+
+msgid "manager_table_element_1"
+msgstr "Full Name"
+
+msgid "manager_table_element_2"
+msgstr "Email Address"
+
+msgid "manager_table_element_3"
+msgstr "Product"
+
+msgid "manager_table_element_4"
+msgstr "Subscription Date"
+
+msgid "manager_table_copy"
+msgstr "Item copied"

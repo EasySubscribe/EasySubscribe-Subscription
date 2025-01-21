@@ -26,7 +26,7 @@ if (defined('ABSPATH')) {
 
 <!-- File personalizzati -->
 <script src="<?php echo $base_url; ?>/assets/js/sweetalert.js"></script>
-<script type="module" src="<?php echo $base_url; ?>/assets/js/utils.js"></script>
+<script src="<?php echo $base_url; ?>/assets/js/utils.js"></script>
 <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css" />
 <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/animation.css" />
 

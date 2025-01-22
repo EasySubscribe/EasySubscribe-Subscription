@@ -8,7 +8,7 @@ const incType = {
 };
 
 const getApiBaseUrl = (inc) => {
-  const themeName = "easySubscribe";
+  const themeName = "EasySubscribe";
   const isWordPressOnline = window.location.origin.includes("easysubscribe.it"); // Dominio online di WordPress
   const isWordPressLocal =
     window.location.origin.includes("localhost") && !window.location.port; // WordPress locale senza porta
@@ -38,7 +38,8 @@ const getApiBaseUrl = (inc) => {
   if (inc === incType.STRIPE || inc === incType.STRIPE_FROM_TEMPLATE) {
     if (isWordPressOnline) {
       // WordPress online (produzione)
-      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/stripe/`;
+      //return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/stripe/`;
+      return `${window.location.origin}/wp-content/themes/${themeName}/inc/stripe/`;
     } else if (isWordPressLocal) {
       // WordPress locale (senza porta specifica)
       return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/stripe/`;
@@ -50,7 +51,8 @@ const getApiBaseUrl = (inc) => {
   } else if (inc === incType.API) {
     if (isWordPressOnline) {
       // WordPress online (produzione)
-      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/api/`;
+      //return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/api/`;
+      return `${window.location.origin}/wp-content/themes/${themeName}/inc/api/`;
     } else if (isWordPressLocal) {
       // WordPress locale (con percorso relativo /wpgiovanni)
       return `${window.location.origin}${pathname}wp-content/themes/${themeName}/inc/api/`;
@@ -61,7 +63,8 @@ const getApiBaseUrl = (inc) => {
   } else if (inc === incType.BASE_URL) {
     if (isWordPressOnline) {
       // WordPress online (produzione)
-      return `${window.location.origin}${pathname}`;
+      //return `${window.location.origin}${pathname}`;
+      return `${window.location.origin}/`;
     } else if (isWordPressLocal) {
       // WordPress locale (con percorso relativo /wpgiovanni)
       return `${window.location.origin}${pathname}`;
@@ -72,7 +75,8 @@ const getApiBaseUrl = (inc) => {
   } else if (inc === incType.IMAGE_URL) {
     if (isWordPressOnline) {
       // WordPress online (produzione)
-      return `${window.location.origin}${pathname}wp-content/themes/${themeName}/assets/images/`;
+      //return `${window.location.origin}${pathname}wp-content/themes/${themeName}/assets/images/`;
+      return `${window.location.origin}/wp-content/themes/${themeName}/assets/images/`;
     } else if (isWordPressLocal) {
       // WordPress locale (con percorso relativo /wpgiovanni)
       return `${window.location.origin}${pathname}wp-content/themes/${themeName}/assets/images/`;
@@ -83,7 +87,8 @@ const getApiBaseUrl = (inc) => {
   } else if (inc === incType.QR_CODE) {
     if (isWordPressOnline) {
       // WordPress online (produzione)
-      return `${window.location.origin}${pathname}scan`;
+      //return `${window.location.origin}${pathname}scan`;
+      return `${window.location.origin}/scan`;
     } else if (isWordPressLocal) {
       // WordPress locale (con percorso relativo /wpgiovanni)
       return `${window.location.origin}${pathname}scan`;

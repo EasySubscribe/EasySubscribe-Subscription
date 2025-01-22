@@ -128,7 +128,7 @@ try {
             $mail->addAddress($email);
 
             $mail->isHTML(true);
-            $mail->Subject = 'Accedi al portale';
+            $mail->Subject = 'Access to the Organizer Portal';
             $mail->Body = $emailBody;
 
             $mail->send();

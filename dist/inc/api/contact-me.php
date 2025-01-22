@@ -70,7 +70,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $emailBodyInfo = str_replace('{{PHONENUMBER}}', $phone, $emailBodyInfo);
     $emailBodyInfo = str_replace('{{DESCRIPTION}}', $description, $emailBodyInfo);
 
-    sendEmail($log, 'Contattatami', $email, $emailBody, null);
+    sendEmail($log, 'Contact Me', $email, $emailBody, null);
     sendEmail($log,'Sei stato contattato', $email, $emailBodyInfo, null);
 
     echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'email' => $email]);

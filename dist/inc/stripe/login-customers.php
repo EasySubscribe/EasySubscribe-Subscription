@@ -141,7 +141,7 @@ try {
 
             // Contenuto dell'email
             $mail->isHTML(true);
-            $mail->Subject = 'Accedi al portale';
+            $mail->Subject = 'Access to the Portal';
             $mail->Body = $emailBody;
 
             // Invia l'email

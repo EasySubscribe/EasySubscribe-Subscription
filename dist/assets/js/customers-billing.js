@@ -81,14 +81,17 @@ document.addEventListener("DOMContentLoaded", function () {
         </p>`
             : "<br>"
         }
-        <p>Attivo dal: ${formatDateIntl(
-          new Date(element.subscriptions.created * 1000).toLocaleDateString()
-        )} <br />${
+        <p>${translations.customers_subscription_active_from} ${formatDateIntl(
+                new Date(
+                  element.subscriptions.created * 1000
+                ).toLocaleDateString()
+              )} <br />${
                 getExpiredDate(element, false) !=
                 new Date(
                   element.subscriptions.created * 1000
                 ).toLocaleDateString()
-                  ? "Si rinnova il: " +
+                  ? translations.customers_subscription_renew_on +
+                    " " +
                     formatDateIntl(getExpiredDate(element, false))
                   : ""
               }</p>

@@ -46,6 +46,9 @@ function easysubscribe_settings_page_html() {
   // Salva i dati se inviati
   if (isset($_POST['easysubscribe_save_settings'])) {
       $stripe_tables = [];
+      //$redirect_links = [];
+
+      // Gestione delle tabelle Stripe
       if (isset($_POST['stripe_pricing_table_ids']) && is_array($_POST['stripe_pricing_table_ids']) && isset($_POST['stripe_publishable_keys']) && is_array($_POST['stripe_publishable_keys'])) {
           foreach ($_POST['stripe_pricing_table_ids'] as $key => $table_id) {
               if (isset($_POST['stripe_publishable_keys'][$key])) {
@@ -57,17 +60,47 @@ function easysubscribe_settings_page_html() {
           }
       }
 
+      // Verifica e salva i dati
+      /*if (isset($_POST['easysubscribe_save_settings'])) {
+        $redirect_links = [];
+        // Verifica che redirect_links sia un array
+            if (isset($_POST['redirect_links']) && is_array($_POST['redirect_links'])) {
+                foreach ($_POST['redirect_links'] as $link) {
+                    // Verifica che ogni elemento di link sia un array
+                    if (isset($link['name']) && isset($link['link'])) {
+                        $redirect_links[] = [
+                            'name' => sanitize_text_field($link['name']),
+                            'link' => esc_url($link['link'])
+                        ];
+                    }
+                }
+            }
+      
+            // Salva i dati solo se sono validi
+            if (!empty($redirect_links)) {
+                update_option('redirect_links', $redirect_links);
+                echo '<div class="updated"><p>Impostazioni salvate!</p></div>';
+            }
+        }*/
+
       update_option('stripe_pricing_tables', $stripe_tables);
+      //update_option('redirect_links', $redirect_links);
       echo '<div class="updated"><p>Impostazioni salvate!</p></div>';
   }
 
   // Recupera i valori salvati
   $stripe_tables = get_option('stripe_pricing_tables', []);
+  //$redirect_links = get_option('redirect_links', []);
+  //$saved_links = isset($redirect_links) ? $redirect_links : [];
   
   // Aggiungi una verifica per assicurarti che $stripe_tables sia un array
   if (!is_array($stripe_tables)) {
       $stripe_tables = [];
   }
+
+  //if (!is_array($redirect_links)) {
+  //  $redirect_links = [];
+  //}
   ?>
   <div class="wrap">
       <h1>Impostazioni EasySubscribe</h1>
@@ -106,6 +139,64 @@ function easysubscribe_settings_page_html() {
                   </td>
               </tr>
           </table>
+
+            <!--<h3>Link di Redirect</h3>
+            <table class="form-table">
+                <tr valign="top">
+                    <td>
+                        <div id="redirect-links">-->
+                            <?php
+                            // Ottieni le lingue disponibili
+                            /*$available_languages = get_available_languages(); // Restituisce un array con le lingue disponibili in WordPress
+
+                            // Se non ci sono lingue disponibili, imposta le lingue di default
+                            if (empty($available_languages)) {
+                                $available_languages = ['it', 'en']; // Imposta le lingue di default (esempio)
+                            }
+                        
+                            // Visualizza ogni link salvato
+                            foreach ($redirect_links as $index => $link) {
+                                ?>
+                                <div class="redirect-link" style="margin-bottom: 20px;">
+                                    <!-- Input per il nome, che cambia per ogni lingua -->
+                                    <label for="redirect_link_name_<?php echo $index; ?>">Nome dell'elemento:</label>
+                                    <input type="text" id="redirect_link_name_<?php echo $index; ?>" 
+                                           name="redirect_links[<?php echo $index; ?>][name]" 
+                                           value="<?php echo esc_attr($link['name']); ?>" 
+                                           class="form-control" />
+
+                                    <!-- Selettore lingua per ogni input -->
+                                    <label for="redirect_link_language_<?php echo $index; ?>">Lingua:</label>
+                                    <select name="redirect_links[<?php echo $index; ?>][language]" 
+                                            class="form-control">
+                                        <?php
+                                        // Cicla le lingue disponibili
+                                        foreach ($available_languages as $language) {
+                                            $selected = (isset($link['language']) && $link['language'] === $language) ? 'selected' : '';
+                                            echo "<option value=\"$language\" $selected>" . ucfirst($language) . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                    
+                                    <!-- Link di redirect, che rimane invariato -->
+                                    <label for="redirect_link_<?php echo $index; ?>">Link di Redirect:</label>
+                                    <input type="text" name="redirect_links[<?php echo $index; ?>][link]" 
+                                           value="<?php echo esc_url($link['link']); ?>" 
+                                           class="form-control" />
+                                    
+                                    <button type="button" onclick="removeRedirectLink(<?php echo $index; ?>)" class="btn-blue">Rimuovi Link</button>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <button type="button" onclick="addRedirectLink()" class="btn-blue">Aggiungi Link</button>
+                    </td>
+                </tr>
+            </table>*/
+            // TODO: Rimuovi questo ? > se abiliti il menù personalizzato" 
+            ?> 
+
           <?php submit_button('Salva Impostazioni', 'primary', 'easysubscribe_save_settings'); ?>
       </form>
   </div>
@@ -198,6 +289,47 @@ function easysubscribe_settings_page_html() {
           const container = document.getElementById('pricing-tables');
           container.removeChild(container.children[index]);
       }
+
+        /*function addRedirectLink() {
+            const container = document.getElementById('redirect-links');
+            const index = container.children.length;
+
+            const newRow = document.createElement('div');
+            newRow.classList.add('redirect-link');
+            newRow.style.marginBottom = '20px';
+
+            newRow.innerHTML = `
+                <!-- Input per il nome, che cambia per ogni lingua -->
+                <label for="redirect_link_name_${index}">Nome dell'elemento:</label>
+                <input type="text" id="redirect_link_name_${index}" 
+                       name="redirect_links[${index}][name]" 
+                       class="form-control" />
+
+                <!-- Selettore lingua per ogni input -->
+                <label for="redirect_link_language_${index}">Lingua:</label>
+                <select name="redirect_links[${index}][language]" class="form-control">
+                    <?php foreach ($available_languages as $language) { ?>
+                        <option value="<?php echo $language; ?>"><?php echo ucfirst($language); ?></option>
+                    <?php } ?>
+                </select>
+                    
+                <!-- Link di redirect, che rimane invariato -->
+                <label for="redirect_link_${index}">Link di Redirect:</label>
+                <input type="text" name="redirect_links[${index}][link]" 
+                       class="form-control" />
+                    
+                <button type="button" onclick="removeRedirectLink(${index})" class="btn-blue">Rimuovi Link</button>
+            `;
+                    
+            container.appendChild(newRow);
+        }
+
+
+      // Rimuovi un link di redirect
+      function removeRedirectLink(index) {
+          const container = document.getElementById('redirect-links');
+          container.removeChild(container.children[index]);
+      }*/
   </script>
   <?php
 }
@@ -288,8 +420,12 @@ function enqueue_translate() {
       'customers_generic_error_title' => __('customers_generic_error_title', 'easy_subscribe'),
       'customers_generic_error_text' => __('customers_generic_error_text', 'easy_subscribe'),
       'customers_request_error_text' => __('customers_request_error_text', 'easy_subscribe'),
+      'customers_subscription_active_from' => __('customers_subscription_active_from', 'easy_subscribe'),
+      'customers_subscription_renew_on' => __('customers_subscription_renew_on', 'easy_subscribe'),
       'customers_handle_payments_title' => __('customers_handle_payments_title', 'easy_subscribe'),
       'customers_get_qr_code_title' => __('customers_get_qr_code_title', 'easy_subscribe'),
+      'customers_download_code' => __('customers_download_code', 'easy_subscribe'),
+      'customers_close_download_code' => __('customers_close_download_code', 'easy_subscribe'),
       'customers_cancel_subscription_title' => __('customers_cancel_subscription_title', 'easy_subscribe'),
       'customers_cancel_subscription_confirm_title' => __('customers_cancel_subscription_confirm_title', 'easy_subscribe'),
       'customers_cancel_subscription_confirm_subtitle' => __('customers_cancel_subscription_confirm_subtitle', 'easy_subscribe'),

@@ -25,7 +25,7 @@ msgid "email_help"
 msgstr "Enter your email to access the portal."
 
 msgid "access_button"
-msgstr "Access"
+msgstr "Login"
 
 msgid "back_button"
 msgstr "Back"
@@ -230,11 +230,23 @@ msgstr "An issue occurred, please try again later."
 msgid "customers_request_error_text"
 msgstr "Request Error: "
 
+msgid "customers_subscription_active_from"
+msgstr "Active from:"
+
+msgid "customers_subscription_renew_on"
+msgstr "Renew on:"
+
 msgid "customers_handle_payments_title"
 msgstr "Manage Payment"
 
 msgid "customers_get_qr_code_title"
 msgstr "Get Ticket"
+
+msgid "customers_download_code"
+msgstr "Download"
+
+msgid "customers_close_download_code"
+msgstr "Close"
 
 msgid "customers_cancel_subscription_title"
 msgstr "Cancel Subscription"

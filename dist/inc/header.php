@@ -57,6 +57,22 @@ if (defined('ABSPATH')) {
       </button>
       <div class="collapse navbar-collapse slide-in-right" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <?php /* if (defined('ABSPATH')) : ?>
+        <?php
+        // Siamo in WordPress, otteniamo i link salvati
+        $redirect_links = get_option('redirect_links', []);
+        foreach ($redirect_links as $link) {
+            // Mostra i link salvati
+            echo '<li class="nav-item">';
+            echo '<a class="nav-link active fw-bold" href="' . esc_url($link['link']) . '">' . esc_html($link['name']) . '</a>';
+            echo '</li>';
+        }
+        ?>
+          <?php else : ?>
+          <?php
+          // Siamo in locale, usa i link locali
+          */
+          ?>
           <li class="nav-item">
             <a class="nav-link active fw-bold" id="terms_and_condition_text" href="<?php echo $terms_and_condition; ?>"></a>
           </li>
@@ -66,9 +82,10 @@ if (defined('ABSPATH')) {
           <li class="nav-item">
               <a class="nav-link active fw-bold" id="contact_text" href="<?php echo $contact; ?>"></a>
           </li>
-          <li class="nav-item">
+          <!--<li class="nav-item">
               <a class="nav-link active fw-bold" id="home_text" href="<?php echo $home_url; ?>"></a>
-          </li>
+          </li>-->
+          <?php //endif; ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="<?php echo $base_url; ?>/assets/images/languages/<?php echo $locale; ?>.png" alt="Flags" class="flags">

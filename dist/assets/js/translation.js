@@ -86,8 +86,12 @@ const defaultTranslations = {
   customers_generic_error_text:
     "Si è verificato un problema, riprova più tardi.",
   customers_request_error_text: "Errore nella richiesta: ",
+  customers_subscription_active_from: "Attivo dal:",
+  customers_subscription_renew_on: "Si rinnova il:",
   customers_handle_payments_title: "Gestisci Pagamento",
   customers_get_qr_code_title: "Ottieni il QRCode",
+  customers_download_code: "Scarica",
+  customers_close_download_code: "Chiudi",
   customers_cancel_subscription_title: "Cancella Abbonamento",
   customers_cancel_subscription_confirm_title:
     "Sicuro di voler disdire l'abbonamento?",

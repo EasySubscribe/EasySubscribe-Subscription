@@ -230,11 +230,23 @@ msgstr "Si è verificato un problema, riprova più tardi."
 msgid "customers_request_error_text"
 msgstr "Errore nella richiesta: "
 
+msgid "customers_subscription_active_from"
+msgstr "Attivo dal:"
+
+msgid "customers_subscription_renew_on"
+msgstr "Si rinnova il:"
+
 msgid "customers_handle_payments_title"
 msgstr "Gestisci Pagamento"
 
 msgid "customers_get_qr_code_title"
 msgstr "Ottieni il Biglietto"
+
+msgid "customers_download_code"
+msgstr "Scarica"
+
+msgid "customers_close_download_code"
+msgstr "Chiudi"
 
 msgid "customers_cancel_subscription_title"
 msgstr "Cancella Abbonamento"

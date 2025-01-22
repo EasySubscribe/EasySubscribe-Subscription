@@ -123,8 +123,8 @@ function qrCodeDialog(title, subtitle, link) {
       subtitle != null ? "<div class='mx-auto mb-2'>" + subtitle + "</div>" : ""
     }<div id='qrcode' class='mx-auto' style='display: flex; justify-content: center; width: 256px;height: 256px;'></div>`,
     background: "#e6f1f1",
-    confirmButtonText: "Scarica",
-    cancelButtonText: "Chiudi",
+    confirmButtonText: translations.customers_download_code,
+    cancelButtonText: translations.customers_close_download_code,
     showCancelButton: true,
     reverseButtons: false,
     willOpen: () => {

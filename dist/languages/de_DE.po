@@ -1,0 +1,377 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+# Login Page
+msgid "login_text"
+msgstr "Geben Sie Ihre E-Mail-Adresse ein, um den Pass anzuzeigen oder herunterzuladen."
+
+msgid "welcome_text"
+msgstr "Willkommen bei <span class=\"color-header\">EasySubscribe</span>"
+
+msgid "email_placeholder"
+msgstr "E-Mail-Adresse"
+
+msgid "email_help"
+msgstr "Geben Sie Ihre E-Mail-Adresse ein, um auf das Portal zuzugreifen."
+
+msgid "access_button"
+msgstr "Anmelden"
+
+msgid "back_button"
+msgstr "Zurück"
+
+msgid "organizer_button"
+msgstr "Sind Sie ein Organisator?"
+
+msgid "get_pass"
+msgstr "Pass erhalten"
+
+# Header & Footer
+msgid "terms_and_condition_text"
+msgstr "Allgemeine Geschäftsbedingungen"
+
+msgid "scan_text"
+msgstr "Scannen"
+
+msgid "contact_text"
+msgstr "Kontaktieren Sie uns"
+
+msgid "home_text"
+msgstr "Startseite"
+
+msgid "follow_text"
+msgstr "Folgen Sie uns"
+
+msgid "phone_text"
+msgstr "Telefon: "
+
+# Login.js
+msgid "network_error_title"
+msgstr "Netzwerkfehler"
+
+msgid "network_error_text"
+msgstr "Ein Problem ist aufgetreten, bitte versuchen Sie es später noch einmal."
+
+msgid "invalid_email_title"
+msgstr "Ungültige E-Mail"
+
+msgid "invalid_email_text"
+msgstr "Geben Sie eine gültige E-Mail-Adresse ein, um sich anzumelden."
+
+msgid "sent_email_title"
+msgstr "E-Mail Gesendet"
+
+msgid "sent_email_text"
+msgstr "Überprüfen Sie die E-Mail-Adresse #EMAIL#, um sich anzumelden."
+
+msgid "email_not_found_title"
+msgstr "E-Mail Nicht Gefunden"
+
+msgid "email_not_found_text"
+msgstr "Die E-Mail-Adresse #EMAIL# ist im Portal nicht registriert."
+
+msgid "generic_error_title"
+msgstr "Fehler"
+
+msgid "generic_error_text"
+msgstr "Ein Problem ist aufgetreten, bitte versuchen Sie es später noch einmal."
+
+# Terms and Conditions Page
+msgid "terms_and_condition_title"
+msgstr "Allgemeine <span class='color-header'>Bedingungen</span>"
+
+msgid "terms_and_condition_intro"
+msgstr ""
+"<p>Diese Allgemeinen Abonnementbedingungen (die „Allgemeinen Bedingungen“) regeln das Abonnement von Tarifen (die „Abonnements“) für Partnerveranstaltungen (die „Partnerveranstaltungen“) auf der Website https://stripe.com/ (die „Website“), die durch die Teilnahme an den genannten Partnerveranstaltungen zugänglich sind.</p>\n"
+"<p>Diese Allgemeinen Bedingungen stellen eine verbindliche Vereinbarung zwischen jedem Benutzer dar, der sich für die Partnerveranstaltungen angemeldet hat (der „Benutzer“), und Neverland Events – Strada Sora 15 – 27100 Pavia – Tel. +393313476201 – C.F./P.IVA 07619210961, REA 1971432 im Handelsregister von Mailand (im Folgenden „Unternehmen“ genannt).</p>"
+
+msgid "terms_and_condition_scope"
+msgstr ""
+"<h3>Geltungsbereich der Allgemeinen Bedingungen</h3>\n"
+"<p>1.1. Diese Allgemeinen Bedingungen stellen die umfassende Vereinbarung zwischen dem Benutzer und dem Unternehmen bezüglich des Abonnements und der Nutzung der Abonnements dar.</p>\n"
+"<p>1.2. Durch die Erklärung der Zustimmung zu diesen Allgemeinen Bedingungen bei der Anmeldung für ein Abonnement auf der Website stimmt der Benutzer zu, diese Allgemeinen Bedingungen einzuhalten. Benutzer dürfen sich nicht für Abonnements anmelden oder diese nutzen, wenn sie diese Allgemeinen Bedingungen nicht akzeptieren.</p>"
+
+msgid "terms_and_condition_changes"
+msgstr ""
+"<h3>Änderungen der Allgemeinen Bedingungen</h3>\n"
+"<p>2.1. Das Unternehmen behält sich das Recht vor, diese Allgemeinen Bedingungen von Zeit zu Zeit zu ändern, zum Beispiel um:</p>\n"
+"<ul>\n"
+"<li>die Einhaltung neuer gesetzlicher Bestimmungen sicherzustellen;</li>\n"
+"<li>technische Gründe;</li>\n"
+"<li>andere angemessene geschäftliche Gründe, die dem Benutzer mitgeteilt werden.</li>\n"
+"</ul>\n"
+"<p>2.2. Benutzer werden über diese Änderungen per E-Mail benachrichtigt. Die geänderten Allgemeinen Bedingungen treten 15 Tage nach der Benachrichtigung des Benutzers in Kraft. Wenn der Benutzer mit den Änderungen nicht einverstanden ist, kann er sich innerhalb des 15-tägigen Zeitraums kostenlos von diesen Allgemeinen Bedingungen zurückziehen, indem er dem Unternehmen eine schriftliche Mitteilung gemäß Artikel 12 übermittelt. Erfolgt innerhalb dieses Zeitraums kein Rücktritt, gelten die Änderungen als vom Benutzer akzeptiert.</p>"
+
+msgid "terms_and_condition_subscription"
+msgstr ""
+"<h3>Abonnement</h3>\n"
+"<p>3.1. Um sich anzumelden, muss der Benutzer alle obligatorischen Informationen, die mit einem Sternchen auf der Website gekennzeichnet sind, angeben. Eine gültige E-Mail-Adresse und Telefonnummer sind für die Registrierung erforderlich.</p>\n"
+"<p>3.2. Die Abonnementpreise sind auf der Website angegeben und variieren je nach gewähltem Tarif. Die Zahlung muss zum Zeitpunkt der Bestellung erfolgen. Akzeptierte Zahlungsmethoden sind Kreditkarte, ApplePay, SEPA-Lastschrift und Banküberweisung. Benutzer können ihre Zahlungsdaten für Verlängerungen in ihrem persönlichen Bereich auf der Website aktualisieren. Das Unternehmen wird keine Kreditkartendaten sammeln oder verarbeiten, außer für die letzten vier Ziffern und das Ablaufdatum. Zahlungen werden von einem autorisierten Drittanbieter-Zahlungsabwickler verarbeitet.</p>\n"
+"<p>3.3. Gebühren werden bei Bestätigung des Abonnements erhoben. Quittungen oder Rechnungen werden per E-Mail gesendet.</p>\n"
+"<p>3.4. Benutzer erhalten eine Bestätigungs-E-Mail mit den wesentlichen Abonnementdetails und Zahlungsinformationen. Diese Bestätigung wird nur an die während der Registrierung angegebene E-Mail-Adresse gesendet.</p>\n"
+"<p>3.5. Der Zugriff auf Abonnements erfordert ein aktives Konto. Das Löschen des Kontos führt dazu, dass der Zugriff auf das Abonnement verloren geht.</p>"
+
+msgid "terms_and_condition_subscription_plans"
+msgstr ""
+"<h3>Abonnementpläne</h3>\n"
+"<p>4.1. Es sind verschiedene Abonnementpläne verfügbar, die die Teilnahme an Partnerveranstaltungen ermöglichen. Diese Pläne beinhalten:</p>\n"
+"<ul>\n"
+"<li>4.2. All You Can Dance – Italien A: gewährt Zugang zum Neverland International Congress, Roma Symposium, KizMi und MAK. Monatlicher Abonnementpreis: 25 € zzgl. MwSt. Mindestlaufzeit: 1 Jahr.</li>\n"
+"<li>4.3. All You Can Dance – Italien B: umfasst den Neverland International Congress, Roma Symposium, KizMi, MAK, Levante Kizomba Festival und LoveMi. Monatlicher Abonnementpreis: 35 € zzgl. MwSt. Mindestlaufzeit: 1 Jahr.</li>\n"
+"<li>4.4. Special Combo – LoveMi: umfasst LoveMi, Doppelzimmerunterkunft für zwei Nächte, Frühstück und Touristensteuer im FastHotel. Monatlicher Abonnementpreis: 70 € zzgl. MwSt. Mindestlaufzeit: 3 Monate.</li>\n"
+"</ul>"
+
+msgid "terms_and_condition_subscription_duration"
+msgstr ""
+"<h3>Dauer und Verlängerung des Abonnements</h3>\n"
+"<p>5.1. Diese Allgemeinen Bedingungen gelten auf unbestimmte Zeit, wobei jede Partei sie jederzeit durch schriftliche Mitteilung an die andere Partei kündigen kann. Es wird jedoch verstanden, dass im Falle der Ausübung des Kündigungsrechts durch eine der Parteien die Kündigung keine Auswirkungen auf bereits erbrachte Dienstleistungen oder bereits eingegangene Verpflichtungen einer der Parteien vor dem Kündigungsdatum hat.</p>\n"
+"<p>5.2. Sofern im speziellen Plan nichts anderes angegeben ist, wird das Abonnement nach Ablauf automatisch für die gleiche Dauer und zu den gleichen Bedingungen erneuert, es sei denn, der Benutzer kündigt spätestens 15 Tage vor dem Verlängerungsdatum, gemäß den in Artikel 12 beschriebenen Methoden.</p>\n"
+"<p>5.3. Die automatische Verlängerung des Abonnements ist zahlungspflichtig. Wenn die Zahlung der Verlängerungsgebühr aus Gründen, die dem Benutzer zuzuschreiben sind, nicht erfolgreich ist, behält sich das Unternehmen das Recht vor, das Abonnement zu deaktivieren und dem Benutzer den Zugang zu den entsprechenden Partnerveranstaltungen zu verweigern.</p>"
+
+msgid "terms_and_condition_assistance"
+msgstr ""
+"<h3>Unterstützung</h3>\n"
+"<p>6.1. Das Unternehmen garantiert dem Benutzer Unterstützung bei allen Schwierigkeiten, die bei der Nutzung des Dienstes auftreten. Der Support-Service ist rund um die Uhr aktiv und erreichbar per E-Mail unter <a href=\"mailto:support@neverland.com\">support@neverland.com</a>.</p>"
+
+msgid "terms_and_condition_responsibility"
+msgstr ""
+"<h3>Haftung</h3>\n"
+"<p>7.1. Das Unternehmen haftet nicht für Schäden, die durch unvorhersehbare Ereignisse außerhalb seiner Kontrolle, höhere Gewalt oder außergewöhnliche Ereignisse verursacht werden.</p>"
+
+msgid "terms_and_condition_applicable_law"
+msgstr ""
+"<h3>Geltendes Recht</h3>\n"
+"<p>8.1. Diese Allgemeinen Bedingungen unterliegen dem italienischen Recht.</p>"
+
+# Contact Me Page
+msgid "contact_page_title"
+msgstr "Kontaktiere uns"
+
+msgid "contact_me_title"
+msgstr "Nicht <span class='color-header'>Sicher?</span>"
+
+msgid "contact_me_subtitle"
+msgstr "Hast du Fragen? Schreib sie gerne in dieses Formular. Wir werden uns so schnell wie möglich bei dir melden."
+
+msgid "contact_me_form_name"
+msgstr "Vollständiger Name"
+
+msgid "contact_me_form_email"
+msgstr "E-Mail-Adresse"
+
+msgid "contact_me_form_phone"
+msgstr "Telefonnummer"
+
+msgid "contact_me_form_description"
+msgstr "Beschreibung"
+
+msgid "contact_me_form_send"
+msgstr "Absenden"
+
+# Contact-Me.js
+msgid "contact_me_sent_email_title"
+msgstr "E-Mail Gesendet"
+
+msgid "contact_me_sent_email_text"
+msgstr "Danke für deine Kontaktaufnahme."
+
+# Read QRCode
+msgid "read_qr_page_title"
+msgstr "Ticket Scannen"
+
+msgid "read_qr_title"
+msgstr "Scan <span class='color-header'>Ticket</span>"
+
+msgid "read_qr_button"
+msgstr "Scannen"
+
+# Read QRCode.js
+msgid "read_qr_error_title"
+msgstr "Fehler"
+
+msgid "read_qr_error_data_not_valid"
+msgstr "Das Ticket enthält ungültige Daten."
+
+msgid "read_qr_error_data"
+msgstr "Das Ticket konnte nicht gelesen werden."
+
+msgid "read_qr_error_camera"
+msgstr "Zugriff auf die Kamera nicht möglich."
+
+msgid "read_qr_error_focus"
+msgstr "Fokussierung läuft..."
+
+msgid "read_qr_access_allowed"
+msgstr "Zugang erlaubt."
+
+msgid "read_qr_access_denied"
+msgstr "Zugang verweigert."
+
+# Customer Billing.js
+msgid "customers_subscription_title"
+msgstr "Abonnements"
+
+msgid "customers_generic_error_title"
+msgstr "Fehler"
+
+msgid "customers_generic_error_text"
+msgstr "Es ist ein Problem aufgetreten, bitte versuchen Sie es später noch einmal."
+
+msgid "customers_request_error_text"
+msgstr "Anforderungsfehler: "
+
+msgid "customers_subscription_active_from"
+msgstr "Aktiv seit:"
+
+msgid "customers_subscription_renew_on"
+msgstr "Erneuert am:"
+
+msgid "customers_handle_payments_title"
+msgstr "Zahlung verwalten"
+
+msgid "customers_get_qr_code_title"
+msgstr "Ticket erhalten"
+
+msgid "customers_download_code"
+msgstr "Herunterladen"
+
+msgid "customers_close_download_code"
+msgstr "Schließen"
+
+msgid "customers_cancel_subscription_title"
+msgstr "Abonnement kündigen"
+
+msgid "customers_cancel_subscription_confirm_title"
+msgstr "Sind Sie sicher, dass Sie das Abonnement kündigen möchten?"
+
+msgid "customers_cancel_subscription_confirm_subtitle"
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden!"
+
+msgid "customers_cancel_subscription_confirm_button"
+msgstr "Ja, kündigen!"
+
+msgid "customers_cancel_subscription_deny_button"
+msgstr "Nein, abweisen!"
+
+msgid "customers_cancel_subscription_reject_title"
+msgstr "Vorgang abgebrochen"
+
+msgid "customers_cancel_subscription_reject_subtitle"
+msgstr "Abonnement nicht gekündigt"
+
+msgid "customers_page_title"
+msgstr "<h1>Willkommen <span class='color-header'>#CUSTOMER_NAME#</span></h1>"
+
+msgid "customers_cancel_subscription_error_policy"
+msgstr "<p>Sie können das Abonnement nicht kündigen, da die <a href='terms-and-conditions'>Stornierungsrichtlinie</a> nicht eingehalten wurde. Das Abonnement kann ab dem #CANCEL_DAY# gekündigt werden.</p>"
+
+msgid "customers_cancel_subscription_error_generic"
+msgstr "<p>Fehler beim Kündigen des Abonnements.<br>Bitte kontaktieren Sie <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>"
+
+msgid "customers_cancel_subscription_error_unknown"
+msgstr "Unbekannter Fehler beim Kündigen."
+
+msgid "customers_cancel_subscription_success_title"
+msgstr "Vorgang abgeschlossen!"
+
+msgid "customers_cancel_subscription_success_subtitle"
+msgstr "Ihr Abonnement wurde erfolgreich gekündigt."
+
+msgid "customers_get_qr_code_download_error"
+msgstr "Es ist ein Problem aufgetreten, der Download ist fehlgeschlagen."
+
+msgid "customers_get_qr_code_download_success_title"
+msgstr "Download gestartet"
+
+msgid "customers_get_qr_code_download_success_subtitle"
+msgstr "Sie können nun auf "
+
+msgid "customers_pdf_welcome_text"
+msgstr "Hallo #CUSTOMER_NAME#, greifen Sie auf die Veranstaltung zu, indem Sie den QR-Code zeigen!"
+
+msgid "customers_pdf_event_text"
+msgstr "Veranstaltung(en), auf die Sie zugreifen können: "
+
+msgid "customers_pdf_terms_title"
+msgstr "ALLGEMEINE VERKAUFSBEDINGUNGEN"
+
+msgid "customers_pdf_terms_part_1"
+msgstr "Damit das E-Ticket gültig ist, unterliegt es den Verkaufsbedingungen von Weezevent und, falls zutreffend, den Bedingungen des Veranstalters, die zum Zeitpunkt des Kaufs akzeptiert wurden. ERINNERUNG: Dieses E-Ticket ist nicht erstattungsfähig. Sofern nicht anders mit dem Veranstalter vereinbart, ist das E-Ticket persönlich, nicht übertragbar und nicht umtauschbar."
+
+msgid "customers_pdf_terms_part_2"
+msgstr "CHECK-IN: Der Zugang zur Veranstaltung ist abhängig von der Gültigkeit Ihres E-Tickets. Dieses E-Ticket ist nur für die angegebene Veranstaltung, Sitzung, Datum und Uhrzeit gültig. Nach Beginn der Veranstaltung ist der Zugang nicht garantiert und berechtigt nicht zu einer Rückerstattung. Wir empfehlen, vor Beginn der Veranstaltung anzukommen. Damit das E-Ticket gültig ist, muss es auf A4 weißem Papier ausgedruckt werden, ohne die Druckgröße zu verändern und in guter Qualität. Teilweise ausgedruckte, schmutzige, beschädigte oder unleserliche E-Tickets gelten als ungültig und können vom Veranstalter abgelehnt werden. Der Veranstalter behält sich auch das Recht vor, andere Medien zu akzeptieren oder abzulehnen, einschließlich elektronischer Medien (Handy, Tablet usw.)."
+
+msgid "customers_pdf_terms_part_3"
+msgstr "Jedes E-Ticket ist mit einem Barcode ausgestattet, der den Zugang zur Veranstaltung nur für eine Person ermöglicht. Damit das E-Ticket gültig ist, muss die Zahlung für dieses E-Ticket nicht von der verwendeten Kreditkarte des Käufers abgelehnt worden sein. Andernfalls wird der Barcode deaktiviert. Am Eingang müssen Sie einen gültigen amtlichen Lichtbildausweis vorzeigen. Nach der Kontrolle muss das E-Ticket bis zum Ende der Veranstaltung aufbewahrt werden. In einigen Fällen kann der Veranstalter ein Doppelabschnitt-Ticket ausstellen (das die Mietgebühr möglicherweise anzeigt oder auch nicht)."
+
+msgid "customers_pdf_terms_part_4"
+msgstr "BETRUG: Es ist verboten, dieses E-Ticket in irgendeiner Weise zu reproduzieren, zu verwenden, zu kopieren, zu duplizieren oder zu fälschen, unter Strafe der Strafverfolgung. Ebenso führt jede betrügerische Bestellung zur Erlangung eines E-Tickets zu rechtlichen Schritten und der Ungültigkeit des genannten E-Tickets."
+
+msgid "customers_pdf_terms_part_5"
+msgstr "VERANTWORTUNG: Der Käufer bleibt für die Nutzung von E-Tickets verantwortlich. Im Falle von Verlust, Diebstahl oder Duplizierung eines gültigen E-Tickets kann nur die erste Person, die im Besitz des E-Tickets ist, Zugang zur Veranstaltung erhalten. Weezevent haftet nicht für Anomalien, die beim Bestellen, Bearbeiten oder Drucken des E-Tickets auftreten, es sei denn, diese Anomalien wurden absichtlich oder fahrlässig verursacht, z. B. im Falle von Verlust, Diebstahl oder unbefugtem Gebrauch des E-Tickets."
+
+msgid "customers_pdf_terms_part_6"
+msgstr "VERANSTALTUNG: Veranstaltungen sind und bleiben die alleinige Verantwortung des Veranstalters. Der Kauf dieses E-Tickets impliziert die Zustimmung zu den Regeln des Veranstaltungsorts und/oder des Veranstalters. Im Falle einer Absage oder Verschiebung der Veranstaltung erfolgt die Rückerstattung des Tickets ohne zusätzliche Kosten (Transport, Hotel usw.) gemäß den Bedingungen des Veranstalters (die E-Mail-Adresse des Veranstalters finden Sie oben in den zusätzlichen Informationen), der die Einnahmen aus dem Verkauf der E-Tickets erhält."
+
+msgid "customers_pdf_event_access_part_1"
+msgstr "Um Zugang zur Veranstaltung zu erhalten, zeigen Sie den QR-Code an der Rezeption am Eingang vor. Durch das Scannen des Codes wird Ihr Zugang überprüft und Sie können problemlos eintreten."
+
+msgid "customers_pdf_event_access_part_2"
+msgstr "Stellen Sie sicher, dass Sie den QR-Code auf Ihrem mobilen Gerät oder ausgedruckt bereit haben, um einen schnellen und reibungslosen Eintritt zu ermöglichen."
+
+msgid "customers_pdf_event_access_part_3"
+msgstr "Für Informationen kontaktieren Sie uns unter https://www.easysubscribe.it"
+
+# Manager Page
+msgid "manager_page_title"
+msgstr "Manager"
+
+msgid "manager_title"
+msgstr "Benutzer <span class='color-header'>Verwaltung</span>"
+
+msgid "manager_client_text"
+msgstr "Aktive Kunden"
+
+msgid "manager_profit_text"
+msgstr "Monatliche Gewinne"
+
+msgid "manager_no_user_text"
+msgstr "Keine aktiven Benutzer"
+
+# Manager Page.js
+msgid "manager_generic_error_title"
+msgstr "Fehler"
+
+msgid "manager_generic_error_text"
+msgstr "Es ist ein Problem aufgetreten, bitte versuchen Sie es später noch einmal."
+
+msgid "manager_request_error_text"
+msgstr "Es gab ein Problem mit der Anfrage. Bitte versuchen Sie es später noch einmal."
+
+msgid "manager_subscription_error_text"
+msgstr "Keine Abonnement gefunden."
+
+msgid "manager_table_element_1"
+msgstr "Vollständiger Name"
+
+msgid "manager_table_element_2"
+msgstr "E-Mail-Adresse"
+
+msgid "manager_table_element_3"
+msgstr "Produkt"
+
+msgid "manager_table_element_4"
+msgstr "Abonnementdatum"
+
+msgid "manager_table_copy"
+msgstr "Element kopiert"

@@ -1,12 +1,39 @@
 <?php
-function change_language_based_on_cookie($locale) {
-    if (isset($_COOKIE['site_language'])) {
-        $locale = sanitize_text_field($_COOKIE['site_language']); // Prende la lingua dal cookie (fallback)
-    }
-    return $locale;
-}
+//function change_language_based_on_cookie($locale) {
+//    if (isset($_COOKIE['site_language'])) {
+//        $locale = sanitize_text_field($_COOKIE['site_language']); // Prende la lingua dal cookie (fallback)
+//    }
+//    return $locale;
+//}
+//
+//add_filter('locale', 'change_language_based_on_cookie');
 
-add_filter('locale', 'change_language_based_on_cookie');
+//function set_language_from_url( $locale ) {
+//    // Ottieni l'URI della richiesta
+//    $request_uri = $_SERVER['REQUEST_URI'];
+//
+//    // Mappa delle lingue supportate
+//    $languages = array(
+//        'it' => 'it_IT',
+//        'en' => 'en_GB',
+//        'es' => 'es_ES',
+//        'fr' => 'fr_FR',
+//        'de' => 'de_DE',
+//    );
+//
+//    // Estrai la lingua dall'URL
+//    $segments = explode('/', trim($request_uri, '/'));
+//    $language_code = isset($segments[1]) ? $segments[1] : '';
+//
+//    // Verifica se la lingua è supportata
+//    if ( array_key_exists( $language_code, $languages ) ) {
+//        return $languages[$language_code];
+//    }
+//
+//    // Se la lingua non è supportata, utilizza la lingua predefinita
+//    return $locale;
+//}
+//add_filter( 'locale', 'set_language_from_url' );
 
 function easy_subscribe_load_textdomain() {
   error_log('Tentativo di caricare le traduzioni...');

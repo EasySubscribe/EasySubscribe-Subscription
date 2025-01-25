@@ -38,7 +38,8 @@ if (defined('ABSPATH')) {
     <div class="container-fluid">
     <?php 
       // Genera un parametro di cache busting (ad esempio, un timestamp)
-      $cache_bust = '?cache_bust=' . time(); 
+      //$cache_bust = '?cache_bust=' . time(); 
+      $cache_bust = ''; 
     ?>
       <a href="<?php echo $home_url . $cache_bust; ?>" class="navbar-brand ms-2 slide-in-left">
         <img
@@ -79,8 +80,8 @@ if (defined('ABSPATH')) {
           ?>
           <?php 
             // Genera un parametro di cache busting (ad esempio, un timestamp)
-            $cache_bust = '?cache_bust=' . time();
-            //$cache_bust = ''; 
+            //$cache_bust = '?cache_bust=' . time();
+            $cache_bust = ''; 
           ?>
           <li class="nav-item">
             <a class="nav-link active fw-bold" id="terms_and_condition_text" href="<?php echo $terms_and_condition . $cache_bust; ?>"></a>
@@ -112,8 +113,81 @@ if (defined('ABSPATH')) {
     </div>
 </nav>
 <script>
+    // Mappa dei codici di localizzazione alle lingue
+    const localeToLanguageMap = {
+    "it_IT": "it",
+    "en_GB": "en",
+    "es_ES": "es",
+    "fr_FR": "fr",
+    "de_DE": "de"
+  };
+
+  function setLanguage(languageCode) {
+    // Salva la lingua nel localStorage
+    localStorage.setItem('site_language', languageCode);
+  
+    // Ottieni la lingua selezionata
+    const selectedLanguagePath = localeToLanguageMap[languageCode];
+  
+    // Recupera la base URL
+    const baseUrl = getApiBaseUrl(incType.BASE_URL); // Esempio: http://localhost/wpgiovanni/
+  
+    // Ottieni l'URL corrente
+    const currentUrl = new URL(window.location.href);
+  
+    // Rimuovi il baseUrl dalla path per lavorare sui segmenti relativi
+    let relativePath = currentUrl.pathname.replace(new URL(baseUrl).pathname, "").split('/').filter(Boolean);
+  
+    // Verifica se il primo segmento corrisponde a una lingua supportata
+    const supportedLanguages = Object.values(localeToLanguageMap);
+    if (supportedLanguages.includes(relativePath[0])) {
+      // Sostituisci la lingua nel percorso
+      relativePath[0] = selectedLanguagePath;
+    } else {
+      // Aggiungi la lingua come primo segmento
+      relativePath.unshift(selectedLanguagePath);
+    }
+  
+    // Costruisci il nuovo percorso completo
+    const newPath = `${baseUrl}${relativePath.join('/')}${currentUrl.search}`;
+  
+    // Esegui il redirect
+    window.location.replace(newPath);
+  }
+  
+  function checkAndUpdateLanguage() {
+    const savedLanguage = localStorage.getItem('site_language'); // Lingua salvata o default
+    const savedLanguagePath = localeToLanguageMap[savedLanguage]; // Ottieni il prefisso lingua (es. 'en')
+  
+    const currentUrl = new URL(window.location.href);
+    const pathSegments = currentUrl.pathname.split('/').filter(Boolean); // Ottieni segmenti del path (senza slash iniziale e finale)
+  
+    // Verifica se il primo segmento del path corrisponde a una lingua supportata
+    const supportedLanguages = Object.values(localeToLanguageMap);
+    const currentLanguagePath = supportedLanguages.includes(pathSegments[1]) ? pathSegments[1] : null;
+  
+    if (currentLanguagePath && savedLanguagePath) {
+      // Se la lingua nel path è diversa dalla lingua salvata, reindirizza
+      if (currentLanguagePath !== savedLanguagePath) {
+        pathSegments[1] = savedLanguagePath; // Cambia il prefisso lingua nel path
+        const newPath = '/' + pathSegments.join('/') + currentUrl.search; // Ricrea il path completo
+        window.location.replace(newPath);
+      }
+    } else {
+      if (savedLanguage && !currentLanguagePath){
+        // Se non c'è una lingua nel path, aggiungila
+        pathSegments.splice(1, 0, savedLanguagePath); // Aggiungi la lingua dopo il prefisso principale
+        const newPath = '/' + pathSegments.join('/') + currentUrl.search; // Ricrea il path completo
+        window.location.replace(newPath);
+      }
+    }
+  }
+  
+  // Chiamare la funzione quando la pagina viene caricata
+  checkAndUpdateLanguage();
+  /*
   // Recupera la lingua corrente di WordPress
-  const wordpressLocale = "<?php echo get_locale(); ?>";
+  const wordpressLocale = <?php //echo get_locale(); ?>";
 
   // Imposta una lingua di fallback predefinita nel caso in cui get_locale() non restituisca un valore valido
   const defaultLanguage = "it_IT"; // Imposta la lingua predefinita
@@ -156,4 +230,5 @@ if (defined('ABSPATH')) {
   }
 
   init(); // Chiama la funzione init al caricamento della pagina
+  */
 </script>

@@ -1,7 +1,7 @@
 <?php
 function change_language_based_on_cookie($locale) {
     if (isset($_COOKIE['site_language'])) {
-        $locale = $_COOKIE['site_language']; // Prende la lingua dal cookie
+        $locale = sanitize_text_field($_COOKIE['site_language']); // Prende la lingua dal cookie (fallback)
     }
     return $locale;
 }

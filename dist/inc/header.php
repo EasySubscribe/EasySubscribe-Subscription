@@ -36,7 +36,11 @@ if (defined('ABSPATH')) {
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
-      <a href="<?php echo $home_url; ?>" class="navbar-brand ms-2 slide-in-left">
+    <?php 
+      // Genera un parametro di cache busting (ad esempio, un timestamp)
+      $cache_bust = '?cache_bust=' . time(); 
+    ?>
+      <a href="<?php echo $home_url . $cache_bust; ?>" class="navbar-brand ms-2 slide-in-left">
         <img
           src="<?php echo $base_url; ?>/assets/images/easy.png"
           alt="Antonio Rausa"
@@ -73,14 +77,19 @@ if (defined('ABSPATH')) {
           // Siamo in locale, usa i link locali
           */
           ?>
+          <?php 
+            // Genera un parametro di cache busting (ad esempio, un timestamp)
+            $cache_bust = '?cache_bust=' . time();
+            //$cache_bust = ''; 
+          ?>
           <li class="nav-item">
-            <a class="nav-link active fw-bold" id="terms_and_condition_text" href="<?php echo $terms_and_condition; ?>"></a>
+            <a class="nav-link active fw-bold" id="terms_and_condition_text" href="<?php echo $terms_and_condition . $cache_bust; ?>"></a>
           </li>
           <li class="nav-item">
-              <a class="nav-link active fw-bold" id="scan_text" href="<?php echo $scan; ?>"></a>
+            <a class="nav-link active fw-bold" id="scan_text" href="<?php echo $scan . $cache_bust; ?>"></a>
           </li>
           <li class="nav-item">
-              <a class="nav-link active fw-bold" id="contact_text" href="<?php echo $contact; ?>"></a>
+            <a class="nav-link active fw-bold" id="contact_text" href="<?php echo $contact . $cache_bust; ?>"></a>
           </li>
           <!--<li class="nav-item">
               <a class="nav-link active fw-bold" id="home_text" href="<?php echo $home_url; ?>"></a>
@@ -103,9 +112,48 @@ if (defined('ABSPATH')) {
     </div>
 </nav>
 <script>
-  function setLanguage(languageCode) {
-    // Imposta un cookie con la lingua selezionata
-    document.cookie = "site_language=" + languageCode + "; path=/";
-    location.reload(); // Ricarica la pagina per applicare la nuova lingua
+  // Recupera la lingua corrente di WordPress
+  const wordpressLocale = "<?php echo get_locale(); ?>";
+
+  // Imposta una lingua di fallback predefinita nel caso in cui get_locale() non restituisca un valore valido
+  const defaultLanguage = "it_IT"; // Imposta la lingua predefinita
+
+  // Verifica se wordpressLocale è una lingua valida
+  const languageToSet = (wordpressLocale && wordpressLocale !== "undefined") ? wordpressLocale : defaultLanguage;
+
+  // Aggiungi un log per vedere da dove viene presa la lingua
+  console.log("Lingua di WordPress recuperata: " + wordpressLocale);
+  console.log("Lingua utilizzata (con fallback se necessario): " + languageToSet);
+
+  function init() {
+    // Controlla se il cookie 'site_language' esiste
+    if (document.cookie.indexOf("site_language=") === -1) {
+      // Se il cookie non esiste, imposta la lingua di default
+      setLanguage(languageToSet);  // Imposta la lingua di default
+    }
+
+    if (window.location.search.includes("cache_bust=")) {
+      const cleanUrl = window.location.href.split("?")[0];
+      window.history.replaceState(null, null, cleanUrl); // Rimuove il parametro cache_bust dall'URL
+    }
   }
+
+  function setLanguage(languageCode) {
+    // Aggiungi un log per vedere quale lingua viene effettivamente impostata
+    console.log("Lingua impostata tramite cookie: " + languageCode);
+
+    // Ottieni la data di scadenza del cookie (opzionale, 7 giorni)
+    const date = new Date();
+    date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 giorni
+    const expires = "; expires=" + date.toUTCString();
+
+    // Imposta il cookie con attributi SameSite=None e Secure
+    document.cookie = "site_language=" + languageCode + "; path=/; Secure; SameSite=Strict";
+
+    // Ricarica la pagina per applicare la nuova lingua
+    const cacheBustingUrl = location.href.split("?")[0] + "?cache_bust=" + new Date().getTime();
+    window.location.replace(cacheBustingUrl);
+  }
+
+  init(); // Chiama la funzione init al caricamento della pagina
 </script>

@@ -21,6 +21,7 @@ if (defined('ABSPATH')) {
     $contact = home_url('/contact-me/');
     wp_head();
     $locale = get_locale(); // Recupera la lingua di WordPress
+    $translations_on_cookie = get_option('translations_on_cookie', 'no');
 } else {
     // Percorsi per lo sviluppo locale
     $base_url = '/../dist';  // Cambia con il percorso corretto per lo sviluppo locale
@@ -38,8 +39,9 @@ if (defined('ABSPATH')) {
     <div class="container-fluid">
     <?php 
       // Genera un parametro di cache busting (ad esempio, un timestamp)
-      //$cache_bust = '?cache_bust=' . time(); 
-      $cache_bust = ''; 
+      if ($translations_on_cookie === 'yes') {
+        $cache_bust = '?cache_bust=' . time();
+      } else $cache_bust = ''; 
     ?>
       <a href="<?php echo $home_url . $cache_bust; ?>" class="navbar-brand ms-2 slide-in-left">
         <img
@@ -80,8 +82,9 @@ if (defined('ABSPATH')) {
           ?>
           <?php 
             // Genera un parametro di cache busting (ad esempio, un timestamp)
-            //$cache_bust = '?cache_bust=' . time();
-            $cache_bust = ''; 
+            if ($translations_on_cookie === 'yes') {
+              $cache_bust = '?cache_bust=' . time();
+            } else $cache_bust = ''; 
           ?>
           <li class="nav-item">
             <a class="nav-link active fw-bold" id="terms_and_condition_text" href="<?php echo $terms_and_condition . $cache_bust; ?>"></a>
@@ -113,6 +116,9 @@ if (defined('ABSPATH')) {
     </div>
 </nav>
 <script>
+    const translations_on_cookie = "<?php echo $translations_on_cookie; ?>"
+
+    console.log("Translation on Cookie active: ", translations_on_cookie);
     // Mappa dei codici di localizzazione alle lingue
     const localeToLanguageMap = {
     "it_IT": "it",
@@ -122,22 +128,47 @@ if (defined('ABSPATH')) {
     "de_DE": "de"
   };
 
+  function isWordpressOnline(){
+    console.log("Wordpress online: ", window.location.hostname != 'localhost');
+    return window.location.hostname != 'localhost';
+  }
+
+  function init() {
+    if (translations_on_cookie === 'yes') {
+      initCookie();
+    } else {
+      checkAndUpdateLanguage();
+    }
+  }
+
   function setLanguage(languageCode) {
+    if (translations_on_cookie === 'yes') {
+      setLanguageCookie(languageCode);
+    } else {
+      setLanguageTraslation(languageCode);
+    }
+  }
+
+  init(); // Chiama la funzione init al caricamento della pagina
+
+  function setLanguageTraslation(languageCode) {
     // Salva la lingua nel localStorage
     localStorage.setItem('site_language', languageCode);
-  
-    // Ottieni la lingua selezionata
+
     const selectedLanguagePath = localeToLanguageMap[languageCode];
   
-    // Recupera la base URL
-    const baseUrl = getApiBaseUrl(incType.BASE_URL); // Esempio: http://localhost/wpgiovanni/
-  
-    // Ottieni l'URL corrente
     const currentUrl = new URL(window.location.href);
-  
-    // Rimuovi il baseUrl dalla path per lavorare sui segmenti relativi
+    const currentPath = currentUrl.pathname;
+
+    // Evita un redirect se la lingua corrente è già quella desiderata
+    if (currentPath.includes(selectedLanguagePath)) {
+      return; // Non fare nulla se la lingua è già quella selezionata
+    }
+
+    // Recupera la base URL
+    const baseUrl = getApiBaseUrl(incType.BASE_URL); // Esempio: http://localhost/wpgiovanni/ o https://easysubscribe.it/
     let relativePath = currentUrl.pathname.replace(new URL(baseUrl).pathname, "").split('/').filter(Boolean);
-  
+
     // Verifica se il primo segmento corrisponde a una lingua supportata
     const supportedLanguages = Object.values(localeToLanguageMap);
     if (supportedLanguages.includes(relativePath[0])) {
@@ -147,13 +178,14 @@ if (defined('ABSPATH')) {
       // Aggiungi la lingua come primo segmento
       relativePath.unshift(selectedLanguagePath);
     }
-  
+
     // Costruisci il nuovo percorso completo
     const newPath = `${baseUrl}${relativePath.join('/')}${currentUrl.search}`;
   
     // Esegui il redirect
     window.location.replace(newPath);
   }
+
   
   function checkAndUpdateLanguage() {
     const savedLanguage = localStorage.getItem('site_language'); // Lingua salvata o default
@@ -161,36 +193,36 @@ if (defined('ABSPATH')) {
   
     const currentUrl = new URL(window.location.href);
     const pathSegments = currentUrl.pathname.split('/').filter(Boolean); // Ottieni segmenti del path (senza slash iniziale e finale)
-  
     // Verifica se il primo segmento del path corrisponde a una lingua supportata
     const supportedLanguages = Object.values(localeToLanguageMap);
-    const currentLanguagePath = supportedLanguages.includes(pathSegments[1]) ? pathSegments[1] : null;
+    const currentLanguagePath = isWordpressOnline() ? supportedLanguages.includes(pathSegments[0]) ? pathSegments[0] : null : supportedLanguages.includes(pathSegments[1]) ? pathSegments[1] : null;
   
     if (currentLanguagePath && savedLanguagePath) {
       // Se la lingua nel path è diversa dalla lingua salvata, reindirizza
       if (currentLanguagePath !== savedLanguagePath) {
-        pathSegments[1] = savedLanguagePath; // Cambia il prefisso lingua nel path
+        if (isWordpressOnline()){
+          pathSegments[0] = savedLanguagePath;
+        } else pathSegments[1] = savedLanguagePath; // Cambia il prefisso lingua nel path
         const newPath = '/' + pathSegments.join('/') + currentUrl.search; // Ricrea il path completo
         window.location.replace(newPath);
       }
     } else {
       if (savedLanguage && !currentLanguagePath){
         // Se non c'è una lingua nel path, aggiungila
-        pathSegments.splice(1, 0, savedLanguagePath); // Aggiungi la lingua dopo il prefisso principale
+        if (isWordpressOnline()){
+          pathSegments.splice(0, 0, savedLanguagePath);
+         } else pathSegments.splice(1, 0, savedLanguagePath); // Aggiungi la lingua dopo il prefisso principale
         const newPath = '/' + pathSegments.join('/') + currentUrl.search; // Ricrea il path completo
         window.location.replace(newPath);
       }
     }
   }
   
-  // Chiamare la funzione quando la pagina viene caricata
-  checkAndUpdateLanguage();
-  /*
   // Recupera la lingua corrente di WordPress
-  const wordpressLocale = <?php //echo get_locale(); ?>";
+  const wordpressLocale = "<?php echo get_locale(); ?>";
 
   // Imposta una lingua di fallback predefinita nel caso in cui get_locale() non restituisca un valore valido
-  const defaultLanguage = "it_IT"; // Imposta la lingua predefinita
+  const defaultLanguage = "en_GB"; // Imposta la lingua predefinita
 
   // Verifica se wordpressLocale è una lingua valida
   const languageToSet = (wordpressLocale && wordpressLocale !== "undefined") ? wordpressLocale : defaultLanguage;
@@ -199,11 +231,11 @@ if (defined('ABSPATH')) {
   console.log("Lingua di WordPress recuperata: " + wordpressLocale);
   console.log("Lingua utilizzata (con fallback se necessario): " + languageToSet);
 
-  function init() {
+  function initCookie() {
     // Controlla se il cookie 'site_language' esiste
     if (document.cookie.indexOf("site_language=") === -1) {
       // Se il cookie non esiste, imposta la lingua di default
-      setLanguage(languageToSet);  // Imposta la lingua di default
+      setLanguageCookie(languageToSet);  // Imposta la lingua di default
     }
 
     if (window.location.search.includes("cache_bust=")) {
@@ -212,7 +244,7 @@ if (defined('ABSPATH')) {
     }
   }
 
-  function setLanguage(languageCode) {
+  function setLanguageCookie(languageCode) {
     // Aggiungi un log per vedere quale lingua viene effettivamente impostata
     console.log("Lingua impostata tramite cookie: " + languageCode);
 
@@ -228,7 +260,4 @@ if (defined('ABSPATH')) {
     const cacheBustingUrl = location.href.split("?")[0] + "?cache_bust=" + new Date().getTime();
     window.location.replace(cacheBustingUrl);
   }
-
-  init(); // Chiama la funzione init al caricamento della pagina
-  */
 </script>

@@ -1,12 +1,15 @@
 <?php
-//function change_language_based_on_cookie($locale) {
-//    if (isset($_COOKIE['site_language'])) {
-//        $locale = sanitize_text_field($_COOKIE['site_language']); // Prende la lingua dal cookie (fallback)
-//    }
-//    return $locale;
-//}
-//
-//add_filter('locale', 'change_language_based_on_cookie');
+function change_language_based_on_cookie($locale) {
+    // Verifica se l'opzione "Traduzioni su cookie" è abilitata
+    $translations_on_cookie = get_option('translations_on_cookie', 'no');
+    if ($translations_on_cookie === 'yes' && isset($_COOKIE['site_language'])) {
+        // Prende la lingua dal cookie se l'opzione è abilitata
+        $locale = sanitize_text_field($_COOKIE['site_language']);
+    }
+    return $locale;
+}
+
+add_filter('locale', 'change_language_based_on_cookie');
 
 //function set_language_from_url( $locale ) {
 //    // Ottieni l'URI della richiesta
@@ -109,6 +112,9 @@ function easysubscribe_settings_page_html() {
                 echo '<div class="updated"><p>Impostazioni salvate!</p></div>';
             }
         }*/
+      // Salva l'opzione "Traduzioni su cookie"
+      $translations_on_cookie = isset($_POST['translations_on_cookie']) ? 'yes' : 'no';
+      update_option('translations_on_cookie', $translations_on_cookie);
 
       update_option('stripe_pricing_tables', $stripe_tables);
       //update_option('redirect_links', $redirect_links);
@@ -166,6 +172,17 @@ function easysubscribe_settings_page_html() {
                   </td>
               </tr>
           </table>
+
+          <h3>Impostazioni aggiuntive</h3>
+            <table class="form-table">
+                <tr valign="top">
+                    <th scope="row">Traduzioni su cookie</th>
+                    <td>
+                        <input type="checkbox" id="translations_on_cookie" name="translations_on_cookie" value="yes" <?php checked($translations_on_cookie, 'yes'); ?> />
+                        <label for="translations_on_cookie">Abilita traduzioni tramite cookie</label>
+                    </td>
+                </tr>
+            </table>
 
             <!--<h3>Link di Redirect</h3>
             <table class="form-table">

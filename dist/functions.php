@@ -116,6 +116,9 @@ function easysubscribe_settings_page_html() {
       $translations_on_cookie = isset($_POST['translations_on_cookie']) ? 'yes' : 'no';
       update_option('translations_on_cookie', $translations_on_cookie);
 
+      //$easysubscribe_email = isset($_POST['easysubscribe_email']);
+      //update_option('easysubscribe_email', $easysubscribe_email);
+
       update_option('stripe_pricing_tables', $stripe_tables);
       //update_option('redirect_links', $redirect_links);
       echo '<div class="updated"><p>Impostazioni salvate!</p></div>';
@@ -180,8 +183,18 @@ function easysubscribe_settings_page_html() {
                     <td>
                         <input type="checkbox" id="translations_on_cookie" name="translations_on_cookie" value="yes" <?php checked($translations_on_cookie, 'yes'); ?> />
                         <label for="translations_on_cookie">Abilita traduzioni tramite cookie</label>
+                        </br>
+                        <small>Abilitando questa funzionalità bisogna rimuovere/disattivare il plugin TranslatePress per consentire il corretto funzionamento delle traduzioni</small>
                     </td>
                 </tr>
+                <!--<tr valign="top">
+                    <th scope="row">Email EasySubscribe</th>
+                    <td>
+                        <input type="text" id="easysubscribe_email" name="easysubscribe_email" class="form-control" <?php echo esc_attr($easysubscribe_email); ?> />
+                        </br>
+                        <small>Serve per configurare nel tema l'email usata per contattare i clienti.</small>
+                    </td>
+                </tr>-->
             </table>
 
             <!--<h3>Link di Redirect</h3>

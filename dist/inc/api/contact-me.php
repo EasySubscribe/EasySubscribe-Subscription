@@ -70,6 +70,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $emailBodyInfo = str_replace('{{PHONENUMBER}}', $phone, $emailBodyInfo);
     $emailBodyInfo = str_replace('{{DESCRIPTION}}', $description, $emailBodyInfo);
 
+    //$easysubscribe_email = get_option('easysubscribe_email', $email);
+
     sendEmail($log, 'Contact Me', $email, $emailBody, null);
     sendEmail($log,'Sei stato contattato', $email, $emailBodyInfo, null);
 

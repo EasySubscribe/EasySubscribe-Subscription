@@ -218,9 +218,6 @@ function cancelSubscription(expirationDate, subscription_id) {
           "#CANCEL_DAY#",
           expDate.toLocaleDateString()
         )
-        //`<p>Non è possibile cancellare la sottoscrizione poiché non è stata rispettata la <a href='template-policy.php'>policy sulla cancellazione.</a> L'abbonamento potrà essere cancellato dal giorno ${formatDateIntl(
-        //  expDate.toLocaleDateString()
-        //)}.</p>`
       );
     }
   } else {
@@ -230,7 +227,6 @@ function cancelSubscription(expirationDate, subscription_id) {
       null,
       "error",
       translations.customers_cancel_subscription_error_generic
-      //`<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
     );
   }
   loader.style.display = "flex";
@@ -267,7 +263,6 @@ function cancelSubscription(expirationDate, subscription_id) {
         null,
         "error",
         translations.customers_cancel_subscription_error_generic
-        //`<p>Errore durante la disdetta della sottoscrizione.<br>Si prega di contattare <a href='mailto:info@easysubscribe.it'>info@easysubscribe.it</a>.</p>`
       );
     });
 }

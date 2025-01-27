@@ -39,12 +39,9 @@ add_filter('locale', 'change_language_based_on_cookie');
 //add_filter( 'locale', 'set_language_from_url' );
 
 function easy_subscribe_load_textdomain() {
-  error_log('Tentativo di caricare le traduzioni...');
   $loaded = load_theme_textdomain('easy_subscribe', get_template_directory() . '/languages');
-  if ($loaded) {
-      error_log('Traduzioni caricate correttamente!');
-  } else {
-      error_log('Errore nel caricamento delle traduzioni.');
+  if (!$loaded) {
+    error_log('Errore nel caricamento delle traduzioni.');
   }
 }
 add_action('after_setup_theme', 'easy_subscribe_load_textdomain');
@@ -190,7 +187,7 @@ function easysubscribe_settings_page_html() {
                 <!--<tr valign="top">
                     <th scope="row">Email EasySubscribe</th>
                     <td>
-                        <input type="text" id="easysubscribe_email" name="easysubscribe_email" class="form-control" <?php echo esc_attr($easysubscribe_email); ?> />
+                        <input type="text" id="easysubscribe_email" name="easysubscribe_email" class="form-control" <?php // echo esc_attr($easysubscribe_email); ?> />
                         </br>
                         <small>Serve per configurare nel tema l'email usata per contattare i clienti.</small>
                     </td>
@@ -365,9 +362,9 @@ function easysubscribe_settings_page_html() {
                 <!-- Selettore lingua per ogni input -->
                 <label for="redirect_link_language_${index}">Lingua:</label>
                 <select name="redirect_links[${index}][language]" class="form-control">
-                    <?php foreach ($available_languages as $language) { ?>
-                        <option value="<?php echo $language; ?>"><?php echo ucfirst($language); ?></option>
-                    <?php } ?>
+                    <?php// foreach ($available_languages as $language) { ?>
+                        <option value="<?php// echo $language; ?>"><?php// echo ucfirst($language); ?></option>
+                    <?php // } ?>
                 </select>
                     
                 <!-- Link di redirect, che rimane invariato -->

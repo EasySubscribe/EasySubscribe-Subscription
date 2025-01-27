@@ -40,6 +40,9 @@ $email = $data['email'] ?? '';
 $phone = $data['phone'] ?? '';
 $description = $data['description'] ?? '';
 
+$log->info('-------------------------------------------------');
+$log->info('Richiesta di contatto', ['email' => $email]);
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(['error' => true, 'message' => 'Indirizzo email non valido.']);
     exit;
@@ -73,7 +76,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     //$easysubscribe_email = get_option('easysubscribe_email', $email);
 
     sendEmail($log, 'Contact Me', $email, $emailBody, null);
-    sendEmail($log,'Sei stato contattato', $email, $emailBodyInfo, null);
+    sendEmail($log,'Sei stato contattato', $email, $emailBodyInfo, "info@easysubscribe.it");
 
     echo json_encode(['error' => false, 'message' => 'Email inviata con successo.', 'email' => $email]);
 

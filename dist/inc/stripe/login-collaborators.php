@@ -46,6 +46,9 @@ $data = json_decode(file_get_contents('php://input'), true);
 $email = $data['email'] ?? '';
 $redirect_url = $data['redirect_url'] ?? '';
 
+$log->info('-------------------------------------------------');
+$log->info('Login Collaborator per', ['email' => $email]);
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(['error' => true, 'message' => 'Indirizzo email non valido.']);
     exit;

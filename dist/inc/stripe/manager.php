@@ -35,6 +35,9 @@ $product_ids_string = $data['product_ids_string'] ?? '';
 $session_id = $data['session_id'] ?? '';
 $email = $data['email'] ?? '';
 
+$log->info('-------------------------------------------------');
+$log->info('Manager Page per ' . $email, ['session_id' => $session_id]);
+
 // Validazione input
 if (empty($product_ids_string) || empty($session_id) || empty($email)) {
     echo json_encode(['error' => true, 'message' => 'Dati non validi.']);

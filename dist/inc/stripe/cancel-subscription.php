@@ -39,6 +39,9 @@ $data = json_decode(file_get_contents('php://input'), true);
 $subscription_id = $data['subscription_id'] ?? '';
 $invoice_now = $data['invoice_now'] ?? true; // Imposta `true` come valore di default
 
+$log->info('-------------------------------------------------');
+$log->info('Cancella sottoscrizione con id', ['subscription' => $subscription_id]);
+
 if ($subscription_id) {
     try {
         $log->info('Inizio cancellazione sottoscrizione', ['subscription_id' => $subscription_id]);

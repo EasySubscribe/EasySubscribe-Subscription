@@ -39,6 +39,9 @@ $data = json_decode(file_get_contents('php://input'), true);
 $customer_ids_string = $data['customer_ids_string'] ?? '';
 $session_id = $data['session_id'] ?? '';
 
+$log->info('-------------------------------------------------');
+$log->info('Customers Page per ' . $customer_ids_string, ['session_id' => $session_id]);
+
 // Separa i customer_id in un array
 $customer_ids = array_map('trim', explode(',', $customer_ids_string));
 

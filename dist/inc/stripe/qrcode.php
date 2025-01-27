@@ -38,6 +38,9 @@ $stripe = new StripeClient($stripeSecretKey);
 $data = json_decode(file_get_contents('php://input'), true);
 $subscription_id = $data['subscription_id'] ?? '';
 
+$log->info('-------------------------------------------------');
+$log->info('Lettura Biglietto', ['subscription_id' => $subscription_id]);
+
 if (!$subscription_id) {
     $log->error('Subscription mancante');
     echo json_encode(['error' => 'Dati mancanti']);

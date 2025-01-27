@@ -161,13 +161,18 @@ if (defined('ABSPATH')) {
     const currentPath = currentUrl.pathname;
 
     // Evita un redirect se la lingua corrente è già quella desiderata
-    if (currentPath.includes(selectedLanguagePath)) {
+    if (currentPath.includes("/" + selectedLanguagePath)) {
       return; // Non fare nulla se la lingua è già quella selezionata
     }
 
     // Recupera la base URL
     const baseUrl = getApiBaseUrl(incType.BASE_URL); // Esempio: http://localhost/wpgiovanni/ o https://easysubscribe.it/
     let relativePath = currentUrl.pathname.replace(new URL(baseUrl).pathname, "").split('/').filter(Boolean);
+
+    // Evita un redirect se la lingua corrente è già quella desiderata
+    if (selectedLanguagePath.includes(relativePath)) {
+      return; // Non fare nulla se la lingua è già quella selezionata
+    }
 
     // Verifica se il primo segmento corrisponde a una lingua supportata
     const supportedLanguages = Object.values(localeToLanguageMap);

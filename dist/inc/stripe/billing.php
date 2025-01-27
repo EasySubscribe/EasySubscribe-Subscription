@@ -39,6 +39,9 @@ $data = json_decode(file_get_contents('php://input'), true);
 $customer_id = $data['customer_id'] ?? '';
 $return_url = $data['return_url'] ?? ''; // URL di default
 
+$log->info('-------------------------------------------------');
+$log->info('Redirect to Billing per', ['customer' => $customer_id]);
+
 if ($customer_id) {
     try {
         $log->info('Creazione della sessione billing portal', ['customer' => $customer_id]);
